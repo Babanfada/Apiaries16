@@ -1,0 +1,246 @@
+Employees Table:
+Total Number of Employees: A count of all employees.
+Employee Roles and Departments: Distribution of employees across different roles (beekeeper, supervisor, manager) and departments (beekeeping, operation, administration).
+Employment Status: Number of active vs. inactive employees.
+New Hires: Employees who joined recently.
+Salary Data: Average, minimum, and maximum salaries.
+Employee Skills: List of skills for employee development and training needs.
+
+2. Apiary Stations Table:
+Total Number of Apiary Stations: Count of all apiary stations.
+Active vs. Inactive Stations: Distribution of active and inactive stations.
+Station Locations: Geographical distribution of apiary stations.
+Hive Box Count: Number of hive boxes at each station.
+Inspection Dates: Last and next inspection dates for maintenance planning.
+Station Maintenance History: Summary of maintenance activities performed.
+
+3. Honey Harvest Table:
+Total Honey Harvested: Aggregate quantity of honey harvested over time.
+Harvest by Station: Quantity of honey harvested from each station.
+Harvest Quality Ratings: Average quality ratings of harvested honey.
+Seasonal Harvest Trends: Honey harvest trends across different seasons and years.
+Extracting Information in Sync:
+By combining data from the employees, apiary stations, and honey harvest tables, you can derive more comprehensive insights and reports. Here are some key metrics and insights that can be displayed on the admin dashboard:
+
+1. Employee Performance and Station Management:
+Supervisor Performance: Honey harvest quantities and quality ratings managed by each supervisor. This can be linked by joining employees (supervisors) with apiary stations and honey harvest.
+Employee Allocation: List of employees assigned to each apiary station, including their roles and performance metrics.
+Training Needs: Correlation between employee skills and apiary station performance to identify training needs.
+2. Station Performance:
+Top Performing Apiary Stations: Apiary stations with the highest honey yields and best quality ratings.
+Station Health: Maintenance history and inspection status of each station. Highlight stations requiring immediate attention.
+Yield Efficiency: Comparison of honey yield per hive box across different stations to identify efficiency improvements.
+3. Harvest Trends and Insights:
+Seasonal Yield Analysis: Trends in honey production across different seasons and the impact of various factors (e.g., weather, maintenance).
+Quality Correlation: Correlation between station maintenance activities, employee performance, and the quality of honey harvested.
+Geographical Insights: Mapping honey yield and quality by station location to identify geographic trends and optimize station placements.
+
+
+//////////*********************************/////////////////////////////
+
+
+Emergency Contact Table:
+Total Number of Emergency Contacts: The count of emergency contacts.
+Relationship Distribution: Breakdown of the types of relationships (spouse, parent, guardian, sibling).
+Gender Distribution: Breakdown of emergency contacts by gender.
+Contacts by Employee: Number of emergency contacts per employee.
+Contact Information: Detailed contact information, including phone and address, for quick access in case of emergencies.
+
+
+//////////////////////***********************************///////////////////////////
+
+Hives Table:
+Total Number of Hives: The total count of hives.
+Hive Types Distribution: Breakdown of the different types of hives (langstroth, top bar, local).
+Colonization Status: Number of hives with different colonization statuses (pending, confirmed, installed).
+Usage Status: Number of hives with different usage statuses (unused, in use, empty).
+Condition Status: Number of hives with different conditions (need repair, used, new).
+Location of Hives: Number of hives in different locations (swarm field, station, warehouse).
+
+Swarm Hunters Table:
+Total Number of Hunters: The total count of swarm hunters.
+Employment Status: Number of active and inactive hunters.
+Tip Distribution: Sum and average of tips received by hunters.
+Emergency Contact Readiness: Details of emergency contacts for each hunter.
+Supervisor Assignment: Number of hunters assigned to each supervisor.
+In Relation to Each Other:
+By joining the hives table with the swarm hunters and employees tables, you can derive more comprehensive insights and reports:
+
+1. Hive Management and Hunter Performance:
+Hunter Performance: Number of hives assigned, colonized, and in use for each hunter.
+Hunter Supervisor Mapping: Supervisors and their assigned hunters, along with hive performance metrics.
+Hive Condition and Maintenance: Maintenance needs based on the condition and usage of hives assigned to each hunter.
+2. Supervisor Oversight:
+Supervisor Performance: Metrics on the performance of hunters under each supervisor, including hive colonization success rates and hive conditions.
+Emergency Preparedness: Emergency contact details for hunters under each supervisor.
+
+
+////////////////******************************///////////////////
+
+Catch Reports Table:
+Total Reports: The total number of catch reports.
+Boxes Assigned and Colonized: The total number of swarm boxes assigned, colonized, and pending colonization.
+Delivery Status: Number of reports with different delivery statuses (all, some, none).
+Catch Success Rates: Success rates of catches based on the catch_status.
+Seasonal Performance: Number of catches reported during different seasons (dry, rain).
+In Relation to Swarm Hunters and Employees:
+By joining the catch reports table with the swarm hunters and employees tables, you can derive more comprehensive insights and reports:
+
+1. Hunter and Supervisor Performance:
+Hunter Performance: Number of boxes assigned, colonized, and pending for each hunter, along with their assigned supervisor.
+Supervisor Oversight: Performance metrics of hunters under each supervisor, focusing on successful catches and pending statuses.
+Seasonal Analysis: Success rates of catches during different seasons and their correlation with hunter and supervisor performance.
+2. Comprehensive Reports:
+Hunter Catch Reports: Detailed catch reports for each hunter, including colonization success, delivery status, and assigned supervisor.
+Supervisor Catch Reports: Aggregated catch report metrics for hunters under each supervisor.
+
+
+//////////////////*************************************////////////////
+
+
+Services Table:
+Total Services Provided: Total number of services provided.
+Service Categories: Breakdown of services by category (consultancy, apiary setup, supplies provision, pollination services).
+Service Frequency: Number of times each service was provided.
+Revenue from Services: Total revenue generated from each service category.
+Client Feedback: Aggregate feedback ratings and comments for each service.
+
+Apiary Setup Components Table:
+Component Usage: Total usage of each apiary setup component.
+Stock Levels: Current stock levels of components.
+Component Cost Analysis: Average cost per component and total expenditure.
+
+
+Consultancy Items Table:
+Consultancy Topics: Most frequently requested consultancy topics.
+Consultancy Hours: Total hours spent on consultancy.
+Consultant Performance: Feedback ratings and performance analysis of consultants.
+
+
+Pollination Services Table:
+Pollination Requests: Total number of pollination service requests.
+Service Locations: Geographic distribution of pollination services provided.
+Pollination Success Rate: Success rate of pollination services.
+Client Satisfaction: Client satisfaction ratings and feedback for pollination services.
+
+
+
+
+
+////////////////////////////*************************///////////////////
+
+Equipment/Tools Table:
+Inventory Overview:
+
+Total quantity of each tool.
+Breakdown by category (beekeeping, carpentry, processing).
+Status distribution (new, used, need repair).
+Maintenance Schedule:
+
+Tools requiring maintenance.
+Next maintenance dates.
+Purchase Analysis:
+
+Total cost of all equipment.
+Purchase cost breakdown by category.
+Supplier analysis.
+
+
+
+Users Table:
+User Management:
+
+Total number of users.
+Distribution of users by role (admin, user).
+Gender distribution.
+Account Status:
+
+Verification status (verified, unverified).
+Blacklisted users.
+Activity Tracking:
+
+Last login timestamp.
+Account creation timestamps.
+
+
+Supplies Table:
+Inventory Status:
+
+Total quantity of each supply.
+Status distribution (new, used, need repair).
+Stock Level Analysis:
+
+Supplies below minimum stock level.
+Purchase analysis based on stock levels.
+Purchase History:
+
+Total cost of all supplies.
+Purchase cost breakdown by category.
+Supplier analysis.
+
+
+
+////////////////////////******************************/////////////////
+
+Product Overview:
+
+Total number of products.
+Distribution by product type (honey, wax, propolis, royal jelly, venom).
+Inventory Management:
+
+Total quantity of each product in stock.
+Stock level analysis to identify products below minimum stock level.
+Pricing Analysis:
+
+Average price of products.
+Price breakdown by product type.
+Total revenue generated from product sales.
+Product Performance:
+
+Average rating of products.
+Number of reviews for each product.
+Number of times each product has been sold.
+Packaging Information:
+
+Distribution of packaging types.
+Total cost of packaging.
+Availability Status:
+
+Products currently available for sale.
+Products out of stock.
+
+
+
+///////////////////////////
+
+Order Overview:
+
+Total number of orders.
+Total revenue generated from orders.
+Distribution of orders by payment status (pending, failed, successful, canceled).
+Distribution of orders by delivery status (pending, failed, delivered, canceled).
+Payment and Delivery Status:
+
+Orders pending payment.
+Orders pending delivery.
+Transaction Analysis:
+
+Total number of transactions.
+Transaction IDs for successful orders.
+User Order History:
+
+Order history for each user.
+Total orders placed by each user.
+
+
+
+////////////////////////////////////////
+
+Review Overview:
+
+Total number of reviews.
+Distribution of ratings (average rating, number of reviews) for each product.
+User Reviews:
+
+Reviews submitted by each user.
+Average rating provided by each user.
