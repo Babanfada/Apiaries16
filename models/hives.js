@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'swarm hunters',
+        model: 'swarm_hunters',
         key: 'hunter_id'
       }
     },

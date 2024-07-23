@@ -1,38 +1,38 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('product colors', {
-    color_id: {
+  return sequelize.define('review_images', {
+    image_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    product_id: {
+    review_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'products',
-        key: 'product_id'
+        model: 'reviews',
+        key: 'review_id'
       }
     },
-    color0: {
-      type: DataTypes.STRING(7),
+    image0: {
+      type: DataTypes.STRING(1000),
       allowNull: true,
-      defaultValue: "#222"
+      defaultValue: "\/uploads\/example.jpeg"
     },
-    color1: {
-      type: DataTypes.STRING(7),
+    image1: {
+      type: DataTypes.STRING(1000),
       allowNull: true,
-      defaultValue: "#222"
+      defaultValue: "\/uploads\/example.jpeg"
     },
-    color2: {
-      type: DataTypes.STRING(7),
+    image2: {
+      type: DataTypes.STRING(1000),
       allowNull: true,
-      defaultValue: "#222"
+      defaultValue: "\/uploads\/example.jpeg"
     }
   }, {
     sequelize,
-    tableName: 'product colors',
+    tableName: 'review_images',
     timestamps: false,
     indexes: [
       {
@@ -40,14 +40,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "color_id" },
+          { name: "image_id" },
         ]
       },
       {
-        name: "product_id",
+        name: "review_id",
         using: "BTREE",
         fields: [
-          { name: "product_id" },
+          { name: "review_id" },
         ]
       },
     ]

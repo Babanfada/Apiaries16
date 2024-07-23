@@ -9,6 +9,10 @@ const connectDB = require("./models");
 const morgan = require("morgan");
 app.use(morgan("tiny"));
 
+// Error Handling Middleware
+const notFound = require("./middlewares/notFoundError");
+const errorHandlerMiddleware = require("./middlewares/errorHandler");
+
 // Router
 const employeesRoutes = require("./routes/employeesRouter");
 const authRoutes = require("./routes/authRouter");
@@ -25,9 +29,21 @@ const pollinationSevicesRoutes = require("./routes/pollinationServicesRouter");
 const supplyprovisionItemsRoutes = require("./routes/supplyProvisionItemsRouter");
 const equipmentsRoutes = require("./routes/equipmentsRouter");
 const suppliesRoutes = require("./routes/suppliesRouter");
+const productRoutes = require("./routes/productsRouter");
+const productColorRoutes = require("./routes/productColorRouter");
+const productImagesRoutes = require("./routes/productImagesRouter");
+const reviewRoutes = require("./routes/reviewsRouter");
+const reviewImagesRoutes = require("./routes/reviewImagesRouter");
+const orderRoutes = require("./routes/ordersRouter");
+const ordeerItemsRoutes = require("./routes/orderItemsRouter");
+const deliveryAddressRoutes = require("./routes/deliveryAddressRouter");
+const usersRoutes = require("./routes/usersRouter");
+const userOrdersRoutes = require("./routes/userOrdersRouter");
+
 
 // use Routes
 app.use("/api/v1/employees", employeesRoutes);
+app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/authentication", authRoutes);
 app.use("/api/v1/employeesnok", empNokRoutes);
 app.use("/api/v1/apiarystations", apStationRoutes);
@@ -42,7 +58,21 @@ app.use("/api/v1/consultancyitems", pollinationSevicesRoutes);
 app.use("/api/v1/supplyprovisionitems", supplyprovisionItemsRoutes);
 app.use("/api/v1/equipments", equipmentsRoutes);
 app.use("/api/v1/supplies", suppliesRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/productscolor", productColorRoutes);
+app.use("/api/v1/productsimages", productImagesRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
+app.use("/api/v1/reviewsimages", reviewImagesRoutes);
+app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/orderitems", ordeerItemsRoutes);
+app.use("/api/v1/deliveryaddress", deliveryAddressRoutes);
+app.use("/api/v1/usersorders", userOrdersRoutes);
 
+//Error Handling Middleware
+app.use(notFound);
+app.use(errorHandlerMiddleware);
+
+// Sequre Connection
 connectDB.sequelize
   .sync()
   .then(() => {

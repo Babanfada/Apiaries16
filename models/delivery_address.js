@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('deliveryaddress', {
+  return sequelize.define('delivery_address', {
     del_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'deliveryaddress',
+    tableName: 'delivery_address',
     timestamps: false,
     indexes: [
       {

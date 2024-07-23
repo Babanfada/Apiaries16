@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('honey harvest', {
+  return sequelize.define('honey_harvest', {
     harvest_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'apiary stations',
+        model: 'apiary_stations',
         key: 'station_id'
       }
     },
@@ -47,7 +47,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'honey harvest',
+    tableName: 'honey_harvest',
     timestamps: true,
     indexes: [
       {
