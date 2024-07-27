@@ -6,12 +6,16 @@ const app = express();
 const port = process.env.PORT || 5003;
 const connectDB = require("./models");
 //middleware
+app.use(express.json());
 const morgan = require("morgan");
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 
 // Error Handling Middleware
 const notFound = require("./middlewares/notFoundError");
 const errorHandlerMiddleware = require("./middlewares/errorHandler");
+
+//cookie
+const cookieParser = require("cookie-parser");
 
 // Router
 const employeesRoutes = require("./routes/employeesRouter");
@@ -39,7 +43,10 @@ const ordeerItemsRoutes = require("./routes/orderItemsRouter");
 const deliveryAddressRoutes = require("./routes/deliveryAddressRouter");
 const usersRoutes = require("./routes/usersRouter");
 const userOrdersRoutes = require("./routes/userOrdersRouter");
+const authflowRoutes = require("./routes/authFlowRouter");
 
+// use Cookie
+app.use(cookieParser(process.env.JWT_SECRET));
 
 // use Routes
 app.use("/api/v1/employees", employeesRoutes);
@@ -67,6 +74,9 @@ app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/orderitems", ordeerItemsRoutes);
 app.use("/api/v1/deliveryaddress", deliveryAddressRoutes);
 app.use("/api/v1/usersorders", userOrdersRoutes);
+app.use("/api/v1/authflow", authflowRoutes);
+
+
 
 //Error Handling Middleware
 app.use(notFound);

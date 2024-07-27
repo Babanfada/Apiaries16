@@ -3,7 +3,7 @@ const CustomError = require("./custom");
 
 class BAD_REQUEST extends CustomError {
   constructor(message) {
-    this.message = message;
+    super(message);
     this.statuscode = StatusCodes.BAD_REQUEST;
   }
 }

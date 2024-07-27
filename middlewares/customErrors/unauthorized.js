@@ -3,7 +3,7 @@ const CustomError = require("./custom");
 
 class UNAUTHORIZED extends CustomError {
   constructor(message) {
-    this.message = message;
+    super(message);
     this.statuscode = StatusCodes.UNAUTHORIZED;
   }
 }

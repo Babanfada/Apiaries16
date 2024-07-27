@@ -38,6 +38,7 @@ notes text,
 created_at datetime default current_timestamp,
 updated_at datetime default current_timestamp on update current_timestamp
 );
+
 alter table `apiary stations` add `supervisor(int)` int, add `supervisor(ext)` int;
 alter table `apiary stations` add foreign key (`supervisor(int)`) references employees(emp_id) ;
 alter table `apiary stations` add foreign key (`supervisor(ext)`) references employees(emp_id) ;
@@ -217,6 +218,7 @@ updated_at datetime default current_timestamp on update current_timestamp
 );
 -- count the number of tables in a database 
 select count(*) as `table count` from information_schema.tables where table_schema = 'apiaries_16';
+select * from information_schema.tables;
 
 -- create table for users
 create table users (
@@ -357,7 +359,9 @@ createdat datetime default current_timestamp,
 updatedat datetime default current_timestamp on update current_timestamp,
 foreign key(user) references users(user_id) on delete cascade
 ); 
-
+select * from `user orders`;
+describe `user orders`;
+alter table `user orders` modify column _id int not null auto_increment;
 -- create individual users order table
 create table `user orders`(
 _id int primary key not null,
@@ -688,7 +692,7 @@ select * from products where unit in ('kg', 'ml');
 select * from orders;
 select * from users;
 select * from users self join orders on user_id = order_id;
-select sum(total) as `total payment`, paymentStatus, shippingFee  from orders group by `paymentStatus`; 
+select sum(total) as `total payment`, paymentStatus from orders group by `paymentStatus`; 
 select count(order_id) as order_id, paymentStatus, subTotal, total from orders group by paymentstatus, subtotal, total;
 select * from products;
 select count(product_id) as product_id from products, numOfTimesSold group by numOfTimesSold having count(numOfTimesSold) > 8; 
@@ -989,5 +993,140 @@ select count(product_id) as product_id, averageRating from products left outer j
 select count(product_id) as product, numOfReviews from products left outer join reviews on products.product_id = reviews.product group by numOfReviews; 
 -- User Reviews:
 -- Reviews submitted by each user.
-select * from reviews;
+select * from reviews where review_id = 1 or 1=1;
 -- Average rating provided by each user.
+show tables;
+select * from `apiary stations`;
+select location, `station_size`, latitude, status, case when status  = 'active' then 'station is active' else 'station is inactive' end as 'station status' from `apiary stations`;
+RENAME TABLE `apiary stations` TO `apiary_stations`;
+RENAME TABLE `apiary_setup_components` TO `apiary_setup_components`; -- No change needed
+RENAME TABLE `catch reports` TO `catch_reports`;
+RENAME TABLE `consultancy_items` TO `consultancy_items`; -- No change needed
+RENAME TABLE `deliveryaddress` TO `delivery_address`;
+RENAME TABLE `employee nok` TO `employee_nok`;
+RENAME TABLE `employees` TO `employees`; -- No change needed
+RENAME TABLE `equipments/tools` TO `equipments_tools`;
+RENAME TABLE `hives` TO `hives`; -- No change needed
+RENAME TABLE `honey harvest` TO `honey_harvest`;
+RENAME TABLE `order_items` TO `order_items`; -- No change needed
+RENAME TABLE `orders` TO `orders`; -- No change needed
+RENAME TABLE `pollination_services` TO `pollination_services`; -- No change needed
+RENAME TABLE `product colors` TO `product_colors`;
+RENAME TABLE `product images` TO `product_images`;
+RENAME TABLE `products` TO `products`; -- No change needed
+RENAME TABLE `review images` TO `review_images`;
+RENAME TABLE `reviews` TO `reviews`; -- No change needed
+RENAME TABLE `services` TO `services`; -- No change needed
+RENAME TABLE `supplies` TO `supplies`; -- No change needed
+RENAME TABLE `supply_provision_items` TO `supply_provision_items`; -- No change needed
+RENAME TABLE `swarm hunters` TO `swarm_hunters`;
+RENAME TABLE `token` TO `token`; -- No change needed
+RENAME TABLE `user orders` TO `user_orders`;
+RENAME TABLE `users` TO `users`; -- No change needed
+select * from employees;
+show tables;
+alter table employees drop column updated_at;
+ALTER TABLE employees 
+ADD COLUMN `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `apiary_stations` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `apiary_setup_components` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `catch_reports` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `consultancy_items` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `deliveryaddress` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `employee_nok` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `employees` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `equipments_tools` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `hives` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `honey_harvest` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `order_items` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `orders` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `pollination_services` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `product_colors` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `product_images` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `products` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `review_images` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `reviews` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `services` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `supplies` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `supply_provision_items` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `swarm_hunters` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `token` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `user_orders` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
+ALTER TABLE `users` 
+CHANGE COLUMN `created_at` `createdAt` DATETIME,
+CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+
