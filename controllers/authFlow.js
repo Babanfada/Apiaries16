@@ -10,6 +10,7 @@ const {
 const sendVerificationMail = require("../utils/sendVerificationMail");
 const { createUser, attachResponseToCookie } = require("../utils/jwt");
 const { token } = require("morgan");
+const sendPasswordResetMail = require("../utils/sendPasswordResetMail");
 const register = async (req, res) => {
   const {
     fullname,
@@ -176,6 +177,69 @@ const checkUserRegisterationStatus = async (req, res) => {
   }
   res.status(StatusCodes.OK).json({ msg: "found" });
 };
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    throw new UNAUTHORIZED("TAuthentication invalid, user not found !!!!");
+  }
+  const user = await USERS.findOne({ where: { email } });
+  if (!user) {
+    throw new UNAUTHORIZED("Reset password failed !!!!");
+  }
+  const passwordToken = crypto.randomBytes(40).toString("hex");
+  const tenMin = 1000 * 60 * 10;
+  user.passwordToken = passwordToken;
+  user.passwordExpirationDate = new Date(Date.now() + tenMin);
+  await user.save();
+  const origin = "http://localhost:5003";
+  await sendPasswordResetMail({
+    origin,
+    email: user.email,
+    passwordToken: user.passwordToken,
+    fullname: user.fullname,
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "Reset link has been sent to your Email", passwordToken });
+};
+const resetPassword = async (req, res) => {
+  const { email, token, password } = req.body;
+  if (!email || !token || !password) {
+    throw new BAD_REQUEST("Please provides all the neccessary informations");
+  }
+  const user = await USERS.findOne({ where: { email } });
+  if (!user) {
+    throw new UNAUTHORIZED("Password reset failed, user not found");
+  }
+  const now = new Date();
+  if ((user.passwordToken = token && now < user.passwordExpirationDate)) {
+    user.password = password;
+    user.passwordToken = null;
+    user.passwordExpirationDate = null;
+    user.save();
+    res.status(StatusCodes.OK).json({ msg: "Password Reset successfully" });
+  }
+  throw new UNAUTHORIZED("Password reset failed !!!!!");
+};
+const blacklist = async (req, res) => {
+  const { id: user_id } = req.params;
+  const { blacklist, isValid } = req.body;
+  const user = await USERS.findOne({ where: { user_id: user_id } });
+  const userToken = await TOKEN.findOne({ where: { user: user_id } });
+  user.blackListed = blacklist;
+  userToken.isValid = isValid;
+  user.save();
+  userToken.save();
+  console.log(user.blackListed, userToken.isValid);
+  if (user.blackListed && !user.isValid) {
+    res
+      .status(StatusCodes.OK)
+      .json({ msg: `${user.fullname} has been blacklisted` });
+  }
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: `${user.fullname} has been activated` });
+};
 module.exports = {
   register,
   verifyMail,
@@ -183,4 +247,7 @@ module.exports = {
   showMe,
   logout,
   checkUserRegisterationStatus,
+  forgotPassword,
+  resetPassword,
+  blacklist,
 };

@@ -23,7 +23,7 @@ const authenticated = async (req, res, next) => {
       },
     });
 
-    const isValidToken = existingToken?.verifyToken;
+    const isValidToken = existingToken?.isValid;
     if (!isValidToken || !existingToken) {
       throw new UNAUTHORIZED("Token is not valid");
     }
