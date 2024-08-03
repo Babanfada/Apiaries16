@@ -6,10 +6,13 @@ const app = express();
 const port = process.env.PORT || 5003;
 const connectDB = require("./models");
 //middleware
+require("./middlewares/customErrors/passportConfig");
 app.use(express.json());
 const morgan = require("morgan");
 app.use(morgan("dev"));
-
+const passport = require("passport");
+const session = require("express-session");
+// require("./passport");
 // Error Handling Middleware
 const notFound = require("./middlewares/notFoundError");
 const errorHandlerMiddleware = require("./middlewares/errorHandler");
@@ -47,7 +50,10 @@ const authflowRoutes = require("./routes/authFlowRouter");
 
 // use Cookie
 app.use(cookieParser(process.env.JWT_SECRET));
-
+// google auth
+app.get("/", (req, res) => {
+  res.send('<a href="api/v1/authflow/google">login with google</a>');
+});
 // use Routes
 app.use("/api/v1/employees", employeesRoutes);
 app.use("/api/v1/users", usersRoutes);
@@ -76,6 +82,12 @@ app.use("/api/v1/deliveryaddress", deliveryAddressRoutes);
 app.use("/api/v1/usersorders", userOrdersRoutes);
 app.use("/api/v1/authflow", authflowRoutes);
 
+// Google auth
+app.use(
+  session({ secret: "your_secret_key", resave: false, saveUninitialized: true })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 //Error Handling Middleware

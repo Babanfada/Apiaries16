@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const { users: USERS, token: TOKEN } = require("../models");
 const crypto = require("crypto");
+const passport = require("passport");
 const {
   FORBIDDEN,
   UNAUTHORIZED,
@@ -240,6 +241,138 @@ const blacklist = async (req, res) => {
     .status(StatusCodes.OK)
     .json({ msg: `${user.fullname} has been activated` });
 };
+const googleAuth = (req, res, next) => {
+  passport.authenticate("google", { scope: ["profile", "email"] })(
+    req,
+    res,
+    next
+  );
+};
+// const googleCallBack = (req, res, next) => {
+//   passport.authenticate("google", async (err, user) => {
+//     if (err) {
+//       return next(err);
+//     }
+//     if (!user) {
+//       next(new UNAUTHORIZED("Authentication failed!!"));
+//       return;
+//     }
+//     const { fullname, email } = user;
+//     console.log(fullname, email);
+//     const existingUser = await USERS.findOne({ where: { email } });
+//     const isVerified = existingUser.isVerified;
+//     if (!isVerified) {
+//       throw new UNAUTHORIZED(
+//         "Authentication invalid, your google Email was  not verified, please provide a verified email"
+//       );
+//     }
+//     const isBlackListed = existingUser.blackListed;
+//     if (isBlackListed) {
+//       throw new UNAUTHORIZED(
+//         "You have been BANNED from accessing this Route sorry !!!!!"
+//       );
+//     }
+//     const tokenUser = createUser(user);
+//     // //   refresh token
+//     let refreshToken = "";
+//     const existingToken = await TOKEN.findOne({
+//       where: { user: existingUser.user_id },
+//     });
+//     console.log(existingToken);
+//     if (existingToken) {
+//       const isValid = existingToken.isValid;
+//       if (!isValid) {
+//         throw new UNAUTHORIZED("Authentication invalid, invalid token");
+//       }
+//       refreshToken = existingToken.refreshToken;
+//       attachResponseToCookie({ tokenUser, res, refreshToken });
+//       res.status(StatusCodes.OK).json({
+//         msg: "login successful existing",
+//       });
+//       return;
+//     }
+//     refreshToken = crypto.randomBytes(40).toString("hex");
+//     const userAgent = req.headers["user-agent"];
+//     const ip = req.ip;
+//     await TOKEN.create({
+//       refreshToken,
+//       userAgent,
+//       ip,
+//       user: existingUser.user_id,
+//     });
+//     attachResponseToCookie({ tokenUser, res, refreshToken });
+//     res.status(StatusCodes.OK).json({
+//       msg: "login successful",
+//     });
+//   })(req, res, next);
+// };
+const googleCallBack = (req, res, next) => {
+  passport.authenticate("google", async (err, user) => {
+    try {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return next(new UNAUTHORIZED("Authentication failed!!"));
+      }
+      const { fullname, email } = user;
+      console.log(fullname, email);
+
+      const existingUser = await USERS.findOne({ where: { email } });
+      if (!existingUser) {
+        throw new UNAUTHORIZED("User does not exist. Please sign up first.");
+      }
+
+      const isVerified = existingUser.isVerified;
+      if (!isVerified) {
+        throw new UNAUTHORIZED(
+          "Authentication invalid, your google Email was not verified, please provide a verified email"
+        );
+      }
+
+      const isBlackListed = existingUser.blackListed;
+      if (isBlackListed) {
+        throw new UNAUTHORIZED(
+          "You have been BANNED from accessing this Route sorry !!!!!"
+        );
+      }
+
+      const tokenUser = createUser(user);
+
+      let refreshToken = "";
+      const existingToken = await TOKEN.findOne({
+        where: {
+          user: existingUser.user_id,
+        },
+      });
+      if (existingToken) {
+        const isValid = existingToken.isValid;
+        if (!isValid) {
+          throw new UNAUTHORIZED("Authentication invalid, invalid token");
+        }
+        refreshToken = existingToken.refreshToken;
+      } else {
+        refreshToken = crypto.randomBytes(40).toString("hex");
+        const userAgent = req.headers["user-agent"];
+        const ip = req.ip;
+        await TOKEN.create({
+          refreshToken,
+          userAgent,
+          ip,
+          user: existingUser.user_id,
+        });
+      }
+
+      attachResponseToCookie({ tokenUser, res, refreshToken });
+      return res.status(StatusCodes.OK).json({
+        msg: "login successful",
+      });
+    } catch (err) {
+      next(err);
+    }
+  })(req, res, next);
+};
+
 module.exports = {
   register,
   verifyMail,
@@ -250,4 +383,6 @@ module.exports = {
   forgotPassword,
   resetPassword,
   blacklist,
+  googleAuth,
+  googleCallBack,
 };

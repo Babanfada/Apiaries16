@@ -10,6 +10,8 @@ const {
   forgotPassword,
   resetPassword,
   blacklist,
+  googleAuth,
+  googleCallBack,
 } = require("../controllers/authFlow");
 const {
   authenticated,
@@ -19,6 +21,8 @@ const {
 router.route("/register").post(register);
 router.route("/verify-email").post(verifyMail);
 router.route("/login").post(login);
+router.route("/google").get(googleAuth);
+router.route("/google/callback").get(googleCallBack);
 router.route("/logout").delete(authenticated, logout);
 router.route("/check").get(checkUserRegisterationStatus);
 router.route("/forgotpassword").post(forgotPassword);
