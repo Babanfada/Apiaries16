@@ -307,70 +307,77 @@ const googleAuth = (req, res, next) => {
 //   })(req, res, next);
 // };
 const googleCallBack = (req, res, next) => {
-  passport.authenticate("google", async (err, user) => {
-    try {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return next(new UNAUTHORIZED("Authentication failed!!"));
-      }
-      const { fullname, email } = user;
-      console.log(fullname, email);
-
-      const existingUser = await USERS.findOne({ where: { email } });
-      if (!existingUser) {
-        throw new UNAUTHORIZED("User does not exist. Please sign up first.");
-      }
-
-      const isVerified = existingUser.isVerified;
-      if (!isVerified) {
-        throw new UNAUTHORIZED(
-          "Authentication invalid, your google Email was not verified, please provide a verified email"
-        );
-      }
-
-      const isBlackListed = existingUser.blackListed;
-      if (isBlackListed) {
-        throw new UNAUTHORIZED(
-          "You have been BANNED from accessing this Route sorry !!!!!"
-        );
-      }
-
-      const tokenUser = createUser(user);
-
-      let refreshToken = "";
-      const existingToken = await TOKEN.findOne({
-        where: {
-          user: existingUser.user_id,
-        },
-      });
-      if (existingToken) {
-        const isValid = existingToken.isValid;
-        if (!isValid) {
-          throw new UNAUTHORIZED("Authentication invalid, invalid token");
+  passport.authenticate(
+    "google",
+    {
+      successRedirect: "/",
+      failureRedirect: "/login",
+    },
+    async (err, user) => {
+      try {
+        if (err) {
+          return next(err);
         }
-        refreshToken = existingToken.refreshToken;
-      } else {
-        refreshToken = crypto.randomBytes(40).toString("hex");
-        const userAgent = req.headers["user-agent"];
-        const ip = req.ip;
-        await TOKEN.create({
-          refreshToken,
-          userAgent,
-          ip,
-          user: existingUser.user_id,
-        });
-      }
+        if (!user) {
+          return next(new UNAUTHORIZED("Authentication failed!!"));
+        }
+        const { email } = user;
 
-      attachResponseToCookie({ tokenUser, res, refreshToken });
-      return res.status(StatusCodes.OK).json({
-        msg: "login successful",
-      });
-    } catch (err) {
-      next(err);
+        const existingUser = await USERS.findOne({ where: { email } });
+        //   console.log(existingUser);
+        if (!existingUser) {
+          throw new UNAUTHORIZED("User does not exist. Please sign up first.");
+        }
+
+        const isVerified = existingUser.isVerified;
+        if (!isVerified) {
+          throw new UNAUTHORIZED(
+            "Authentication invalid, your google Email was not verified, please provide a verified email"
+          );
+        }
+
+        const isBlackListed = existingUser.blackListed;
+        if (isBlackListed) {
+          throw new UNAUTHORIZED(
+            "You have been BANNED from accessing this Route sorry !!!!!"
+          );
+        }
+
+        const tokenUser = createUser(existingUser);
+
+        let refreshToken = "";
+        const existingToken = await TOKEN.findOne({
+          where: {
+            user: existingUser.user_id,
+          },
+        });
+        if (existingToken) {
+          const isValid = existingToken.isValid;
+          if (!isValid) {
+            throw new UNAUTHORIZED("Authentication invalid, invalid token");
+          }
+          refreshToken = existingToken.refreshToken;
+        } else {
+          refreshToken = crypto.randomBytes(40).toString("hex");
+          const userAgent = req.headers["user-agent"];
+          const ip = req.ip;
+          await TOKEN.create({
+            refreshToken,
+            userAgent,
+            ip,
+            user: existingUser.user_id,
+          });
+        }
+
+        attachResponseToCookie({ tokenUser, res, refreshToken });
+        return res.status(StatusCodes.OK).json({
+          msg: "login successful",
+        });
+      } catch (err) {
+        next(err);
+      }
     }
-  })(req, res, next);
+  )(req, res, next);
 };
 
 module.exports = {
