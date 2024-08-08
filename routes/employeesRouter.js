@@ -1,5 +1,11 @@
 const router = require("express").Router();
-const { getAllEmployees } = require("../controllers/employee");
+const {
+  getAllEmployees,
+  getSingleEmployee,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+} = require("../controllers/employee");
 const {
   authenticated,
   authorizedPermissions,
@@ -7,6 +13,12 @@ const {
 
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllEmployees);
+  .get(authenticated, authorizedPermissions("admin"), getAllEmployees)
+  .post(authenticated, authorizedPermissions("admin"), createEmployee);
+router
+  .route("/:emp_id")
+  .get(authenticated, authorizedPermissions("admin"), getSingleEmployee)
+  .patch(authenticated, authorizedPermissions("admin"), updateEmployee)
+  .delete(authenticated, authorizedPermissions("admin"), deleteEmployee);
 
 module.exports = router;

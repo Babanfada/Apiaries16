@@ -1,8 +1,15 @@
 const { NOT_FOUND } = require("../middlewares/customErrors");
 const { StatusCodes } = require("http-status-codes");
-const { employees: Employees } = require("../models");
+const {
+  employees: Employees,
+  catch_reports: Reports,
+  employee_nok: NOK,
+  swarm_hunters: Hunters,
+  apiary_stations: Apiary,
+} = require("../models");
 const { Op, Sequelize } = require("sequelize");
 const moment = require("moment");
+const notFound = require("../middlewares/notFoundError");
 const getAllEmployees = async (req, res) => {
   const queryObject = {};
   const totalEmployees = await Employees.count({ where: queryObject });
@@ -171,7 +178,87 @@ const getAllEmployees = async (req, res) => {
     employmentTypeCount,
   });
 };
+const getSingleEmployee = async (req, res) => {
+  const { emp_id } = req.params;
+  const employee = await Employees.findOne({
+    where: { emp_id },
+    include: [
+      {
+        model: NOK,
+        required: false,
+        attributes: ["nok_id", "fullname", "phone", "gender", "relationship"],
+      },
+      {
+        model: Apiary,
+        required: false,
+        as: "internallySupervising",
+        attributes: ["station_id", "station_name", "location"],
+      },
+      {
+        model: Apiary,
+        required: false,
+        as: "externallySupervising",
+        attributes: ["station_id", "station_name", "location"],
+      },
 
+      {
+        model: Hunters,
+        required: false,
+        attributes: [
+          "hunter_id",
+          "fullname",
+          "phone",
+          "employment_status",
+          "emergency_contact_name",
+          "emergency_contact",
+        ],
+      },
+      {
+        model: Reports,
+        required: false,
+        attributes: ["report_id", "hunter_id", "catch_date", "catch_location"],
+      },
+    ],
+  });
+  if (!employee) {
+    throw new NOT_FOUND(`There is no employee with an id of ${emp_id}`);
+  }
+  res.status(StatusCodes.OK).json({ employee });
+};
+const createEmployee = async (req, res) => {
+  const employee = await Employees.create({ ...req.body });
+  res.status(StatusCodes.OK).json({ employee });
+};
+const updateEmployee = async (req, res) => {
+  const { emp_id } = req.params;
+  const employee = await Employees.findOne({ where: { emp_id } });
+  if (!employee) {
+    throw new NOT_FOUND(`There is no employee with an id of ${emp_id}`);
+  }
+  await Employees.update(req.body, {
+    where: { emp_id },
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "Employee details updated successfully" });
+};
+const deleteEmployee = async (req, res) => {
+  const { emp_id } = req.params;
+  const employee = await Employees.findOne({ where: { emp_id } });
+  if (!employee) {
+    throw new NOT_FOUND(`There is no employee with an id of ${emp_id}`);
+  }
+  await Employees.destroy({
+    where: { emp_id },
+  });
+  res.status(StatusCodes.OK).json({
+    msg: `Employee details with thw id:${emp_id} removed permanently`,
+  });
+};
 module.exports = {
   getAllEmployees,
+  getSingleEmployee,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
 };

@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
+  const employees = sequelize.define(
     "employees",
     {
       emp_id: {
@@ -54,7 +54,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
       },
       employment_status: {
-        type: DataTypes.ENUM("active", "inactive"),
+        type: DataTypes.ENUM("active", "inactive", "terminated"),
         allowNull: true,
         defaultValue: "active",
       },
@@ -102,4 +102,23 @@ module.exports = function (sequelize, DataTypes) {
       ],
     }
   );
+  employees.associate = function (models) {
+    employees.hasOne(models.employee_nok, { foreignKey: "emp_id" });
+    employees.hasMany(models.swarm_hunters, {
+      foreignKey: "assigned_supervisor",
+    });
+    employees.hasMany(models.apiary_stations, {
+      as: "internallySupervising",
+      foreignKey: "supervisor(int)",
+    });
+    employees.hasMany(models.apiary_stations, {
+      as: "externallySupervising",
+      foreignKey: "supervisor(ext)",
+    });
+    employees.hasMany(models.catch_reports, {
+      foreignKey: "assigned_supervisor",
+    });
+  };
+
+  return employees;
 };

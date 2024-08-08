@@ -90,7 +90,7 @@ app.use("/api/v1/deliveryaddress", deliveryAddressRoutes);
 app.use("/api/v1/usersorders", userOrdersRoutes);
 app.use("/api/v1/authflow", authflowRoutes);
 
-//Error Handling Middleware
+//Error Handling Middleware for routes and interacting with the database 
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
