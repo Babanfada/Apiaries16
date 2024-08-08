@@ -9,7 +9,6 @@ const {
 } = require("../models");
 const { Op, Sequelize } = require("sequelize");
 const moment = require("moment");
-const notFound = require("../middlewares/notFoundError");
 const getAllEmployees = async (req, res) => {
   const queryObject = {};
   const totalEmployees = await Employees.count({ where: queryObject });
@@ -227,7 +226,9 @@ const getSingleEmployee = async (req, res) => {
 };
 const createEmployee = async (req, res) => {
   const employee = await Employees.create({ ...req.body });
-  res.status(StatusCodes.OK).json({ employee });
+  res
+    .status(StatusCodes.OK)
+    .json({ employee, msg: "Successfully added an employee" });
 };
 const updateEmployee = async (req, res) => {
   const { emp_id } = req.params;
@@ -252,7 +253,7 @@ const deleteEmployee = async (req, res) => {
     where: { emp_id },
   });
   res.status(StatusCodes.OK).json({
-    msg: `Employee details with thw id:${emp_id} removed permanently`,
+    msg: `Employee details with the id:${emp_id} removed permanently`,
   });
 };
 module.exports = {

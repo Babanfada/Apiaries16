@@ -9,7 +9,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true,
       },
-      first_name: {
+      station_name: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
@@ -104,6 +104,10 @@ module.exports = function (sequelize, DataTypes) {
       as: "externalSupervisor",
       foreignKey: "supervisor(ext)",
     });
+  };
+
+  apiary_stations.associate = function (models) {
+    apiary_stations.hasMany(models.honey_harvest, { foreignKey: "station_id" });
   };
   return apiary_stations;
 };
