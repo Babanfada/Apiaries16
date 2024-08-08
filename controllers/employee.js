@@ -11,7 +11,7 @@ const { Op, Sequelize } = require("sequelize");
 const moment = require("moment");
 const getAllEmployees = async (req, res) => {
   const queryObject = {};
-  const totalEmployees = await Employees.count({ where: queryObject });
+  const totalEmployees = await Employees.count();
   const { numberFilter, fields, sort } = req.query;
 
   const fieldsToCheck = {

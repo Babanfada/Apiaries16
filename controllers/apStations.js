@@ -9,7 +9,7 @@ const moment = require("moment");
 
 const getAllStations = async (req, res) => {
   const queryObject = {};
-  const totalStations = await Apiary.count({ where: queryObject });
+  const totalStations = await Apiary.count();
   const { numberFilter, fields, sort } = req.query;
   const totalHives = await Apiary.sum("number_of_hive_boxes");
   const fieldsToCheck = {
@@ -124,6 +124,7 @@ const getAllStations = async (req, res) => {
   });
   res.status(StatusCodes.OK).json({
     stations,
+    count: stations.length,
     totalStations,
     numOfPages,
     totalHives,

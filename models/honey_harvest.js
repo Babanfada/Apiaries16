@@ -33,6 +33,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: true,
       },
+      colouration: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
       unit: {
         type: DataTypes.ENUM("litres", "kg"),
         allowNull: true,
@@ -70,7 +74,6 @@ module.exports = function (sequelize, DataTypes) {
 
   honey_harvest.associate = function (models) {
     honey_harvest.belongsTo(models.apiary_stations, {
-      // as: "internalSupervisor",
       foreignKey: "station_id",
     });
   };
