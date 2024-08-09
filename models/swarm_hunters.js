@@ -95,9 +95,19 @@ module.exports = function (sequelize, DataTypes) {
       ],
     }
   );
+  // swarm_hunters.associate = function (models) {
+  //   swarm_hunters.hasMany(models.hives, { foreignKey: "assigned_hunter" });
+  //   swarm_hunters.hasMany(models.catch_reports, {
+  //     foreignKey: "hunter_id",
+  //   });
+  // };
   swarm_hunters.associate = function (models) {
     swarm_hunters.belongsTo(models.employees, {
       foreignKey: "assigned_supervisor",
+    });
+    swarm_hunters.hasMany(models.hives, { foreignKey: "assigned_hunter" });
+    swarm_hunters.hasMany(models.catch_reports, {
+      foreignKey: "hunter_id",
     });
   };
   return swarm_hunters;

@@ -46,7 +46,7 @@ const getAllEmployees = async (req, res) => {
       regEx,
       (match) => `/${operatorMap[match]}/`
     );
-    console.log(filter);
+    // console.log(filter);
     const options = ["salary", "dob", "joining_date"];
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");

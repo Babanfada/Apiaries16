@@ -17,7 +17,7 @@ router
   .get(authenticated, authorizedPermissions("admin"), getAllHarvest)
   .post(authenticated, authorizedPermissions("admin"), createHarvest);
 router
-  .route("/harvest_id")
+  .route("/:harvest_id")
   .get(authenticated, authorizedPermissions("admin"), getSingleHarvest)
   .patch(authenticated, authorizedPermissions("admin"), updateHarvest)
   .delete(authenticated, authorizedPermissions("admin"), deleteHarvest);

@@ -96,6 +96,9 @@ module.exports = function (sequelize, DataTypes) {
     catch_reports.belongsTo(models.employees, {
       foreignKey: "assigned_supervisor",
     });
+    catch_reports.belongsTo(models.swarm_hunters, {
+      foreignKey: "hunter_id",
+    });
   };
   return catch_reports;
 };

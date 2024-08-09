@@ -44,6 +44,7 @@ const getAllHarvest = async (req, res) => {
       "quantity_collected",
       "quality_rating",
     ];
+    console.log(filter);
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
       if (options.includes(field)) {
@@ -53,21 +54,21 @@ const getAllHarvest = async (req, res) => {
             queryObject[field] = {
               [Sequelize.Op[operator]]: dateValue.toISOString(),
             };
-          } else {
-            queryObject[field] = {
-              [Sequelize.Op[operator]]: Number(value),
-            };
           }
+        } else {
+          queryObject[field] = {
+            [Sequelize.Op[operator]]: Number(value),
+          };
         }
       }
     });
+    console.log(queryObject, "here");
   }
-  console.log(queryObject);
   const page = Number(req.query.pages) || 1;
   const limit = Number(req.query.limit) || 6;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalHarvest / limit);
-  console.log(numOfPages);
+  //   console.log(numOfPages);
   let sortList;
   switch (sort) {
     case "high-low":
@@ -76,10 +77,10 @@ const getAllHarvest = async (req, res) => {
     case "low-high":
       sortList = [["quality_rating", "ASC"]];
       break;
-    case "highest_Volume":
+    case "low_Volume":
       sortList = [["quantity_collected", "ASC"]];
       break;
-    case "lowest_volume":
+    case "high_volume":
       sortList = [["quantity_collected", "DESC"]];
       break;
     case "latest":
