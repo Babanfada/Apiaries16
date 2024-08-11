@@ -75,7 +75,7 @@ app.use("/api/v1/catchreports", catchReportsRoutes);
 app.use("/api/v1/services", servicesRoutes);
 app.use("/api/v1/apiarysetupcomponents", setupComponentsRoutes);
 app.use("/api/v1/consultancyitems", consultancyItemsRoutes);
-app.use("/api/v1/consultancyitems", pollinationSevicesRoutes);
+app.use("/api/v1/pollinationservices", pollinationSevicesRoutes);
 app.use("/api/v1/supplyprovisionitems", supplyprovisionItemsRoutes);
 app.use("/api/v1/equipments", equipmentsRoutes);
 app.use("/api/v1/supplies", suppliesRoutes);
