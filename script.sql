@@ -241,6 +241,9 @@ passwordExpirationDate datetime,
 created_At datetime default current_timestamp,
 updated_At datetime default current_timestamp on update current_timestamp
 ); 
+alter table users modify password varchar(100) check(char_length(password) between 6 and 100) not null;
+ALTER TABLE users DROP CONSTRAINT users_chk_1;
+
 -- create products table
 
 create table products(
@@ -1026,7 +1029,7 @@ RENAME TABLE `users` TO `users`; -- No change needed
 select * from employees;
 show tables;
 alter table employees drop column updated_at;
-ALTER TABLE employees 
+ALTER TABLE pollination_services 
 ADD COLUMN `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
 ADD COLUMN `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
@@ -1114,19 +1117,49 @@ ALTER TABLE `supply_provision_items`
 CHANGE COLUMN `created_at` `createdAt` DATETIME,
 CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
 
-ALTER TABLE `swarm_hunters` 
+ALTER TABLE `equipments_tools` 
 CHANGE COLUMN `created_at` `createdAt` DATETIME,
 CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
 
-ALTER TABLE `token` 
+ALTER TABLE `supply_provision_items` 
+CHANGE COLUMN `price (NGN)` `price_NGN` decimal(10,2);
+
+
+ALTER TABLE `supplies` 
 CHANGE COLUMN `created_at` `createdAt` DATETIME,
 CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
 
-ALTER TABLE `user_orders` 
-CHANGE COLUMN `created_at` `createdAt` DATETIME,
-CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
-
-ALTER TABLE `users` 
-CHANGE COLUMN `created_at` `createdAt` DATETIME,
-CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
-
+ALTER TABLE `supply_provision_items` 
+ADD COLUMN createdAt DATETIME default current_timestamp,
+ADD COLUMN updatedAt DATETIME default current_timestamp on update current_timestamp;
+describe swarm_hunters;
+select * from token;
+select * from employees;
+select * from `swarm_hunters`;
+select * from `apiary_stations`;
+select * from `honey_harvest`;
+SELECT * from hives;
+select * from hives;
+select * from catch_reports;
+select * from services;
+select * from apiary_setup_components;
+select * from consultancy_items;
+describe apiary_setup_components;
+select * from supply_provision_items;
+select * from users;
+select * from equipments_tools;
+update equipments_tools set retired = true where tool_id  = 1;
+select count(station_id) as stations, status from `apiary_stations` group by status;
+select sum(number_of_hive_boxes) as total_hives from `apiary_stations`;
+alter table `honey_harvest` add colouration varchar(100) not null;
+alter table `swarm_hunters` modify employment_status enum ("active","inactive","terminated") default "active";
+update `apiary_stations` set station_name = 'celestia' where station_id = 15; 
+alter table `apiary_stations` change name station_name varchar(50) not null;
+alter table `honey_harvest` modify colouration varchar(100) after quantity_collected;
+select * from catch_reports;
+select * from employees order by dob desc;
+update honey_harvest set station_name = "celestia" where station_id =15;
+ALTER TABLE token
+MODIFY COLUMN isValid boolean DEFAULT true ;
+alter table token modify userAgent varchar(1000) not null;
+delete from users where user_id =9;

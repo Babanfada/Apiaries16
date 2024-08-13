@@ -29,7 +29,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      "price (NGN)": {
+      "price_NGN": {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },

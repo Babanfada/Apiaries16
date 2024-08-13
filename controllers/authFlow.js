@@ -43,7 +43,7 @@ const register = async (req, res) => {
     verificationString,
     emailNotification,
   };
-  console.log(userObject, "jkk");
+//   console.log(userObject, "jkk");
   const user = await USERS.create(userObject);
   const origin = "http://localhost:5003";
   // verify Email
