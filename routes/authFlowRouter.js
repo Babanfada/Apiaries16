@@ -12,6 +12,7 @@ const {
   blacklist,
   googleAuth,
   googleCallBack,
+  updateUserPassword,
 } = require("../controllers/authFlow");
 const {
   authenticated,
@@ -27,6 +28,7 @@ router.route("/logout").delete(authenticated, logout);
 router.route("/check").get(checkUserRegisterationStatus);
 router.route("/forgotpassword").post(forgotPassword);
 router.route("/resetpassword").patch(resetPassword);
+router.route("/updatepassword").patch(authenticated, updateUserPassword);
 router.route("/showme").get(authenticated, showMe);
 router.route("/blacklist/:id").patch(authenticated, blacklist);
 

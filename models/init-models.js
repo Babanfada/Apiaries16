@@ -136,8 +136,8 @@ function initModels(sequelize) {
   swarm_hunters.hasMany(hives, { as: "hives", foreignKey: "assigned_hunter"});
   orders.belongsTo(users, { as: "user_user", foreignKey: "user"});
   users.hasMany(orders, { as: "orders", foreignKey: "user"});
-  products.belongsTo(users, { as: "user_user", foreignKey: "user"});
-  users.hasMany(products, { as: "products", foreignKey: "user"});
+  // products.belongsTo(users, { as: "user_user", foreignKey: "user"});
+  // users.hasMany(products, { as: "products", foreignKey: "user"});
   reviews.belongsTo(users, { as: "user_user", foreignKey: "user"});
   users.hasMany(reviews, { as: "reviews", foreignKey: "user"});
   token.belongsTo(users, { as: "user_user", foreignKey: "user"});

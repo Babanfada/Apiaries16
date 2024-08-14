@@ -1,44 +1,15 @@
-const { NOT_FOUND } = require("../middlewares/customErrors");
+const { NOT_FOUND, BAD_REQUEST } = require("../middlewares/customErrors");
 const { StatusCodes } = require("http-status-codes");
 const { users: USERS } = require("../models");
 const { Op, Sequelize } = require("sequelize");
 const moment = require("moment");
-
+const { checkPermissions } = require("../middlewares/authentication");
+const cloudinary = require("cloudinary").v2;
 const getAllUsers = async (req, res) => {
   const queryObject = {};
   console.log(queryObject);
   const totalUsers = await USERS.count();
   const { numberFilter, fields, sort } = req.query;
-
-  //   const fieldsToCheck = {
-  //     fullname: (value) => ({
-  //       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
-  //     }),
-  //     email: (value) => ({
-  //       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
-  //     }),
-  //     phone: (value) => value,
-  //     gender: (value) => {
-  //       if (value && value !== "All") return value === "male" ? "male" : "female";
-  //       return undefined;
-  //     },
-  //     isVerified: (value) => {
-  //       if (value && value !== "All") return value === "true" ? true : false;
-  //       return null;
-  //     },
-  //     blacklisted: (value) => {
-  //       if (value && value !== "All") return value === "true" ? true : false;
-  //       // return "";
-  //       return null;
-  //     },
-  //   };
-
-  //   Object.keys(req.query).forEach((key) => {
-  //     if (fieldsToCheck[key]) {
-  //       queryObject[key] = fieldsToCheck[key](req.query[key]);
-  //     }
-  //   });
-
   const fieldsToCheck = {
     fullname: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
@@ -50,16 +21,25 @@ const getAllUsers = async (req, res) => {
     gender: (value) => {
       console.log(value);
       if (value && value !== "All") return value;
-      //   if (value && value !== "All") return value === "male" ? "male" : "female";
       return null; // Return null to skip adding this filter
     },
     isVerified: (value) => {
-      if (value && value !== "All") return value === "true";
-      return null; // Return null to skip adding this filter
+      if (value === "All") {
+        return { [Sequelize.Op.or]: [true, false] }; // This will include all rows regardless of the 'available' status
+      }
+      if (value !== "All" && value !== undefined) {
+        return value === "true";
+      }
+      return undefined; // Return undefined to skip adding this filter
     },
     blacklisted: (value) => {
-      if (value && value !== "All") return value === "true";
-      return null; // Return null to skip adding this filter
+      if (value === "All") {
+        return { [Sequelize.Op.or]: [true, false] }; // This will include all rows regardless of the 'available' status
+      }
+      if (value !== "All" && value !== undefined) {
+        return value === "true";
+      }
+      return undefined; // Return undefined to skip adding this filter
     },
   };
 
@@ -72,46 +52,8 @@ const getAllUsers = async (req, res) => {
     }
   });
 
-  //   if (numberFilter) {
-  //     const operatorMap = {
-  //       ">": "gt",
-  //       ">=": "gte",
-  //       "=": "eq",
-  //       "<": "lt",
-  //       "<=": "lte",
-  //     };
-  //     const regEx = /(\b<=|>=|=|<|>|\b&lt;=|\b&gt;=|\b&lt;|\b&gt;|\b&le;)\b/g;
-  //     let filter = numberFilter.replace(
-  //       regEx,
-  //       (match) => `/${operatorMap[match]}/`
-  //     );
-  //     // console.log(filter);
-  //     const options = ["salary", "dob", "joining_date"];
-  //     filter.split(" ").forEach((item) => {
-  //       const [field, operator, value] = item.split("/");
-  //       console.log(field);
-
-  //       if (options.includes(field)) {
-  //         if (field === "salary") {
-  //           queryObject[field] = {
-  //             [Sequelize.Op[operator]]: Number(value),
-  //           };
-  //         } else {
-  //           const dateValue = moment(value, "YYYY-MM-DD", true);
-  //           if (dateValue.isValid()) {
-  //             queryObject[field] = {
-  //               [Sequelize.Op[operator]]: dateValue.toDate(),
-  //             };
-  //           } else {
-  //             console.error(`Invalid date format for ${field}: ${value}`);
-  //           }
-  //         }
-  //         console.log(queryObject);
-  //       }
-  //     });
-  //   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 10;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalUsers / limit);
   let sortList;
@@ -134,6 +76,7 @@ const getAllUsers = async (req, res) => {
   }
   const users = await USERS.findAll({
     where: { ...queryObject },
+    logging: console.log,
     attributes: fields ? fields.split(",") : undefined,
     order: sortList,
     limit,
@@ -172,11 +115,8 @@ const getSingleUser = async (req, res) => {
   if (!user) {
     throw new NOT_FOUND(`There is no user with an id of ${user_id}`);
   }
+  checkPermissions({ reqUser: req.user, resUser: user.user_id });
   res.status(StatusCodes.OK).json({ user });
-};
-const createUser = async (req, res) => {
-  const user = await USERS.create({ ...req.body });
-  res.status(StatusCodes.OK).json({ user, msg: "Successfully added an user" });
 };
 const updateUser = async (req, res) => {
   const { user_id } = req.params;
@@ -184,6 +124,7 @@ const updateUser = async (req, res) => {
   if (!user) {
     throw new NOT_FOUND(`There is no user with an id of ${user_id}`);
   }
+  checkPermissions({ reqUser: req.user, resUser: user.user_id });
   await USERS.update(req.body, {
     where: { user_id },
   });
@@ -195,6 +136,7 @@ const deleteUser = async (req, res) => {
   if (!user) {
     throw new NOT_FOUND(`There is no user with an id of ${user_id}`);
   }
+  checkPermissions({ reqUser: req.user, resUser: user.user_id });
   await USERS.destroy({
     where: { user_id },
   });
@@ -202,10 +144,83 @@ const deleteUser = async (req, res) => {
     msg: `User details with the id:${user_id} removed permanently`,
   });
 };
+const uploadAvatar = async (req, res) => {
+  const productImage = req.files.image;
+  //   console.log(productImage);
+  if (!productImage.mimetype.startsWith("image")) {
+    throw new BAD_REQUEST("please upload an image");
+  }
+  const maxSize = 2000 * 3000;
+  if (productImage.size > maxSize) {
+    throw new BAD_REQUEST("uploaded files should not be more than 18mb");
+  }
+  const user = await USERS.findOne({ where: { user_id: req.user.user_id } });
+  const currentPublicId = user.img_public_id;
+  if (currentPublicId) {
+    await cloudinary.uploader.destroy(currentPublicId);
+  }
+  const result = await cloudinary.uploader.upload(
+    req.files.image.tempFilePath,
+    {
+      use_filename: true,
+      folder: "Apiaries 16 user's Images",
+    }
+  );
+  //   console.log(result);
+  user.image = result.secure_url;
+  user.img_public_id = result.public_id;
+  await user.save();
+  res.status(StatusCodes.OK).json({
+    image: {
+      src: result.secure_url,
+    },
+  });
+  fs.unlinkSync(req.files.image.tempFilePath);
+};
+const subscribeToEmail = async (req, res) => {
+  const { subscribe } = req.body;
+  const { user_id } = req.params;
+  const user = await USERS.findOne({ where: { user_id } });
+  if (subscribe !== true) {
+    throw new BAD_REQUEST(`Click on the mail icon first !!!`);
+  }
+  checkPermissions({ reqUser: req.user, resUser: user.user_id });
+  await USERS.update(
+    { emailNotification: true },
+    {
+      where: { user_id },
+    }
+  );
+
+  res.status(StatusCodes.OK).json({
+    msg: `${user.fullname} has been subscribed to Email notifications`,
+  });
+};
+const unSubscribeToEmail = async (req, res) => {
+  const { unSubscribe } = req.body;
+  const { user_id } = req.params;
+  const user = await USERS.findOne({ where: { user_id } });
+  if (unSubscribe !== true) {
+    throw new BAD_REQUEST(`subscription status is not set to true`);
+  }
+  checkPermissions({ reqUser: req.user, resUser: user.user_id });
+  await USERS.update(
+    { emailNotification: false },
+    {
+      where: { user_id },
+    }
+  );
+  res.status(StatusCodes.OK).json({
+    msg: `${user.fullname} has been removed from Email notifications list`,
+  });
+};
+
 module.exports = {
   getAllUsers,
   getSingleUser,
-  createUser,
   updateUser,
   deleteUser,
+  uploadAvatar,
+  subscribeToEmail,
+  unSubscribeToEmail,
 };

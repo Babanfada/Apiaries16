@@ -5,6 +5,11 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 5003;
 const connectDB = require("./models");
+
+// uplaod files
+const cloudinary = require("cloudinary").v2;
+const fileUpload = require("express-fileupload");
+
 //middleware
 require("./middlewares/customErrors/passportConfig");
 app.use(express.json());
@@ -54,7 +59,13 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.get("/", (req, res) => {
   res.send('<a href="api/v1/authflow/google">login with google</a>');
 });
-
+// use upload
+app.use(fileUpload({ useTempFiles: true }));
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 // Google auth
 // app.use(
 //   session({ secret: "your_secret_key", resave: false, saveUninitialized: true })
@@ -90,7 +101,7 @@ app.use("/api/v1/deliveryaddress", deliveryAddressRoutes);
 app.use("/api/v1/usersorders", userOrdersRoutes);
 app.use("/api/v1/authflow", authflowRoutes);
 
-//Error Handling Middleware for routes and interacting with the database 
+//Error Handling Middleware for routes and interacting with the database
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 

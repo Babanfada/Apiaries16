@@ -43,7 +43,7 @@ const register = async (req, res) => {
     verificationString,
     emailNotification,
   };
-//   console.log(userObject, "jkk");
+  //   console.log(userObject, "jkk");
   const user = await USERS.create(userObject);
   const origin = "http://localhost:5003";
   // verify Email
@@ -181,7 +181,7 @@ const checkUserRegisterationStatus = async (req, res) => {
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
   if (!email) {
-    throw new UNAUTHORIZED("TAuthentication invalid, user not found !!!!");
+    throw new UNAUTHORIZED("Authentication invalid, user not found !!!!");
   }
   const user = await USERS.findOne({ where: { email } });
   if (!user) {
@@ -380,6 +380,31 @@ const googleCallBack = (req, res, next) => {
   )(req, res, next);
 };
 
+const updateUserPassword = async (req, res) => {
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+  const user_id = req.user.user_id;
+  // you need to add a confirm password to this
+  if (!oldPassword || !newPassword || !confirmPassword) {
+    throw new BAD_REQUEST(`Pls provide all fields`);
+  }
+  if (newPassword !== confirmPassword) {
+    throw new BAD_REQUEST(`New and old password are not the same`);
+  }
+  const user = await USERS.findOne({ where: { user_id } });
+
+  if (!user) {
+    throw new NOT_FOUND(`There is NO user with the id of ${user_id}`);
+  }
+  const isPasswordCorrect = await user.comparePassword(oldPassword);
+  if (!isPasswordCorrect) {
+    throw new UNAUTHORIZED(`Password update failed, old passwors is wrong`);
+  }
+  user.password = newPassword;
+  await user.save();
+
+  res.status(StatusCodes.OK).json({ msg: "Password Successfully updated" });
+};
+
 module.exports = {
   register,
   verifyMail,
@@ -392,4 +417,5 @@ module.exports = {
   blacklist,
   googleAuth,
   googleCallBack,
+  updateUserPassword,
 };

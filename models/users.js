@@ -37,6 +37,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      img_public_id: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
       phone: {
         type: DataTypes.STRING(30),
         allowNull: false,

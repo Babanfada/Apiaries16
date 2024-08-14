@@ -44,4 +44,11 @@ const authorizedPermissions = (...roles) => {
   };
   return authorize;
 };
-module.exports = { authenticated, authorizedPermissions };
+
+const checkPermissions = ({ reqUser, resUser }) => {
+  if (reqUser.role === "admin") return;
+  if (reqUser.user_id === resUser) return;
+  throw new UNAUTHORIZED("you are not authorized to access this route");
+};
+
+module.exports = { authenticated, authorizedPermissions, checkPermissions };
