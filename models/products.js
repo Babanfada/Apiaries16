@@ -1,5 +1,4 @@
 const Sequelize = require("sequelize");
-const { product_images: IMAGES, product_colors: COLORS } = require("./index");
 module.exports = function (sequelize, DataTypes) {
   const products = sequelize.define(
     "products",
@@ -75,24 +74,6 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         defaultValue: 0,
       },
-      // user: {
-      //   type: DataTypes.INTEGER,
-      //   allowNull: true,
-      //   references: {
-      //     model: "users",
-      //     key: "user_id",
-      //   },
-      // },
-      // createdat: {
-      //   type: DataTypes.DATE,
-      //   allowNull: true,
-      //   defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
-      // },
-      // updatedat: {
-      //   type: DataTypes.DATE,
-      //   allowNull: true,
-      //   defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
-      // },
     },
     {
       sequelize,
@@ -106,30 +87,64 @@ module.exports = function (sequelize, DataTypes) {
           using: "BTREE",
           fields: [{ name: "product_id" }],
         },
-        // {
-        //   name: "user",
-        //   using: "BTREE",
-        //   fields: [{ name: "user" }],
-        // },
       ],
     }
   );
+
   products.associate = function (models) {
     products.hasMany(models.product_colors, { foreignKey: "product_id" });
     products.hasMany(models.product_images, { foreignKey: "product_id" });
-  };
-  products.afterDestroy(async (productInstance, options) => {
-    const { product_id } = productInstance;
-    const product_images = await IMAGES.findAll({ where: { product_id } });
-    const product_colors = await COLORS.findAll({ where: { product_id } });
-    console.log(
-      "Product images and color for Deletion:",
-      product_images,
-      product_colors
-    );
+    products.hasMany(models.reviews, { foreignKey: "product_id" });
 
-    await IMAGES.destroy({ where: { product_id } });
-    await COLORS.destroy({ where: { product_id } });
-  });
+    // Define hooks within the associate function
+    products.beforeDestroy(async (productInstance, options) => {
+      const { product_id, product_name } = productInstance;
+      // console.log(models.product_images, models.product_colors);
+
+      const product_imagesTBD = await models.product_images.findOne({
+        where: { product_id },
+      });
+      const product_colorsTBD = await models.product_colors.findOne({
+        where: { product_id },
+      });
+      const product_reviewsTBD = await models.reviews.findOne({
+        where: { product_id },
+      });
+      // console.log("Product images and color for Deletion:", {
+      //   product_id,
+      //   product_name,
+      //   image_id: product_imagesTBD.image_id,
+      //   color_id: product_colorsTBD.color_id,
+      // });
+
+      await product_imagesTBD.destroy();
+      await product_colorsTBD.destroy();
+      await product_reviewsTBD.destroy();
+    });
+
+    products.afterCreate(async (productInstance, options) => {
+      const { product_id } = productInstance;
+      await models.product_images.create({
+        product_id,
+        image0: "/uploads/default.jpeg",
+        img0_public_id: "default_public_id",
+        image1: "/uploads/default.jpeg",
+        img1_public_id: "default_public_id",
+        image2: "/uploads/default.jpeg",
+        img2_public_id: "default_public_id",
+      });
+
+      await models.product_colors.create({
+        product_id,
+        color0: "#FFFFFF",
+        color1: "#FFFFFF",
+        color2: "#FFFFFF",
+      });
+
+      console.log(
+        `Default images and colors created for product ID: ${product_id}`
+      );
+    });
+  };
   return products;
 };

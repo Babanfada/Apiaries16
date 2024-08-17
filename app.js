@@ -42,8 +42,8 @@ const supplyprovisionItemsRoutes = require("./routes/supplyProvisionItemsRouter"
 const equipmentsRoutes = require("./routes/equipmentsRouter");
 const suppliesRoutes = require("./routes/suppliesRouter");
 const productRoutes = require("./routes/productsRouter");
-const productColorRoutes = require("./routes/productColorRouter");
-const productImagesRoutes = require("./routes/productImagesRouter");
+// const productColorRoutes = require("./routes/productColorRouter");
+// const productImagesRoutes = require("./routes/productImagesRouter");
 const reviewRoutes = require("./routes/reviewsRouter");
 const reviewImagesRoutes = require("./routes/reviewImagesRouter");
 const orderRoutes = require("./routes/ordersRouter");
@@ -72,7 +72,6 @@ cloudinary.config({
 // );
 app.use(passport.initialize());
 // app.use(passport.session());
-
 // use Routes
 app.use("/api/v1/employees", employeesRoutes);
 app.use("/api/v1/users", usersRoutes);
@@ -91,8 +90,8 @@ app.use("/api/v1/supplyprovisionitems", supplyprovisionItemsRoutes);
 app.use("/api/v1/equipments", equipmentsRoutes);
 app.use("/api/v1/supplies", suppliesRoutes);
 app.use("/api/v1/products", productRoutes);
-app.use("/api/v1/productscolor", productColorRoutes);
-app.use("/api/v1/productsimages", productImagesRoutes);
+// app.use("/api/v1/productscolor", productColorRoutes);
+// app.use("/api/v1/productsimages", productImagesRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/reviewsimages", reviewImagesRoutes);
 app.use("/api/v1/orders", orderRoutes);

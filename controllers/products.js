@@ -1,4 +1,8 @@
-const { NOT_FOUND, BAD_REQUEST } = require("../middlewares/customErrors");
+const {
+  NOT_FOUND,
+  BAD_REQUEST,
+  UNAUTHORIZED,
+} = require("../middlewares/customErrors");
 const { StatusCodes } = require("http-status-codes");
 const {
   products: PRODUCTS,
@@ -170,13 +174,10 @@ const getSingleProduct = async (req, res) => {
       {
         model: IMAGES,
         required: false,
-        // attributes: ["nok_id", "fullname", "phone", "gender", "relationship"],
       },
       {
         model: COLORS,
         required: false,
-        // as: "internallySupervising",
-        // attributes: ["station_id", "station_name", "location"],
       },
     ],
   });
@@ -211,84 +212,96 @@ const deleteProduct = async (req, res) => {
   if (!product) {
     throw new NOT_FOUND(`There is no product with an id of ${product_id}`);
   }
-  await PRODUCTS.destroy({
+  await product.destroy({
     where: { product_id },
   });
   res.status(StatusCodes.OK).json({
     msg: `Product details with the id:${product_id} removed permanently`,
   });
 };
+
 const uploadProductImages = async (req, res) => {
   const { product_id } = req.params;
-
   const productImages = Object.values(req.files);
-    console.log(productImages);
+
   try {
+    // Fetch existing image record for the product
     const image = await IMAGES.findOne({ where: { product_id } });
-
-    const uploadPromises = productImages.map(async (productImage, i) => {
-      if (!productImage.mimetype.startsWith("image")) {
-        throw new BAD_REQUEST("Please upload an image.");
-      }
-
-      const maxSize = 2000 * 3000;
-      if (productImage.size > maxSize) {
-        throw new BAD_REQUEST("Uploaded files should not be more than 18MB.");
-      }
-
-      // Delete existing image if it exists
-      const currentPublicId = image ? image[`img${i}_public_id`] : null;
-      if (currentPublicId) {
-        await cloudinary.uploader.destroy(currentPublicId);
-      }
-
-      // Upload new image
-      const result = await cloudinary.uploader.upload(
-        productImage.tempFilePath,
-        {
-          use_filename: true,
-          folder: "Apiaries 16 user's Images",
-        }
+    if (!image) {
+      throw new UNAUTHORIZED(
+        `The product with id ${product_id} has not been created. Please create the product first!!!`
       );
+    }
 
-      // Update or create new image records in the database
-      if (image) {
+    // Validate and upload images
+    const uploadedImages = await Promise.all(
+      productImages.map(async (productImage, i) => {
+        // Validate image type and size
+        if (!productImage.mimetype.startsWith("image")) {
+          throw new BAD_REQUEST("Please upload a valid image.");
+        }
+
+        const maxSize = 2000 * 3000; // 6MB
+        if (productImage.size > maxSize) {
+          throw new BAD_REQUEST("Uploaded files should not exceed 18MB.");
+        }
+
+        // Delete existing image on Cloudinary if it exists
+        const currentPublicId = image[`img${i}_public_id`];
+        if (currentPublicId) {
+          await cloudinary.uploader.destroy(currentPublicId);
+        }
+
+        // Upload new image to Cloudinary
+        const result = await cloudinary.uploader.upload(
+          productImage.tempFilePath,
+          {
+            use_filename: true,
+            folder: "Apiaries 16 user's Images",
+          }
+        );
+
+        // Update image record in the database
         image[`image${i}`] = result.secure_url;
         image[`img${i}_public_id`] = result.public_id;
         await image.save();
-      } else {
-        const newImage = {};
-        newImage[`image${i}`] = result.secure_url;
-        newImage[`img${i}_public_id`] = result.public_id;
-        newImage.product_id = product_id;
-        await IMAGES.create(newImage);
-      }
-      const details = {
-        id: result.public_id,
-        src: result.secure_url,
-      };
-      //   return result.secure_url;
-      return details;
-    });
 
-    const uploadedImages = await Promise.all(uploadPromises);
-    console.log(uploadProductImages);
+        // Return details of the uploaded image
+        return {
+          id: result.public_id,
+          src: result.secure_url,
+        };
+      })
+    );
 
+    // Send response with uploaded images
     res.status(StatusCodes.OK).json({
-      //   images: uploadedImages.map((imageUrl) => ({ src: imageUrl })),
-      images: uploadedImages.map((imageUrl) => imageUrl),
+      images: uploadedImages,
     });
   } catch (error) {
-    console.error(error);
+    // next(error); // Pass the error to the custom error handling middleware
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      error: "Failed to upload images.",
+      error: error.message,
     });
   } finally {
-    // Clean up temporary files
-    fs.unlinkSync(req.files.image.tempFilePath);
+    // Clean up all temporary files
+    productImages.forEach((productImage) => {
+      if (fs.existsSync(productImage.tempFilePath)) {
+        fs.unlinkSync(productImage.tempFilePath);
+      }
+    });
   }
 };
-
+const updateProductColor = async (req, res) => {
+  const { product_id } = req.params;
+  const product_color = await COLORS.findOne({ where: { product_id } });
+  await product_color.update(req.body, {
+    where: { product_id },
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "Color details updated successfully" });
+};
 module.exports = {
   getAllProducts,
   getSingleProduct,
@@ -296,4 +309,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   uploadProductImages,
+  updateProductColor,
 };

@@ -114,8 +114,8 @@ function initModels(sequelize) {
   products.hasMany(product_colors, { as: "product_colors", foreignKey: "product_id"});
   product_images.belongsTo(products, { as: "product", foreignKey: "product_id"});
   products.hasMany(product_images, { as: "product_images", foreignKey: "product_id"});
-  reviews.belongsTo(products, { as: "product_product", foreignKey: "product"});
-  products.hasMany(reviews, { as: "reviews", foreignKey: "product"});
+  reviews.belongsTo(products, { as: "product_product", foreignKey: "product_id"});
+  products.hasMany(reviews, { as: "reviews", foreignKey: "product_id"});
   // review images.belongsTo(reviews, { as: "review", foreignKey: "review_id"});
   // reviews.hasMany(review images, { as: "review images", foreignKey: "review_id"});
   review_images.belongsTo(reviews, { as: "review", foreignKey: "review_id"});
@@ -134,14 +134,17 @@ function initModels(sequelize) {
   swarm_hunters.hasMany(catch_reports, { as: "catch_reports", foreignKey: "hunter_id"});
   hives.belongsTo(swarm_hunters, { as: "assigned_hunter_swarm_hunter", foreignKey: "assigned_hunter"});
   swarm_hunters.hasMany(hives, { as: "hives", foreignKey: "assigned_hunter"});
-  orders.belongsTo(users, { as: "user_user", foreignKey: "user"});
-  users.hasMany(orders, { as: "orders", foreignKey: "user"});
+  orders.belongsTo(users, { as: "user_user", foreignKey: "user_id"});
+  users.hasMany(orders, { as: "orders", foreignKey: "user_id"});
   // products.belongsTo(users, { as: "user_user", foreignKey: "user"});
   // users.hasMany(products, { as: "products", foreignKey: "user"});
-  reviews.belongsTo(users, { as: "user_user", foreignKey: "user"});
-  users.hasMany(reviews, { as: "reviews", foreignKey: "user"});
+  reviews.belongsTo(users, { as: "user_user", foreignKey: "user_id"});
+  users.hasMany(reviews, { as: "reviews", foreignKey: "user_id"});
   token.belongsTo(users, { as: "user_user", foreignKey: "user"});
   users.hasMany(token, { as: "tokens", foreignKey: "user"});
+  products.hasMany(order_items, { foreignKey: "product_id" });
+  order_items.belongsTo(products, { foreignKey: "product_id" });
+
 
   return {
     // apiary stations,

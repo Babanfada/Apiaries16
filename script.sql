@@ -1057,9 +1057,9 @@ ALTER TABLE `employee_nok`
 CHANGE COLUMN `created_at` `createdAt` DATETIME,
 CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
 
-ALTER TABLE `employees` 
-CHANGE COLUMN `created_at` `createdAt` DATETIME,
-CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+ALTER TABLE `reviews` 
+CHANGE COLUMN `createdat` `createdAt` DATETIME,
+CHANGE COLUMN `updatedat` `updatedAt` DATETIME;
 
 ALTER TABLE `equipments_tools` 
 CHANGE COLUMN `created_at` `createdAt` DATETIME,
@@ -1113,9 +1113,9 @@ ALTER TABLE `supplies`
 CHANGE COLUMN `created_at` `createdAt` DATETIME,
 CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
 
-ALTER TABLE `supply_provision_items` 
-CHANGE COLUMN `created_at` `createdAt` DATETIME,
-CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
+ALTER TABLE `products` 
+CHANGE COLUMN `createdat` `createdAt` DATETIME,
+CHANGE COLUMN `updatedat` `updatedAt` DATETIME;
 
 ALTER TABLE `equipments_tools` 
 CHANGE COLUMN `created_at` `createdAt` DATETIME,
@@ -1138,17 +1138,35 @@ select * from employees;
 select * from `swarm_hunters`;
 select * from `apiary_stations`;
 select * from `honey_harvest`;
-SELECT * from hives;
+SELECT * from employees;
 select * from hives;
 select * from catch_reports;
 select * from services;
 select * from apiary_setup_components;
 select * from consultancy_items;
 describe apiary_setup_components;
-select * from supply_provision_items;
+select * from token;
 select * from users;
-select * from equipments_tools;
-update equipments_tools set retired = true where tool_id  = 1;
+select * from products;
+select * from product_images;
+select * from product_colors;
+select * from reviews;
+select * from review_images;
+delete from review_images where image_id = 4;
+describe review_images;
+select * from orders;
+select * from order_items;
+select * from delivery_address;
+alter table orders change user user_id int;
+delete from product_images where image_id = 14;
+update  products set available = false where product_id = 6;
+alter table review_images add column img0_public_id text after image0,add column img1_public_id text after image1,add column img2_public_id text after image2 ;
+alter table users modify img_public_id varchar(200) after image;
+alter table products modify available bool not null;
+alter table products drop constraint products_ibfk_1;
+alter table products drop column user; 
+describe products;
+update users set role = "admin" where user_id  = 7;
 select count(station_id) as stations, status from `apiary_stations` group by status;
 select sum(number_of_hive_boxes) as total_hives from `apiary_stations`;
 alter table `honey_harvest` add colouration varchar(100) not null;

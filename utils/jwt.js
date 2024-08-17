@@ -4,7 +4,6 @@ const createUser = (user) => {
     user_id: user.user_id,
     fullname: user.fullname,
     email: user.email,
-    password: user.password,
     role: user.role,
     address: user.address,
     image: user.image,
