@@ -1,6 +1,6 @@
 const { NOT_FOUND, BAD_REQUEST } = require("../middlewares/customErrors");
 const { StatusCodes } = require("http-status-codes");
-const { users: USERS } = require("../models");
+const { users: USERS, orders: ORDERS } = require("../models");
 const { Op, Sequelize } = require("sequelize");
 const moment = require("moment");
 const { checkPermissions } = require("../middlewares/authentication");
@@ -116,7 +116,32 @@ const getSingleUser = async (req, res) => {
     throw new NOT_FOUND(`There is no user with an id of ${user_id}`);
   }
   checkPermissions({ reqUser: req.user, resUser: user.user_id });
-  res.status(StatusCodes.OK).json({ user });
+  // Count orders by payment status for a specific user
+  const paymentStatusCount = await ORDERS.findAll({
+    attributes: [
+      "paymentStatus",
+      [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
+    ],
+    where: {
+      user_id: user.user_id,
+    },
+    group: ["paymentStatus"],
+  });
+
+  // Count orders by delivery status for a specific user
+  const deliveryStatusCount = await ORDERS.findAll({
+    attributes: [
+      "deliveryStatus",
+      [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
+    ],
+    where: {
+      user_id: user.user_id,
+    },
+    group: ["deliveryStatus"],
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ user, paymentStatusCount, deliveryStatusCount });
 };
 const updateUser = async (req, res) => {
   const { user_id } = req.params;

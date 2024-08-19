@@ -1,4 +1,4 @@
-const sendEmail = require("./sendEmail");
+const sendEmail = require("./sendMail");
 const Mailgen = require("mailgen");
 const moment = require("moment");
 

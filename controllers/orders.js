@@ -75,12 +75,6 @@ const getAllOrders = async (req, res) => {
     case "low-high":
       sortList = [["total", "ASC"]];
       break;
-    // case "latest":
-    //   sortList = [["total", "DESC"]];
-    //   break;
-    // case "oldest":
-    //   sortList = [["total", "ASC"]];
-    //   break;
     default:
       sortList = [["createdAt", "ASC"]];
       break;
@@ -156,11 +150,9 @@ const getSingleOrder = async (req, res) => {
     ],
   });
   if (!orders) {
-    throw new NOT_FOUND(
-      `There is no orders for the product with id of ${order_id}`
-    );
+    throw new NOT_FOUND(`This order does not exist`);
   }
-  const userId = req.user.id; // Assuming the user ID is available in the request object
+  const user_id = orders.user_id;
 
   // Count orders by payment status for a specific user
   const paymentStatusCount = await ORDERS.findAll({
@@ -169,7 +161,7 @@ const getSingleOrder = async (req, res) => {
       [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
     ],
     where: {
-      user_id: userId,
+      user_id,
     },
     group: ["paymentStatus"],
   });
@@ -181,7 +173,7 @@ const getSingleOrder = async (req, res) => {
       [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
     ],
     where: {
-      user_id: userId,
+      user_id,
     },
     group: ["deliveryStatus"],
   });
@@ -210,7 +202,32 @@ const getAllOrdersByUser = async (req, res) => {
     throw new NOT_FOUND(`${fullname} has no orders yet`);
   }
   checkPermissions({ reqUser: req.user, resUser: user_id });
-  res.status(StatusCodes.OK).json({ orders });
+  // Count orders by payment status for a specific user
+  const paymentStatusCount = await ORDERS.findAll({
+    attributes: [
+      "paymentStatus",
+      [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
+    ],
+    where: {
+      user_id,
+    },
+    group: ["paymentStatus"],
+  });
+
+  // Count orders by delivery status for a specific user
+  const deliveryStatusCount = await ORDERS.findAll({
+    attributes: [
+      "deliveryStatus",
+      [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
+    ],
+    where: {
+      user_id,
+    },
+    group: ["deliveryStatus"],
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ orders, deliveryStatusCount, paymentStatusCount });
 };
 
 const createOrder = async (req, res, next) => {
@@ -236,14 +253,14 @@ const createOrder = async (req, res, next) => {
 
   const aboutToBeMadeOrders = cartItems.map(async (item) => {
     const product = await PRODUCTS.findOne({
-      where: { product_id: item.product },
+      where: { product_id: item.product_id },
     });
     if (!product) {
       throw new NOT_FOUND("This product does not exist!!!");
     }
 
     const { image0 } = await PRODUCT_IMAGES.findOne({
-      where: { product_id: item.product },
+      where: { product_id: item.product_id },
     });
 
     const { product_name, price, product_id } = product;
@@ -252,13 +269,9 @@ const createOrder = async (req, res, next) => {
       image: image0,
       price,
       amount: item.amount,
-      product: product_id,
+      product_id,
       color: item.color,
     };
-
-    // orderItems.push(singleOrderItem);
-    // subtotal += singleOrderItem.amount * price;
-
     orderItems = [...orderItems, singleOrderItem];
     subtotal += singleOrderItem.amount * price;
     productNames.push(product_name); // Add product name to the array
@@ -315,10 +328,10 @@ const createOrder = async (req, res, next) => {
     sendOrderStatusEmail({
       email: req.user.email,
       fullname: req.user.fullname,
-      tx_ref: order.tx_ref,
-      transaction_id: order.transaction_id,
       paymentStatus: order.paymentStatus,
       productNames: productNamesString, // Pass the product names string
+      tx_ref: order.tx_ref,
+      transaction_id: order.transaction_id,
     });
     res.status(StatusCodes.CREATED).json({
       msg: `Order created successfully`,
@@ -333,16 +346,10 @@ const createOrder = async (req, res, next) => {
 
 const updateOrder = async (req, res) => {
   const { order_id } = req.params;
-  const {
-    tx_ref,
-    transaction_id,
-    paymentStatus,
-    deliveryStatus,
-    deliveryAddress,
-  } = req.body;
+  const { tx_ref, transaction_id, paymentStatus, deliveryStatus } = req.body;
   const order = await ORDERS.findOne({
     where: { order_id },
-    include: { model: ORDER_ITEMS },
+    include: [{ model: ORDER_ITEMS }, { model: DELIVERY_ADD }],
   });
 
   checkPermissions({ reqUser: req.user, resUser: order.user_id });
@@ -366,28 +373,21 @@ const updateOrder = async (req, res) => {
       );
     }
 
-    // Update or create the delivery address if provided
-    if (deliveryStatus && deliveryAddress) {
+    // Prepare fields for order update
+    const updateFields = {};
+    if (tx_ref) updateFields.tx_ref = tx_ref;
+    if (transaction_id) updateFields.transaction_id = transaction_id;
+    if (paymentStatus) updateFields.paymentStatus = paymentStatus;
+    if (deliveryStatus) updateFields.deliveryStatus = deliveryStatus;
+
+    // Update the order details and send status email
+    if (Object.keys(updateFields).length > 0) {
+      await order.update(updateFields, { transaction });
+
+      const { email, fullname } = await USERS.findByPk(order.user_id);
       const deliveryAddressExists = await DELIVERY_ADD.findOne({
         where: { order_id: order.order_id },
       });
-      if (deliveryAddressExists) {
-        await deliveryAddressExists.update(deliveryAddress, { transaction });
-      } else {
-        await DELIVERY_ADD.create(
-          { ...deliveryAddress, order_id: order.order_id },
-          { transaction }
-        );
-      }
-    }
-
-    // Update the order details and send status email
-    if (paymentStatus || deliveryStatus) {
-      await order.update(
-        { tx_ref, transaction_id, paymentStatus, deliveryStatus },
-        { transaction }
-      );
-      const { email, fullname } = await USERS.findByPk(order.user_id);
       const productNames = order.order_items
         .map((item) => item.product_name)
         .join(", ");
@@ -407,10 +407,9 @@ const updateOrder = async (req, res) => {
         email,
         fullname,
         deliveryStatus: order.deliveryStatus,
-        deliveryAddress: deliveryAddress ? order.delivery_address : undefined,
-        productNames:
-          order.deliveryStatus === "delivered" ? productNames : undefined,
-        order_id: order.order_id,
+        deliveryAddress: deliveryAddressExists,
+        productNames,
+        orderId: order.order_id,
       });
     }
 
@@ -424,10 +423,28 @@ const updateOrder = async (req, res) => {
   }
 };
 
+const updateDelDetails = async (req, res) => {
+  const { deliveryAddress } = req.body;
+  const { order_id } = req.params;
+  const deliveryAddressExists = await DELIVERY_ADD.findOne({
+    where: { order_id },
+  });
+
+  if (!deliveryAddressExists) {
+    throw new BAD_REQUEST(
+      `There is no delivery address for this order ${order_id}`
+    );
+  }
+  await deliveryAddressExists.update(deliveryAddress);
+  res.status(StatusCodes.OK).json({
+    msg: `Delivery details with order id ${deliveryAddressExists.order_id} successfuly updated`,
+  });
+};
 module.exports = {
   getAllOrders,
   getSingleOrder,
   getAllOrdersByUser,
   createOrder,
   updateOrder,
+  updateDelDetails,
 };
