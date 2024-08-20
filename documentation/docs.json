@@ -1,0 +1,2062 @@
+{
+  "info": {
+    "_postman_id": "63ba1da6-6a52-45c1-9919-11ccd9f0bb28",
+    "name": "APIARIES16",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25879868"
+  },
+  "item": [
+    {
+      "name": "Stations",
+      "item": [
+        {
+          "name": "getAllStations",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarystations",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarystations"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleStation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarystations/17",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarystations", "17"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createStation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"station_name\": \"kogi\",\r\n    \"supervisor_int\": \"2\",\r\n    \"supervisor_ext\": \"6\",\r\n    \"location\": \"kogi\",\r\n    \"longitude\": \"-123.45670000\",\r\n    \"latitude\": \"38.12340000\",\r\n    \"station_size\": \"Large\",\r\n    \"number_of_hive_boxes\": \"20\",\r\n    \"status\": \"active\",\r\n    \"station_maintainace_history\": \"Minor repairs on hive boxes\",\r\n    \"last_inspection_date\": \"2023-09-20 11:30:00\",\r\n    \"next_inspection_date\": \"2024-03-20 11:30:00\",\r\n    \"notes\": \"Station located in a remote area with good forage\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarystations",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarystations"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateStation",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"station_name\": \"kogi state\",\r\n    \"supervisor_int\": \"2\",\r\n    \"supervisor_ext\": \"6\",\r\n    \"location\": \"kogi\",\r\n    \"longitude\": \"-123.45670000\",\r\n    \"latitude\": \"38.12340000\",\r\n    \"station_size\": \"Large\",\r\n    \"number_of_hive_boxes\": \"20\",\r\n    \"status\": \"active\",\r\n    \"station_maintainace_history\": \"Minor repairs on hive boxes\",\r\n    \"last_inspection_date\": \"2023-09-20 11:30:00\",\r\n    \"next_inspection_date\": \"2024-03-20 11:30:00\",\r\n    \"notes\": \"Station located in a remote area with good forage\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarystations/16",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarystations", "16"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteStation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"station_name\": \"kogi state\",\r\n    \"supervisor_int\": \"2\",\r\n    \"supervisor_ext\": \"6\",\r\n    \"location\": \"kogi\",\r\n    \"longitude\": \"-123.45670000\",\r\n    \"latitude\": \"38.12340000\",\r\n    \"station_size\": \"Large\",\r\n    \"number_of_hive_boxes\": \"20\",\r\n    \"status\": \"active\",\r\n    \"station_maintainace_history\": \"Minor repairs on hive boxes\",\r\n    \"last_inspection_date\": \"2023-09-20 11:30:00\",\r\n    \"next_inspection_date\": \"2024-03-20 11:30:00\",\r\n    \"notes\": \"Station located in a remote area with good forage\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarystations/16",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarystations", "16"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AuthFlow",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"fullname\": \"Ibrahim Muhammed\",\r\n    \"email\": \"apiariessixteen@gmail.com\",\r\n    \"password\": \"tolani\",\r\n    \"address\": \"Babanfada suite\",\r\n    \"gender\": \"Male\",\r\n    \"phone\": \"+30 (327) 450-84849\",\r\n    \"emailNotification\":true\r\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/register",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "VerifyMail",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n           \"verificationString\": \"39a79b7b2d450a42c8dbc0f54ddbd19a1163faa53ea569eb28238b891a4f719fdce8a8568f92d8bd\",\r\n   \"email\": \"apiariessixteen@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/verify-email",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "verify-email"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/login",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Google login",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/google",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "google"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ShowMe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/showme",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "showme"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/logout",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CheckStatus",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/check",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "check"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "forgotPassword",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"email\": \"apiariessixteen@gmail.com\",\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/forgotpassword",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "forgotpassword"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updatePassword",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"email\": \"apiariessixteen@gmail.com\",\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/forgotpassword",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "forgotpassword"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ResetPassword",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"email\": \"apiariessixteen@gmail.com\",\r\n   \"token\":  \"47aec2f28d04bed3fb62512882ea53bc412fd15484940304afd9337189f822288f91f259c97a04b9\",\r\n   \"password\":\"tolani\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/resetpassword",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "resetpassword"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Blacklist",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"blacklist\":false,\r\n   \"isValid\":true \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/authflow/blacklist/7",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["authflow", "blacklist", "7"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "getAllReports",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleReport",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "updateReport",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/catchreports/1",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["catchreports", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createReport",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \r\n        \"hunter_id\": 1,\r\n        \"assigned_supervisor\": 4,\r\n        \"total_boxes_assigned\": \"10\",\r\n        \"colonized_boxes\": \"8\",\r\n        \"uncolonized_boxes\": \"2\",\r\n        \"delivered_to_apiary\": \"all\",\r\n        \"date_assigned\": \"2023-04-01\",\r\n        \"catch_date\": \"2023-04-15\",\r\n        \"catch_location\": \"Forest area near Lakeview Park\",\r\n        \"catch_status\": \"all successfull\",\r\n        \"season\": \"rain\",\r\n        \"notes\": \"Colonies transferred to Apiary Station 3.\"\r\n        \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/catchreports/",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["catchreports", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteReport",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/catchreports/1",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["catchreports", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "getAllEmployees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees?numberFilter=salary>1000 dob=1980-11-14 joining_date=2019-08-14",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees"],
+              "query": [
+                {
+                  "key": "numberFilter",
+                  "value": "salary>1000 dob=1980-11-14 joining_date=2019-08-14"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleEmployee",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employee/2",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employee", "2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createEmployee",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateEmployee",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith jr\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteEmployee",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith jr\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees", "6"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "getAllUsers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/users",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleUser",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employee/2",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employee", "2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateUser",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith jr\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteUser",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith jr\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "uplaodAvatar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith jr\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Subscribe",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith jr\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UnSubscribe",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith jr\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employees/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employees", "6"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Harvest",
+      "item": [
+        {
+          "name": "getAllHarvest",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/honeyharvest",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["honeyharvest"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleHarvest",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/honeyharvest",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["honeyharvest"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createHarvest",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/honeyharvest",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["honeyharvest"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateHarvest",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/honeyharvest/7",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["honeyharvest", "7"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteHarvest",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/honeyharvest/7",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["honeyharvest", "7"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "NOK",
+      "item": [
+        {
+          "name": "getAllNok",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleNok",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employeesnok/1",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employeesnok", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createNok",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"emp_id\": 1,\r\n        \"fullname\": \"Mary Doe created\",\r\n        \"email\": \"mary.doe@example.com\",\r\n        \"address\": \"123 Main St, City, Country\",\r\n        \"phone\": \"1234567890\",\r\n        \"gender\": \"female\",\r\n        \"relationship\": \"spouse\"\r\n    \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employeesnok",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employeesnok"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateNok",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"emp_id\": 1,\r\n        \"fullname\": \"Mary Doe created\",\r\n        \"email\": \"mary.doe@example.com\",\r\n        \"address\": \"123 Main St, City, Country\",\r\n        \"phone\": \"1234567890\",\r\n        \"gender\": \"female\",\r\n        \"relationship\": \"spouse\"\r\n    \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employeesnok/7",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employeesnok", "7"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteNok",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"emp_id\": 1,\r\n        \"fullname\": \"Mary Doe created\",\r\n        \"email\": \"mary.doe@example.com\",\r\n        \"address\": \"123 Main St, City, Country\",\r\n        \"phone\": \"1234567890\",\r\n        \"gender\": \"female\",\r\n        \"relationship\": \"spouse\"\r\n    \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employeesnok/7",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employeesnok", "7"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "getAllProducts",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleProduct",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/products/10",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["products", "10"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createProduct",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\r\n        \r\n        \"product_name\": \"Bee Venom Extract created\",\r\n        \"product_type\": \"venom\",\r\n        \"description\": \"Pure bee venom extract for therapeutic use.\",\r\n        \"quantity\": \"10\",\r\n        \"unit\": \"ml\",\r\n        \"price\": \"35.00\",\r\n        \"total_in_stock\": 10,\r\n        \"harvest_year\": \"2023-01-01\",\r\n        \"packaging_type\": \"Glass vial\",\r\n        \"available\": true,\r\n        \"averageRating\": 4,\r\n        \"numOfReviews\": 12,\r\n        \"numOfTimesSold\": 8\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/products",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProduct",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"emp_id\": 1,\r\n        \"fullname\": \"Mary Doe created\",\r\n        \"email\": \"mary.doe@example.com\",\r\n        \"address\": \"123 Main St, City, Country\",\r\n        \"phone\": \"1234567890\",\r\n        \"gender\": \"female\",\r\n        \"relationship\": \"spouse\"\r\n    \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employeesnok/7",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employeesnok", "7"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteProduct",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"emp_id\": 1,\r\n        \"fullname\": \"Mary Doe created\",\r\n        \"email\": \"mary.doe@example.com\",\r\n        \"address\": \"123 Main St, City, Country\",\r\n        \"phone\": \"1234567890\",\r\n        \"gender\": \"female\",\r\n        \"relationship\": \"spouse\"\r\n    \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/employeesnok/7",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["employeesnok", "7"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProductImages",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"emp_id\": 1,\r\n        \"fullname\": \"Mary Doe created\",\r\n        \"email\": \"mary.doe@example.com\",\r\n        \"address\": \"123 Main St, City, Country\",\r\n        \"phone\": \"1234567890\",\r\n        \"gender\": \"female\",\r\n        \"relationship\": \"spouse\"\r\n    \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.comuploadproductimages/10",
+              "host": [
+                "https://apiariessixteen.onrender.comuploadproductimages"
+              ],
+              "path": ["10"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProductColor",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{ \r\n        \"color0\":\"#FFFFFF\",\r\n        \"color1\": \"#FFFFFF\",\r\n        \"color2\": \"#FFFFFF\"\r\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/products/updateproductcolor/44",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["products", "updateproductcolor", "44"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "getAllOrders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/orders",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleOrder",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/orders/3",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["orders", "3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createOrder",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\r\n  \"items\": [\r\n    {\r\n      \"product_id\": 6,\r\n      \"product_name\": \"Wildflower Honey\",\r\n      \"price\": 15.99,\r\n      \"amount\": 2,\r\n      \"color\": \"#FFA500\",\r\n      \"image\": \"/uploads/honey.jpg\"\r\n    },\r\n    {\r\n      \"product_id\": 8,\r\n      \"product_name\": \"Propolis Tincture\",\r\n      \"price\": 9.99,\r\n      \"amount\": 1,\r\n      \"color\": \"#FFD700\",\r\n      \"image\": \"/uploads/candle.jpg\"\r\n    },\r\n    {\r\n      \"product_id\": 10,\r\n      \"product_name\": \"Bee Venom Extract\",\r\n      \"price\": 25.49,\r\n      \"amount\": 3,\r\n      \"color\": \"#FFFFE0\",\r\n      \"image\": \"/uploads/jelly.jpg\"\r\n    }\r\n  ],\r\n  \"tax\": 2.50,\r\n  \"shippingFee\": 5.99,\r\n  \"deliveryAddress\": {\r\n    \"phone\": \"123-456-7890\",\r\n    \"city\": \"New York\",\r\n    \"state\": \"NY\",\r\n    \"country\": \"USA\",\r\n    \"street\": \"123 Bee St\"\r\n  }\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/orders",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateOrder",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"tx_ref\": \"TX123456789\",\r\n  \"transaction_id\": \"TRX987654321\",\r\n  \"paymentStatus\": \"successful\",\r\n  \"deliveryStatus\": \"pending\",\r\n  \"deliveryAddress\": {\r\n    \"phone\": \"123-456-7890\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"country\": \"USA\",\r\n    \"street\": \"456 Bee Lane\"\r\n  }\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/orders/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["orders", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllOrderByUser",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"emp_id\": 1,\r\n        \"fullname\": \"Mary Doe created\",\r\n        \"email\": \"mary.doe@example.com\",\r\n        \"address\": \"123 Main St, City, Country\",\r\n        \"phone\": \"1234567890\",\r\n        \"gender\": \"female\",\r\n        \"relationship\": \"spouse\"\r\n    \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/orders/getallordersbyuser",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["orders", "getallordersbyuser"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateDelvdDetails",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n    \"deliveryAddress\": {\r\n    // \"phone\": \"123-456-7890\",\r\n    // \"city\": \"New York\",\r\n    \"state\": \"KW\"\r\n    // \"country\": \"USA\",\r\n    // \"street\": \"123 Bee St\"\r\n  }\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/orders/updatedeliverydetails/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["orders", "updatedeliverydetails", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "getAllReviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/reviews",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["reviews"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSReviewsForSingleProduct",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/products/singleproductreviews/8",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["products", "singleproductreviews", "8"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllReviewsByUser",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\r\n        \r\n        \"product_name\": \"Bee Venom Extract created\",\r\n        \"product_type\": \"venom\",\r\n        \"description\": \"Pure bee venom extract for therapeutic use.\",\r\n        \"quantity\": \"10\",\r\n        \"unit\": \"ml\",\r\n        \"price\": \"35.00\",\r\n        \"total_in_stock\": 10,\r\n        \"harvest_year\": \"2023-01-01\",\r\n        \"packaging_type\": \"Glass vial\",\r\n        \"available\": true,\r\n        \"averageRating\": 4,\r\n        \"numOfReviews\": 12,\r\n        \"numOfTimesSold\": 8\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/reviews/reviewsbycurrentuser",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["reviews", "reviewsbycurrentuser"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProduct",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"rating\": 1,\r\n        \"title\": \"testing review\",\r\n        \"comment\": \"This is just me playing around\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/products/createorupdatereview/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["products", "createorupdatereview", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteReview",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"emp_id\": 1,\r\n        \"fullname\": \"Mary Doe created\",\r\n        \"email\": \"mary.doe@example.com\",\r\n        \"address\": \"123 Main St, City, Country\",\r\n        \"phone\": \"1234567890\",\r\n        \"gender\": \"female\",\r\n        \"relationship\": \"spouse\"\r\n    \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/reviews/5",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["reviews", "5"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "uploadReviewImages",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image0",
+                  "type": "file",
+                  "src": "/C:/Users/OMOTOLANI/Pictures/1.png"
+                },
+                {
+                  "key": "image1",
+                  "type": "file",
+                  "src": "/C:/Users/OMOTOLANI/Pictures/2.png"
+                },
+                {
+                  "key": "image2",
+                  "type": "file",
+                  "src": "/C:/Users/OMOTOLANI/Pictures/3 loin.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/reviews/uploadreviewimages/5",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["reviews", "uploadreviewimages", "5"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Hunters",
+      "item": [
+        {
+          "name": "getAllHunters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/swarmhunters",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["swarmhunters"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleHunter",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/swarmhunters/1",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["swarmhunters", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createHunter",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/swarmhunters/",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["swarmhunters", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateHunter",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/swarmhunters/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["swarmhunters", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteHunter",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/swarmhunters/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["swarmhunters", "6"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Hives",
+      "item": [
+        {
+          "name": "getAllHives",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/hives",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["hives"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleHive",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/hives/1",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["hives", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createHive",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \r\n        \"assigned_hunter\": 1,\r\n        \"hive_type\": \"langstroth created\",\r\n        \"num_of_frames\": \"20\",\r\n        \"colonized\": \"confirmed\",\r\n        \"status\": \"inuse\",\r\n        \"use_condition\": \"new\",\r\n        \"first_installation\": \"2023-04-01\",\r\n        \"current_location\": \"station\",\r\n        \"last_inspection_date\": \"2023-04-15\",\r\n        \"note\": \"Hive located in Apiary Station 3\"\r\n        \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/hives",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["hives"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateHive",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \r\n        \"assigned_hunter\": 1,\r\n        \"hive_type\": \"langstroth\",\r\n        \"num_of_frames\": \"20\",\r\n        \"colonized\": \"confirmed\",\r\n        \"status\": \"inuse\",\r\n        \"use_condition\": \"new\",\r\n        \"first_installation\": \"2023-04-01\",\r\n        \"current_location\": \"station\",\r\n        \"last_inspection_date\": \"2023-04-15\",\r\n        \"note\": \"Hive located in Apiary Station 3\"\r\n        \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/hives/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["hives", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateHive Copy",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \r\n        \"assigned_hunter\": 1,\r\n        \"hive_type\": \"langstroth\",\r\n        \"num_of_frames\": \"20\",\r\n        \"colonized\": \"confirmed\",\r\n        \"status\": \"inuse\",\r\n        \"use_condition\": \"new\",\r\n        \"first_installation\": \"2023-04-01\",\r\n        \"current_location\": \"station\",\r\n        \"last_inspection_date\": \"2023-04-15\",\r\n        \"note\": \"Hive located in Apiary Station 3\"\r\n        \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/hives/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["hives", "6"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "getAllServices",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleServices",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "createService",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \r\n        \"service_name\": \"Consultancy for Beekeeping Practices\",\r\n        \"description\": \"Professional consultancy on beekeeping best practices and management.\",\r\n        \"numOfTimesRendered\": \"3\",\r\n        \"category\": \"Pollination created\"\r\n       \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/services",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateService",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \r\n        \"service_name\": \"Consultancy for Beekeeping Practices\",\r\n        \"description\": \"Professional consultancy on beekeeping best practices and management.\",\r\n        \"numOfTimesRendered\": \"3\",\r\n        \"category\": \"Pollination created\"\r\n       \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/services",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteService",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \r\n        \"service_name\": \"Consultancy for Beekeeping Practices\",\r\n        \"description\": \"Professional consultancy on beekeeping best practices and management.\",\r\n        \"numOfTimesRendered\": \"3\",\r\n        \"category\": \"Pollination created\"\r\n       \r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/services/6",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["services", "6"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SetupComp",
+      "item": [
+        {
+          "name": "getAllSetupComp",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleComp",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "createComp",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarysetupcomponents",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarysetupcomponents"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateComp",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarysetupcomponents/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarysetupcomponents", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteComp",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarysetupcomponents/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarysetupcomponents", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ConsultancyItems",
+      "item": [
+        {
+          "name": "getAllItems",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleItem",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "createItem",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarysetupcomponents",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarysetupcomponents"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateItem",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarysetupcomponents/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarysetupcomponents", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteItem",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/apiarysetupcomponents/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["apiarysetupcomponents", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "PollinationServices",
+      "item": [
+        {
+          "name": "getAllPolService",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSinglePolService",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/2",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createPolService",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n       \r\n        \"service_id\": 4,\r\n        \"crop_type\": \"Apple Orchards created\",\r\n        \"service_description\": \"Pollination service for apple orchards to enhance fruit set.\",\r\n        \"rendered\": \"3\",\r\n        \"price/hct_NGN\": \"150.00\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updatePolService",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n     \"crop_type\": \"Apple Orchards created\",\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteItem",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SupplyProvisionItems",
+      "item": [
+        {
+          "name": "getAllProv",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/supplyprovisionitems",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["supplyprovisionitems"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleProv",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com//supplyprovisionitems/1",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["", "supplyprovisionitems", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createProv",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n       \r\n        \"service_id\": 4,\r\n        \"crop_type\": \"Apple Orchards created\",\r\n        \"service_description\": \"Pollination service for apple orchards to enhance fruit set.\",\r\n        \"rendered\": \"3\",\r\n        \"price/hct_NGN\": \"150.00\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProv",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n     \"crop_type\": \"Apple Orchards created\",\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteProv",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Equipments",
+      "item": [
+        {
+          "name": "getAllEquipments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/equipments",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["equipments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleEquipment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com//supplyprovisionitems/1",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["", "supplyprovisionitems", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createEquipment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "2023-06-20\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/equipments/",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["equipments", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateEquipment",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n     \"crop_type\": \"Apple Orchards created\",\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteEquipment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Supplies",
+      "item": [
+        {
+          "name": "getAllSupplies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/equipments",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["equipments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSingleSupply",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/supplies/1",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["supplies", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createSupply",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "2023-06-20\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/equipments/",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["equipments", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateSupply",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n     \"crop_type\": \"Apple Orchards created\",\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteSupply",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://apiariessixteen.onrender.com/pollinationservices/4",
+              "host": ["https://apiariessixteen.onrender.com"],
+              "path": ["pollinationservices", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
