@@ -73,7 +73,7 @@ cloudinary.config({
 app.use(passport.initialize());
 // app.use(passport.session());
 // use Routes
-app.use("/docs", express.static("./documentation"));
+app.use("/", express.static("./documentation"));
 app.use("/api/v1/employees", employeesRoutes);
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/authentication", authRoutes);
