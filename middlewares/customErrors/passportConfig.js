@@ -6,7 +6,9 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLOUD_API_SECRET,
-      callbackURL: "http://localhost:5003/api/v1/authflow/google/callback",
+      // callbackURL: "http://localhost:5003/api/v1/authflow/google/callback",
+      callbackURL:
+        "https://apiariessixteen.onrender.com/api/v1/authflow/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {

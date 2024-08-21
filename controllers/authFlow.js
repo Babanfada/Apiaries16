@@ -45,7 +45,8 @@ const register = async (req, res) => {
   };
   //   console.log(userObject, "jkk");
   const user = await USERS.create(userObject);
-  const origin = "http://localhost:5003";
+  // const origin = "http://localhost:5003";
+  const origin = "https://apiariessixteen.onrender.com";
   // verify Email
   await sendVerificationMail({
     origin,
@@ -192,7 +193,8 @@ const forgotPassword = async (req, res) => {
   user.passwordToken = passwordToken;
   user.passwordExpirationDate = new Date(Date.now() + tenMin);
   await user.save();
-  const origin = "http://localhost:5003";
+  // const origin = "http://localhost:5003";
+  const origin = "https://apiariessixteen.onrender.com";
   await sendPasswordResetMail({
     origin,
     email: user.email,
