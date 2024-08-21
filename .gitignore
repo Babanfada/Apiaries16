@@ -1,4 +1,4 @@
 node_modules
 .env
-remotedump
-path/to/your/file.sql
+/remotedump
+
