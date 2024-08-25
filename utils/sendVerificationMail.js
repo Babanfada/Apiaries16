@@ -5,10 +5,10 @@ const moment = require("moment");
 const sendVerificationMail = ({
   origin,
   email,
-  verificationToken,
+  verificationString,
   fullname,
 }) => {
-  const verifyEmail = `${origin}/authflow/verify-email?token=${verificationToken}&email=${email}`;
+  const verifyEmail = `${origin}/authflow/verify-email?token=${verificationString}&email=${email}`;
   const mailGenerator = new Mailgen({
     theme: "default",
     product: {

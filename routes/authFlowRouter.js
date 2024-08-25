@@ -25,7 +25,7 @@ router.route("/login").post(login);
 router.route("/google").get(googleAuth);
 router.route("/google/callback").get(googleCallBack);
 router.route("/logout").delete(authenticated, logout);
-router.route("/check").get(checkUserRegisterationStatus);
+router.route("/check").post(checkUserRegisterationStatus);
 router.route("/forgotpassword").post(forgotPassword);
 router.route("/resetpassword").patch(resetPassword);
 router.route("/updatepassword").patch(authenticated, updateUserPassword);

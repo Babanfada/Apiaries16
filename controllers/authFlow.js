@@ -22,6 +22,10 @@ const register = async (req, res) => {
     gender,
     emailNotification,
   } = req.body;
+  // console.log(req.body);
+  if (!fullname || !email || !password || !address || !phone || !gender) {
+    throw new BAD_REQUEST("pls provide the neccesary fields");
+  }
   const isEmailAlreadyExist = await USERS.findOne({ where: { email } });
   if (isEmailAlreadyExist) {
     throw new BAD_REQUEST("This Email has already been registered");
@@ -46,7 +50,8 @@ const register = async (req, res) => {
   //   console.log(userObject, "jkk");
   const user = await USERS.create(userObject);
   // const origin = "http://localhost:5003";
-  const origin = "https://apiariessixteen.onrender.com";
+  const origin = "http://localhost:5173";
+  // const origin = "https://apiariessixteen.onrender.com";
   // verify Email
   await sendVerificationMail({
     origin,
@@ -55,8 +60,8 @@ const register = async (req, res) => {
     fullname: user.fullname,
   });
   res.status(StatusCodes.CREATED).json({
-    Msg: "Please check your mail and complete your registerarion",
-    userObject,
+    msg: "Please check your mail and complete your registeration",
+    // userObject,
   });
 };
 

@@ -10,6 +10,12 @@ const connectDB = require("./models");
 const cloudinary = require("cloudinary").v2;
 const fileUpload = require("express-fileupload");
 
+// security
+const rateLimiter = require("express-rate-limit");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const cors = require("cors");
+
 //middleware
 require("./middlewares/customErrors/passportConfig");
 app.use(express.json());
@@ -52,7 +58,17 @@ const deliveryAddressRoutes = require("./routes/deliveryAddressRouter");
 const usersRoutes = require("./routes/usersRouter");
 const userOrdersRoutes = require("./routes/userOrdersRouter");
 const authflowRoutes = require("./routes/authFlowRouter");
-
+// use security
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5003",
+      // "https://accounts.google.com",
+    ], // specify the allowed origin(s)
+    credentials: true, // enable sending/receiving cookies
+  })
+);
 // use Cookie
 app.use(cookieParser(process.env.JWT_SECRET));
 // google auth
