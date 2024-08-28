@@ -1,12 +1,12 @@
 import React from "react";
-import useRegister from "../hooks/register";
+import useRegister from "../../hooks/register";
 import { useSelector } from "react-redux";
-import { useRegisterUser } from "../features/users/userThunk";
-import { CustomButton } from "../components";
+import { useRegisterUser } from "../../features/users/userThunk";
+import { CustomButton } from "../../components";
 import { toast } from "react-toastify";
 import { Skeleton } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Loader1 } from "../components/Loader";
+import { Loader1 } from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
 
 const Registeration = () => {

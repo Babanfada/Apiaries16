@@ -43,14 +43,14 @@ const useRegister = () => {
     dispatch(handelChange({ name, value }));
   };
 
-//   const getPhoneNumber = (phone) => {
-//     // console.log(e.target.name)
-//     const { name, value } = e.target;
-//     dispatch(handelChange({ name, value }));
-//   };
-    const getPhoneNumber = (phone) => {
-      dispatch(handlePhoneInput(phone));
-    };
+  //   const getPhoneNumber = (phone) => {
+  //     // console.log(e.target.name)
+  //     const { name, value } = e.target;
+  //     dispatch(handelChange({ name, value }));
+  //   };
+  const getPhoneNumber = (phone) => {
+    dispatch(handlePhoneInput(phone));
+  };
   const status = {
     name: "email",
     TextField: (

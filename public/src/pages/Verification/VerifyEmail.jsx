@@ -11,7 +11,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useVerifyUser } from "../features/users/userThunk";
+import { useVerifyUser } from "../../features/users/userThunk";
 import { CircularProgress } from "@mui/material";
 // import Meta from "../../components/Meta";
 // import AuthNav from "../../components/AuthNav";
@@ -52,7 +52,7 @@ const VerifyEmail = () => {
       return () => clearTimeout(timer); // Clear timeout if component unmounts
     }
   }, [isVerifyingUser, navigate]);
-  if (isError ) {
+  if (isError) {
     return (
       <div>
         {/* <Meta title={title} /> */}
@@ -60,7 +60,7 @@ const VerifyEmail = () => {
         <section>
           {/* <img src={denied} alt="mailbox" /> */}
           <p style={{ textAlign: "center" }}>Failed !!!</p>
-          <span >
+          <span>
             something went wrong, probably token expired. retry{" "}
             <Link to="/authflow/email">here</Link>
           </span>
@@ -70,7 +70,7 @@ const VerifyEmail = () => {
   }
   if (isVerifyingUser === "pending") {
     return (
-      <div >
+      <div>
         {/* <Meta title={title} /> */}
         {/* <AuthNav /> */}
         <span

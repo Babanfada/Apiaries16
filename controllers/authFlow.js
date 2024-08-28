@@ -199,7 +199,8 @@ const forgotPassword = async (req, res) => {
   user.passwordExpirationDate = new Date(Date.now() + tenMin);
   await user.save();
   // const origin = "http://localhost:5003";
-  const origin = "https://apiariessixteen.onrender.com";
+  // const origin = "https://apiariessixteen.onrender.com";
+   const origin = "http://localhost:5173";
   await sendPasswordResetMail({
     origin,
     email: user.email,

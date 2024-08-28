@@ -1,15 +1,18 @@
 import React from "react";
-import useRegister from "../hooks/register";
-import { CustomButton } from "../components";
+import useRegister from "../../hooks/register";
+import { CustomButton } from "../../components";
 // import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { useCheckUserOndB } from "../features/users/userThunk";
+import {
+  useCheckUserOndB,
+  useCurrentUser,
+} from "../../features/users/userThunk";
 // import {
 //   handleValidationError,
 //   resetValidationError,
 // } from "../features/users/userSlice";
-import { Loader1 } from "../components/Loader";
+import { Loader1 } from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
 
 const EmailPage = () => {
@@ -18,7 +21,13 @@ const EmailPage = () => {
   const {
     status: { name, TextField },
   } = useRegister();
+  const { data: currentUser = {} } = useCurrentUser();
   const navigate = useNavigate();
+  React.useEffect(() => {
+    if (Object.keys(currentUser).length > 1) {
+      return navigate("/home");
+    }
+  });
   const handleClick = (e) => {
     if (!email) {
       toast.error("pls provide a valid email !!!!");

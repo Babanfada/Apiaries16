@@ -36,6 +36,38 @@ export const useCheckUserOndB = (email) => {
   });
   return { isCheckingUserOnDb, data, isError, isSuccess, refetch };
 };
+export const useCurrentUser = () => {
+  const {
+    status: isCheckingCurrentUser,
+    data,
+    refetch,
+  } = useQuery({
+    queryKey: ["currentuser"], 
+    // enabled: false, // Disable the query from running on component mount
+    queryFn: async () => {
+      const { data } = await customFetch.get(`authflow/showme`);
+      //   console.log(data);
+      return data;
+    },
+    onSuccess: ({ data }) => {
+      console.log("Query succeeded!", data);
+    },
+    onError: (err) => {
+      toast.error(err.response.data.msg);
+      console.log(err);
+    },
+    onSettled: (data, error) => {
+      console.log("Query settled");
+      if (data) {
+        console.log("Query succeeded!", data);
+      }
+      if (error) {
+        console.log("Query failed!", error);
+      }
+    },
+  });
+  return { isCheckingCurrentUser, data, refetch };
+};
 
 export const useRegisterUser = () => {
   //   const dispatch = useDispatch();
@@ -57,7 +89,7 @@ export const useRegisterUser = () => {
 };
 
 export const useVerifyUser = () => {
-//   const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
   const {
     mutate: verifyUser,
     status: isVerifyingUser,
@@ -72,11 +104,95 @@ export const useVerifyUser = () => {
     },
     onSuccess: ({ msg }) => {
       toast.success(msg);
-    //   dispatch(setVerification());
+      //   dispatch(setVerification());
     },
     onError: (error) => {
       toast.error(error.response.data.msg);
     },
   });
   return { verifyUser, isVerifyingUser, isError };
+};
+
+export const useLoginUser = () => {
+  //   const dispatch = useDispatch();
+  const { mutate: loginUser, status: isLoginIn } = useMutation({
+    mutationFn: async (userDetails) => {
+      const { data } = await customFetch.post("authflow/login", userDetails);
+      return data;
+    },
+    onSuccess: ({ msg }) => {
+      //   dispatch(setLoginDetails(msg));
+      //   console.log(msg);
+      toast.success(msg);
+    },
+    onError: (error) => {
+      // console.log(error.response)
+      toast.error(error.response.data.msg);
+    },
+  });
+  return { loginUser, isLoginIn };
+};
+
+export const useForgetPassword = () => {
+//   const dispatch = useDispatch();
+  const {
+    mutate: forgetPassword,
+    status: isForgetingPassword,
+    isError,
+  } = useMutation({
+    mutationFn: async (email) => {
+      const { data } = await customFetch.post("authflow/forgotpassword", email);
+      return data;
+    },
+    onSuccess: ({ msg }) => {
+      toast.success(msg);
+    //   dispatch(setforgetPassword());
+    },
+    onError: (error) => {
+      toast.error(error.response.data.msg);
+    },
+  });
+  return { forgetPassword, isForgetingPassword, isError };
+};
+
+export const useResetPassword = () => {
+//   const dispatch = useDispatch();
+  const {
+    mutate: resetPassword,
+    status: isResetingPassword,
+    isError,
+  } = useMutation({
+    mutationFn: async (resetDetails) => {
+      const { data } = await customFetch.patch(
+        "authflow/resetPassword",
+        resetDetails
+      );
+      return data;
+    },
+    onSuccess: ({ msg }) => {
+      toast.success(msg);
+    //   dispatch(setResetPassword());
+    },
+    onError: (error) => {
+      toast.error(error.response.data.msg);
+    },
+  });
+  return { resetPassword, isResetingPassword, isError };
+};
+
+export const useLogOutUser = () => {
+  const { mutate: logOutUser, status: isLoginOut } = useMutation({
+    mutationFn: async () => {
+      const { data } = await customFetch.delete("authflow/logout");
+      return data;
+    },
+    onSuccess: ({ msg }) => {
+      toast.error(msg);
+      window.location.reload();
+    },
+    onError: (error) => {
+      toast.error(error.response.data.msg);
+    },
+  });
+  return { logOutUser, isLoginOut };
 };
