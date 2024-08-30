@@ -113,7 +113,13 @@ const getAllEmployees = async (req, res) => {
     ],
     group: ["department"],
   });
-
+  const employeesGenderCount = await Employees.findAll({
+    attributes: [
+      "gender",
+      [Sequelize.fn("COUNT", Sequelize.col("emp_id")), "count"],
+    ],
+    group: ["gender"],
+  });
   const employmentStatusCount = await Employees.findAll({
     attributes: [
       "employment_status",
@@ -172,6 +178,7 @@ const getAllEmployees = async (req, res) => {
     salaryData,
     newHires,
     newHiresCount,
+    employeesGenderCount,
     departmentCount,
     employmentStatusCount,
     employmentTypeCount,

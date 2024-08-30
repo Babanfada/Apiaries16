@@ -21,6 +21,11 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.DATEONLY,
         allowNull: true,
       },
+      gender: {
+        type: DataTypes.ENUM("male", "female"),
+        allowNull: true,
+        defaultValue: "female",
+      },
       phone: {
         type: DataTypes.STRING(30),
         allowNull: false,

@@ -100,13 +100,18 @@ const getAllHarvest = async (req, res) => {
     limit,
     offset,
   });
-  const harvestYearCount = await Harvest.findAll({
+
+  const harvestedVolumeByYear = await Harvest.findAll({
     attributes: [
       "harvest_year",
-      [Sequelize.fn("COUNT", Sequelize.col("harvest_year")), "count"],
+      [
+        Sequelize.fn("SUM", Sequelize.col("quantity_collected")),
+        "harvested_volume",
+      ],
     ],
     group: ["harvest_year"],
   });
+
   const qualityRatingCount = await Harvest.findAll({
     attributes: [
       "quality_rating",
@@ -118,7 +123,7 @@ const getAllHarvest = async (req, res) => {
     harvest,
     totalHarvestQuantity,
     count: harvest.length,
-    harvestYearCount,
+    harvestedVolumeByYear,
     qualityRatingCount,
     numOfPages,
   });
