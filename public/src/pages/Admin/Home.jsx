@@ -2,10 +2,13 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { useAdmin } from "../../hooks/AdminRelated";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../hooks/GlobalContext";
 // import { DisplaySettings } from "@mui/icons-material";
 
 const Home = () => {
   const { adminLinks } = useAdmin();
+  const { isGettingAllprovisions, supplyProvision } = useGlobalContext();
+  console.log(isGettingAllprovisions, supplyProvision);
   return (
     <section>
       <div style={{ display: "flex", flexDirection: "column" }}>

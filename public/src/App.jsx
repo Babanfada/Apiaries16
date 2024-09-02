@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Loader, { Loader2 } from "./components/Loader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import GlobalContext from "./hooks/GlobalContext";
 
 // Lazy loaded components
 // General components
@@ -190,34 +191,36 @@ function App() {
   return (
     <>
       <Router>
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            {routes.map(({ path, element }) => (
-              <Route key={path} path={path} element={element} />
-            ))}
-
-            <Route path="/admin" element={<AdminHome />}>
-              {adminRoutes.map(({ path, element }) => (
+        <GlobalContext>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              {routes.map(({ path, element }) => (
                 <Route key={path} path={path} element={element} />
               ))}
-            </Route>
-            {/* <Route path="/admin" element={<AdminHome />}>
+
+              <Route path="/admin" element={<AdminHome />}>
+                {adminRoutes.map(({ path, element }) => (
+                  <Route key={path} path={path} element={element} />
+                ))}
+              </Route>
+              {/* <Route path="/admin" element={<AdminHome />}>
               <Route path="*" element={<AdminRoutesWrapper />} />
             </Route> */}
-          </Routes>
-          <ToastContainer
-            position="top-right"
-            autoClose={100}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            // theme={isDarkMode ? "dark" : "light"}
-          />
-        </Suspense>
+            </Routes>
+            <ToastContainer
+              position="top-right"
+              autoClose={100}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              // theme={isDarkMode ? "dark" : "light"}
+            />
+          </Suspense>
+        </GlobalContext>
       </Router>
       ;
     </>

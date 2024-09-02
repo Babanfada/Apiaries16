@@ -39,10 +39,10 @@ export const useCheckUserOndB = (email) => {
 export const useCurrentUser = () => {
   const {
     status: isCheckingCurrentUser,
-    data,
+    data: currentUser,
     refetch,
   } = useQuery({
-    queryKey: ["currentuser"], 
+    queryKey: ["currentuser"],
     // enabled: false, // Disable the query from running on component mount
     queryFn: async () => {
       const { data } = await customFetch.get(`authflow/showme`);
@@ -66,7 +66,24 @@ export const useCurrentUser = () => {
       }
     },
   });
-  return { isCheckingCurrentUser, data, refetch };
+  return { isCheckingCurrentUser, currentUser };
+};
+export const usegetAllUser = () => {
+  const { status: isGettingAllUser, data: users } = useQuery({
+    queryKey: ["allusers"],
+    queryFn: async () => {
+      const { data } = await customFetch.get(`users`);
+      return data;
+    },
+    onSuccess: ({ data }) => {
+      console.log("Query succeeded!", data);
+    },
+    onError: (err) => {
+      toast.error(err.response.data.msg);
+      console.log(err);
+    },
+  });
+  return { isGettingAllUser, users };
 };
 
 export const useRegisterUser = () => {
@@ -134,7 +151,7 @@ export const useLoginUser = () => {
 };
 
 export const useForgetPassword = () => {
-//   const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
   const {
     mutate: forgetPassword,
     status: isForgetingPassword,
@@ -146,7 +163,7 @@ export const useForgetPassword = () => {
     },
     onSuccess: ({ msg }) => {
       toast.success(msg);
-    //   dispatch(setforgetPassword());
+      //   dispatch(setforgetPassword());
     },
     onError: (error) => {
       toast.error(error.response.data.msg);
@@ -156,7 +173,7 @@ export const useForgetPassword = () => {
 };
 
 export const useResetPassword = () => {
-//   const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
   const {
     mutate: resetPassword,
     status: isResetingPassword,
@@ -171,7 +188,7 @@ export const useResetPassword = () => {
     },
     onSuccess: ({ msg }) => {
       toast.success(msg);
-    //   dispatch(setResetPassword());
+      //   dispatch(setResetPassword());
     },
     onError: (error) => {
       toast.error(error.response.data.msg);

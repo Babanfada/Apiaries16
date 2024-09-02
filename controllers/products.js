@@ -142,19 +142,17 @@ const getAllProducts = async (req, res) => {
     limit,
     offset,
   });
-  const productTypeCount = await PRODUCTS.findAll({
+
+  const totalQuantity = await PRODUCTS.findAll({
     attributes: [
       "product_type",
-      [Sequelize.fn("COUNT", Sequelize.col("product_id")), "count"],
+      [
+        Sequelize.fn("SUM", Sequelize.literal("quantity * total_in_stock")),
+        "total_quantity",
+      ],
+      "unit",
     ],
-    group: ["product_type"],
-  });
-  const packagingTypeCount = await PRODUCTS.findAll({
-    attributes: [
-      "packaging_type",
-      [Sequelize.fn("COUNT", Sequelize.col("product_id")), "count"],
-    ],
-    group: ["packaging_type"],
+    group: ["product_type", "unit"],
   });
 
   res.status(StatusCodes.OK).json({
@@ -162,8 +160,7 @@ const getAllProducts = async (req, res) => {
     totalProducts,
     count: products.length,
     numOfPages,
-    productTypeCount,
-    packagingTypeCount,
+    totalQuantity,
   });
 };
 const getSingleProduct = async (req, res) => {

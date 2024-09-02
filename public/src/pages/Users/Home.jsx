@@ -2,15 +2,14 @@ import React from "react";
 import { CustomButton } from "../../components";
 import { useCurrentUser, useLogOutUser } from "../../features/users/userThunk";
 import { Loader1 } from "../../components/Loader";
+import { useGlobalContext } from "../../hooks/GlobalContext";
 
 const Home = () => {
   const { logOutUser, isLoginOut } = useLogOutUser();
-  const { data: currentUser = {} } = useCurrentUser();
+  const { isCheckingCurrentUser, currentUser } = useGlobalContext();
   const { fullname, email, address, phone } = currentUser;
-  console.log(currentUser);
-  //   const handleLogout = () => {
-  //     logOutUser();
-  //   };
+//   console.log(currentUser);
+
   return (
     <div>
       <div>
