@@ -144,6 +144,16 @@ const Orders = lazy(() =>
     default: module.Orders,
   }))
 );
+const CreateUpdateEmployees = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateEmployees,
+  }))
+);
+const Overview = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.Overview,
+  }))
+);
 
 // General routes
 const routes = [
@@ -174,6 +184,11 @@ const adminRoutes = [
   { path: "/admin/suppliers", element: <Suppliers /> },
   { path: "/admin/userslist", element: <UsersList /> },
   { path: "/admin/orders", element: <Orders /> },
+  { path: "/admin", element: <Overview /> },
+  {
+    path: "/admin/createupdateemployee/:id",
+    element: <CreateUpdateEmployees />,
+  },
 ];
 
 const AdminRoutesWrapper = () => {
@@ -209,7 +224,7 @@ function App() {
             </Routes>
             <ToastContainer
               position="top-right"
-              autoClose={100}
+              autoClose={1000}
               hideProgressBar={false}
               newestOnTop={false}
               closeOnClick

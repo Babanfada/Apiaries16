@@ -5,6 +5,7 @@ const {
   createEmployee,
   updateEmployee,
   deleteEmployee,
+  uploadAvatar,
 } = require("../controllers/employee");
 const {
   authenticated,
@@ -15,6 +16,9 @@ router
   .route("/")
   .get(authenticated, authorizedPermissions("admin"), getAllEmployees)
   .post(authenticated, authorizedPermissions("admin"), createEmployee);
+router
+  .route("/uploadavatar/:emp_id")
+  .patch(authenticated, authorizedPermissions("admin"), uploadAvatar);
 router
   .route("/:emp_id")
   .get(authenticated, authorizedPermissions("admin"), getSingleEmployee)

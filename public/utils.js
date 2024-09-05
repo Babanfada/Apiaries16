@@ -5,4 +5,7 @@ const customFetch = axios.create({
   withCredentials: true,
 });
 
+export function convertToDateOnly(dateString) {
+  return dateString.split("T")[0];
+}
 export default customFetch;

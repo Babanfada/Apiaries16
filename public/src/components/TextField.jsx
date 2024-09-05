@@ -363,3 +363,32 @@ export function Subscribe({ name, value, type, handleChange, show }) {
     </>
   );
 }
+
+import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+export function DateRegister({ name, value, onChange }) {
+  const [selectedDate, setSelectedDate] = useState(value || new Date());
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    onChange({ target: { name, value: date } });
+  };
+
+  return (
+    <DatePicker
+      selected={selectedDate}
+      onChange={handleDateChange}
+      showIcon
+      toggleCalendarOnIconClick
+      isClearable
+      placeholderText="I have been cleared!"
+      closeOnScroll={true}
+      dateFormat="yyyy-MM-dd"
+    >
+      {" "}
+      <div style={{ color: "red" }}>Don't forget to check the weather!</div>
+    </DatePicker>
+  );
+}

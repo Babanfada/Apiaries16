@@ -180,6 +180,10 @@ const uploadAvatar = async (req, res) => {
     throw new BAD_REQUEST("uploaded files should not be more than 18mb");
   }
   const user = await USERS.findOne({ where: { user_id: req.user.user_id } });
+  if (!user)
+    throw new NOT_FOUND(
+      `User with id ${req.user.user_id} does not exist, complete registeration first !!! `
+    );
   const currentPublicId = user.img_public_id;
   if (currentPublicId) {
     await cloudinary.uploader.destroy(currentPublicId);

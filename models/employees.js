@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+// const validator = require("validator");
 module.exports = function (sequelize, DataTypes) {
   const employees = sequelize.define(
     "employees",
@@ -26,6 +27,14 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
         defaultValue: "female",
       },
+      image: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      img_public_id: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
       phone: {
         type: DataTypes.STRING(30),
         allowNull: false,
@@ -35,6 +44,12 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(30),
         allowNull: false,
         unique: "email",
+        validate: {
+          isEmail: {
+            args: true,
+            msg: "Please provide a valid email",
+          },
+        },
       },
       address: {
         type: DataTypes.STRING(1000),

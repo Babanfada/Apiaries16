@@ -1,5 +1,6 @@
-const { NOT_FOUND } = require("../middlewares/customErrors");
+const { NOT_FOUND, BAD_REQUEST } = require("../middlewares/customErrors");
 const { StatusCodes } = require("http-status-codes");
+const cloudinary = require("cloudinary").v2;
 const {
   employees: Employees,
   catch_reports: Reports,
@@ -72,7 +73,7 @@ const getAllEmployees = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 20;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalEmployees / limit);
   let sortList;
@@ -263,10 +264,51 @@ const deleteEmployee = async (req, res) => {
     msg: `Employee details with the id:${emp_id} removed permanently`,
   });
 };
+const uploadAvatar = async (req, res) => {
+  const emp_img = req.files.image;
+  const { emp_id } = req.params;
+  //   console.log(emp_img);
+  if (!emp_img.mimetype.startsWith("image")) {
+    throw new BAD_REQUEST("please upload an image");
+  }
+  const maxSize = 2000 * 3000;
+  if (emp_img.size > maxSize) {
+    throw new BAD_REQUEST("uploaded files should not be more than 18mb");
+  }
+  const employee = await Employees.findOne({
+    where: { emp_id },
+  });
+  if (!employee)
+    throw new NOT_FOUND(
+      `Employess with id ${emp_id} does not exist, create employee first !!! `
+    );
+  const currentPublicId = employee.img_public_id;
+  if (currentPublicId) {
+    await cloudinary.uploader.destroy(currentPublicId);
+  }
+  const result = await cloudinary.uploader.upload(
+    req.files.image.tempFilePath,
+    {
+      use_filename: true,
+      folder: "Apiaries 16 employee's Images",
+    }
+  );
+  //   console.log(result);
+  employee.image = result.secure_url;
+  employee.img_public_id = result.public_id;
+  await employee.save();
+  res.status(StatusCodes.OK).json({
+    image: {
+      src: result.secure_url,
+    },
+  });
+  fs.unlinkSync(req.files.image.tempFilePath);
+};
 module.exports = {
   getAllEmployees,
   getSingleEmployee,
   createEmployee,
   updateEmployee,
   deleteEmployee,
+  uploadAvatar,
 };

@@ -15,6 +15,8 @@ import SupplyProvisionItems from "./SupplyProvisionItems";
 import SwarmHunters from "./SwarmHunters";
 import UsersList from "./UsersList";
 import Equipments from "./Equipments";
+import CreateUpdateEmployees from "./CreateUpdateEmployees";
+import Overview from "./Overview";
 
 export {
   Home,
@@ -34,4 +36,6 @@ export {
   SwarmHunters,
   UsersList,
   Equipments,
+  CreateUpdateEmployees,
+  Overview,
 };

@@ -2,8 +2,8 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { purple } from "@mui/material/colors";
 const isDarkMode = localStorage.getItem("theme") === "dark-theme";
-const  CustomButton = styled(Button)((prop) => ({
-  //   type: prop.type || submit,
+const CustomButton = styled(Button)((prop) => ({
+  // type: prop.type || submit,
   // color: `${isDarkMode && currentPathname !== "/register" && "#38bdf2"}`,
 
   color: `${isDarkMode ? "#38bdf2" : prop.background || "#0063cc"}`,
@@ -52,5 +52,4 @@ const  CustomButton = styled(Button)((prop) => ({
   },
 }));
 
-
-export {  CustomButton };
+export { CustomButton };
