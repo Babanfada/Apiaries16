@@ -154,6 +154,16 @@ const Overview = lazy(() =>
     default: module.Overview,
   }))
 );
+const SingleEmployee = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.SingleEmployee,
+  }))
+);
+const SingleUser = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.SingleUser,
+  }))
+);
 
 // General routes
 const routes = [
@@ -169,6 +179,8 @@ const routes = [
 const adminRoutes = [
   // { path: "/admin", element: <AdminHome /> },
   { path: "/admin/employees", element: <Employees /> },
+  { path: "/admin/employees/:id", element: <SingleEmployee /> },
+  { path: "/admin/users/:id", element: <SingleUser /> },
   { path: "/admin/employeenok", element: <EmployeeNok /> },
   { path: "/admin/stations", element: <Stations /> },
   { path: "/admin/honeyharvest", element: <HoneyHarvest /> },

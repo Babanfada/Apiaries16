@@ -18,9 +18,12 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 // import EditIcon from "@mui/icons-material/Edit";
 // import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Link } from "react-router-dom";
-import { setUpdateEmployee } from "../features/employees/employeesSlice";
+import { setUpdateEmployee } from "../../features/employees/employeesSlice";
 import { useDispatch } from "react-redux";
-import { useDeleteEmployee } from "../features/employees/employeesThunk";
+import {
+  useDeleteEmployee,
+  // useSingleEmployee,
+} from "../../features/employees/employeesThunk";
 
 function Row(props) {
   const { employee } = props;
@@ -39,7 +42,7 @@ function Row(props) {
     employment_type,
     employment_status,
     salary,
-    joined_date,
+    joining_date,
     skill,
     notes,
     createdAt,
@@ -60,7 +63,7 @@ function Row(props) {
     employment_type,
     employment_status,
     salary,
-    joined_date,
+    joining_date,
     skill,
     notes,
   };
@@ -79,7 +82,7 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
+        {/* <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -87,18 +90,30 @@ function Row(props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </TableCell>
+        </TableCell> */}
         <TableCell component="th" scope="row">
-          {emp_id}
+          <Link to={`/admin/employees/${emp_id}`}>{emp_id}</Link>
         </TableCell>
         <TableCell align="left">
-          <div>
-            <img
-              style={{ height: "40px", width: "40px", borderRadius: "50%" }}
-              src={image}
-              alt="emp_image"
-            />
-          </div>
+          <Link
+            onClick={() => handleEdit()}
+            to={`/admin/createupdateemployee/${emp_id}`}
+          >
+            {image ? (
+              <img
+                style={{ height: "40px", width: "40px", borderRadius: "50%" }}
+                src={image}
+                alt="emp_image"
+                title="update avatar"
+              />
+            ) : gender === "female" ? (
+              // <SlUserFemale />
+              "female avatar"
+            ) : (
+              // <FaceIcon />
+              "male avatar"
+            )}
+          </Link>
         </TableCell>
         <TableCell align="right">{first_name}</TableCell>
         <TableCell align="right">{last_name}</TableCell>
@@ -118,7 +133,7 @@ function Row(props) {
           <button onClick={() => handleDelete()}>delete</button>
         </TableCell>
       </TableRow>
-      <TableRow>
+      {/* <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
@@ -146,7 +161,7 @@ function Row(props) {
                   <TableCell align="right">{employment_type}</TableCell>
                   <TableCell align="right">{employment_status}</TableCell>
                   <TableCell align="right">{salary}</TableCell>
-                  <TableCell align="right">{joined_date}</TableCell>
+                  <TableCell align="right">{joining_date}</TableCell>
                   <TableCell align="right">{skill}</TableCell>
                   <TableCell align="right">{notes}</TableCell>
                   <TableCell align="right">{createdAt}</TableCell>
@@ -156,7 +171,7 @@ function Row(props) {
             </Box>
           </Collapse>
         </TableCell>
-      </TableRow>
+      </TableRow> */}
     </React.Fragment>
   );
 }
@@ -168,8 +183,8 @@ export default function CollapsibleTable({ employees }) {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell>emp_id</TableCell>
+            {/* <TableCell /> */}
+            <TableCell>SN (ID)</TableCell>
             <TableCell>Avatar</TableCell>
             <TableCell align="right">First name</TableCell>
             <TableCell align="right">Last name</TableCell>

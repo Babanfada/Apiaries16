@@ -17,9 +17,12 @@ const getAllUsers = async (req, res) => {
     email: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
-    phone: (value) => value,
+    phone: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    // phone: (value) => value,
     gender: (value) => {
-      console.log(value);
+      // console.log(value);
       if (value && value !== "All") return value;
       return null; // Return null to skip adding this filter
     },
@@ -41,6 +44,15 @@ const getAllUsers = async (req, res) => {
       }
       return undefined; // Return undefined to skip adding this filter
     },
+    emailNotification: (value) => {
+      if (value === "All") {
+        return { [Sequelize.Op.or]: [true, false] }; // This will include all rows regardless of the 'available' status
+      }
+      if (value !== "All" && value !== undefined) {
+        return value === "true";
+      }
+      return undefined; // Return undefined to skip adding this filter
+    },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -53,16 +65,16 @@ const getAllUsers = async (req, res) => {
   });
 
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 10;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalUsers / limit);
   let sortList;
   switch (sort) {
-    case "male":
-      sortList = [["male", "DESC"]];
-      break;
     case "female":
-      sortList = [["female", "ASC"]];
+      sortList = [["gender", "DESC"]];
+      break;
+    case "male":
+      sortList = [["gender", "ASC"]];
       break;
     case "A-Z":
       sortList = [["fullname", "ASC"]];
@@ -70,14 +82,17 @@ const getAllUsers = async (req, res) => {
     case "Z-A":
       sortList = [["fullname", "DESC"]];
       break;
+    case "admin":
+      sortList = [["role", "ASC"]];
+      break;
     default:
       sortList = [["createdAt", "ASC"]];
       break;
   }
   const users = await USERS.findAll({
     where: { ...queryObject },
-    logging: console.log,
-    attributes: fields ? fields.split(",") : undefined,
+    // logging: console.log,
+    attributes: fields ? fields.split(",") : { exclude: ["password"] },
     order: sortList,
     limit,
     offset,
@@ -111,6 +126,9 @@ const getSingleUser = async (req, res) => {
   const { user_id } = req.params;
   const user = await USERS.findOne({
     where: { user_id },
+    attributes: {
+      exclude: ["password"], // Exclude the password field
+    },
   });
   if (!user) {
     throw new NOT_FOUND(`There is no user with an id of ${user_id}`);

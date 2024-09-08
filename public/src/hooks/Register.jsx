@@ -2,6 +2,7 @@ import React from "react";
 import {
   DateRegister,
   GenderInput,
+  // InputFileUpload,
   MultiLineInput,
   PasswordInput,
   PhoneInputs,
@@ -17,6 +18,8 @@ import {
   handlePhoneInputEmp,
 } from "../features/employees/employeesSlice";
 import { convertToDateOnly } from "../../utils";
+import { useUploadEmployeeImages } from "../features/employees/employeesThunk";
+// import { InputFileUpload } from "../components/TextField";
 
 const useRegister = () => {
   const {
@@ -27,6 +30,12 @@ const useRegister = () => {
     phone,
     gender,
     emailNotification,
+    //..................search params
+    gendersearch,
+    isVerified,
+    blacklisted,
+    subscribed,
+    sort,
   } = useSelector((store) => store.users);
   const dispatch = useDispatch();
   const [validationError, setValidationError] = React.useState(false);
@@ -111,7 +120,7 @@ const useRegister = () => {
           name={"gender"}
           value={gender}
           type={"text"}
-          gender={["Male", "Female"]}
+          gender={["male", "female"]}
           handleChange={getInput}
         />
       ),
@@ -141,14 +150,108 @@ const useRegister = () => {
     },
   ];
 
-  return { status, userDetails };
+  const searchUsers = [
+    {
+      name: "fullname",
+      TextField: (
+        <UserInput
+          name={"fullname"}
+          value={fullname}
+          type={"text"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "email",
+      TextField: (
+        <UserInput
+          name={"email"}
+          value={email}
+          type={"email"}
+          handleChange={getInput}
+          validationError={validationError}
+          message={"Please provide a valid email address"}
+        />
+      ),
+    },
+    {
+      name: "phone",
+      TextField: (
+        <PhoneInputs
+          name={"phone"}
+          value={phone}
+          type={"tel"}
+          handleChange={getPhoneNumber}
+        />
+      ),
+    },
+    {
+      name: "gender",
+      TextField: (
+        <GenderInput
+          name={"gendersearch"}
+          value={gendersearch}
+          type={"text"}
+          gender={["All", "male", "female"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "verified",
+      TextField: (
+        <GenderInput
+          name={"isVerified"}
+          value={isVerified}
+          type={"text"}
+          gender={["All", "verified", "not verified"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "blacklisted",
+      TextField: (
+        <GenderInput
+          name={"blacklisted"}
+          value={blacklisted}
+          type={"text"}
+          gender={["All", "blacklisted", "not blacklisted"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "subscribed",
+      TextField: (
+        <GenderInput
+          name={"subscribed"}
+          value={subscribed}
+          type={"text"}
+          gender={["All", "subscribed", "not subscribed"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "sorted",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={["male", "female", "A-Z", "Z-A", "admin"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+  ];
+  return { status, userDetails, searchUsers };
 };
 
 export default useRegister;
 
-// function convertToDateOnly(dateString) {
-//   return dateString.split("T")[0];
-// }
 export const useEmployee = () => {
   const {
     email,
@@ -193,24 +296,6 @@ export const useEmployee = () => {
     dispatch(handlePhoneInputEmp(phone));
   };
 
-  ////////
-
-  // const [formData, setFormData] = useState({
-  //   startDate: new Date(),
-  //   endDate: null,
-  // });
-
-  // const handleDateChange = (name, date) => {
-  //   setFormData({
-  //     ...formData,
-  //     [name]: date,
-  //   });
-  // };
-
-  // const getDob = (name, date) => {
-  //   dispatch(handleDob({ name, date }));
-  // };
-  // console.log({ joining_date, dob });
   const getDob = (e) => {
     const { name, value } = e.target;
     const formattedDate = convertToDateOnly(value.toISOString());
@@ -384,5 +469,11 @@ export const useEmployee = () => {
       ),
     },
   ];
+  // const imageInput = {
+  //   name: "image",
+  //   TextField: (
+  //     <InputFileUpload name={"image"} handleChange={uploadEmployeeAvatar} />
+  //   ),
+  // };
   return { employeeDetails };
 };

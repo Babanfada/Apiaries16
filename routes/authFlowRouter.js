@@ -30,6 +30,8 @@ router.route("/forgotpassword").post(forgotPassword);
 router.route("/resetpassword").patch(resetPassword);
 router.route("/updatepassword").patch(authenticated, updateUserPassword);
 router.route("/showme").get(authenticated, showMe);
-router.route("/blacklist/:id").patch(authenticated, blacklist);
+router
+  .route("/blacklist/:id")
+  .patch(authenticated, authorizedPermissions("admin"), blacklist);
 
 module.exports = router;

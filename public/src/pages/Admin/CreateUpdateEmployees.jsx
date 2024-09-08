@@ -3,10 +3,11 @@ import { useEmployee } from "../../hooks/register";
 import {
   useCreateEmployee,
   useUpdateEmployee,
+  useUploadEmployeeImages,
 } from "../../features/employees/employeesThunk";
 import { Loader1 } from "../../components/Loader";
 import { useSelector } from "react-redux";
-import { CustomButton } from "../../components";
+import { CustomButton, InputFileUpload } from "../../components";
 import { useDispatch } from "react-redux";
 import { handleReset } from "../../features/employees/employeesSlice";
 import { Link } from "react-router-dom";
@@ -18,6 +19,7 @@ const CreateUpdateEmployees = () => {
   // const dispatch = useDispatch();
   const { createEmployee, isCreatingEmployee } = useCreateEmployee();
   const { updateEmployee, isUpdatingEmployee } = useUpdateEmployee();
+
   const {
     email,
     first_name,
@@ -65,9 +67,33 @@ const CreateUpdateEmployees = () => {
     if (isEdit) return updateEmployee({ empDetails, id });
     createEmployee(empDetails);
   };
+  const { uploadEmployeeImgs, isUploadingEmployeeImages } =
+    useUploadEmployeeImages(id);
+
+  const uploadEmployeeAvatar = (e) => {
+    const file = e.target.files[0]; // Get the first file from the input
+    const formData = new FormData();
+    if (file) {
+      formData.append("image", file); // Append only one file with key "image"
+      uploadEmployeeImgs(formData);
+      // console.log(file, formData);
+    } else {
+      alert("Please select a file to upload.");
+    }
+  };
+
   return (
     <div>
       <Link to="/admin/employees">Go back</Link>
+      {isEdit ? (
+        <InputFileUpload
+          name={"image"}
+          handleChange={uploadEmployeeAvatar}
+          uploading={isUploadingEmployeeImages}
+        />
+      ) : (
+        ""
+      )}
       <form onSubmit={handleSubmit}>
         {employeeDetails.map((detail) => {
           const { name, TextField } = detail;

@@ -200,7 +200,7 @@ const forgotPassword = async (req, res) => {
   await user.save();
   // const origin = "http://localhost:5003";
   // const origin = "https://apiariessixteen.onrender.com";
-   const origin = "http://localhost:5173";
+  const origin = "http://localhost:5173";
   await sendPasswordResetMail({
     origin,
     email: user.email,
@@ -230,25 +230,37 @@ const resetPassword = async (req, res) => {
   }
   throw new UNAUTHORIZED("Password reset failed !!!!!");
 };
+
 const blacklist = async (req, res) => {
   const { id: user_id } = req.params;
   const { blacklist, isValid } = req.body;
+
   const user = await USERS.findOne({ where: { user_id: user_id } });
   const userToken = await TOKEN.findOne({ where: { user: user_id } });
-  user.blackListed = blacklist;
+
+  if (!user || !userToken) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ msg: "User does not have a login session" });
+  }
+
+  user.blacklisted = blacklist;
   userToken.isValid = isValid;
-  user.save();
-  userToken.save();
-  console.log(user.blackListed, userToken.isValid);
-  if (user.blackListed && !user.isValid) {
-    res
+  await user.save();
+  await userToken.save();
+
+  // Conditional response based on blacklist status
+  if (user.blacklisted && !userToken.isValid) {
+    return res
       .status(StatusCodes.OK)
       .json({ msg: `${user.fullname} has been blacklisted` });
+  } else {
+    return res
+      .status(StatusCodes.OK)
+      .json({ msg: `${user.fullname} has been activated` });
   }
-  res
-    .status(StatusCodes.OK)
-    .json({ msg: `${user.fullname} has been activated` });
 };
+
 const googleAuth = (req, res, next) => {
   passport.authenticate("google", { scope: ["profile", "email"] })(
     req,

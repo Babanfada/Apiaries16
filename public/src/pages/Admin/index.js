@@ -17,6 +17,8 @@ import UsersList from "./UsersList";
 import Equipments from "./Equipments";
 import CreateUpdateEmployees from "./CreateUpdateEmployees";
 import Overview from "./Overview";
+import SingleEmployee from "./SingleEmployee";
+import SingleUser from "./SingleUser";
 
 export {
   Home,
@@ -38,4 +40,6 @@ export {
   Equipments,
   CreateUpdateEmployees,
   Overview,
+  SingleEmployee,
+  SingleUser,
 };

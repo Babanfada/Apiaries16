@@ -21,6 +21,29 @@ export const useAllEmployess = () => {
   });
   return { isGettingAllEmployees, employees };
 };
+export const useSingleEmployee = (id) => {
+  // console.log(id);
+  const {
+    status: isGettingSingleEmployee,
+    data: singleemployee,
+    refetch,
+  } = useQuery({
+    queryKey: ["singleemployee"],
+    queryFn: async () => {
+      const { data } = await customFetch.get(`employees/${id}`);
+      return data;
+    },
+    enabled: false,
+    onSuccess: (data) => {
+      console.log("Query succeeded!", data);
+    },
+    onError: (err) => {
+      toast.error(err.response.data.msg);
+      console.log(err);
+    },
+  });
+  return { isGettingSingleEmployee, singleemployee, refetch };
+};
 
 export const useCreateEmployee = () => {
   const dispatch = useDispatch();
@@ -88,4 +111,29 @@ export const useDeleteEmployee = () => {
     },
   });
   return { deleteEmployee, isDeletingEmployee };
+};
+
+export const useUploadEmployeeImages = (id) => {
+  // console.log(id);
+  const queryClient = useQueryClient();
+  const { mutate: uploadEmployeeImgs, status: isUploadingEmployeeImages } =
+    useMutation({
+      mutationFn: async (avatar) => {
+        // console.log(avatar);
+        const { data } = await customFetch.patch(
+          `employees/uploadavatar/${id}`,
+          avatar
+        );
+        return data;
+      },
+      onSuccess: (res) => {
+        // console.log(res);
+        queryClient.invalidateQueries({ queryKey: ["allemployees"] });
+        toast.success("Avatar uploaded successfully");
+      },
+      onError: (error) => {
+        toast.error(error.response.data.msg);
+      },
+    });
+  return { uploadEmployeeImgs, isUploadingEmployeeImages };
 };

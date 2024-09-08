@@ -1,7 +1,9 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customFetch from "../../../utils";
 import { toast } from "react-toastify";
-
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+// user authentication
 export const useCheckUserOndB = (email) => {
   const {
     isLoading: isCheckingUserOnDb,
@@ -67,23 +69,6 @@ export const useCurrentUser = () => {
     },
   });
   return { isCheckingCurrentUser, currentUser };
-};
-export const usegetAllUser = () => {
-  const { status: isGettingAllUser, data: users } = useQuery({
-    queryKey: ["allusers"],
-    queryFn: async () => {
-      const { data } = await customFetch.get(`users`);
-      return data;
-    },
-    onSuccess: ({ data }) => {
-      console.log("Query succeeded!", data);
-    },
-    onError: (err) => {
-      toast.error(err.response.data.msg);
-      console.log(err);
-    },
-  });
-  return { isGettingAllUser, users };
 };
 
 export const useRegisterUser = () => {
@@ -212,4 +197,183 @@ export const useLogOutUser = () => {
     },
   });
   return { logOutUser, isLoginOut };
+};
+
+// user  admin management
+
+export const usegetAllUser = () => {
+  const {
+    gendersearch,
+    isVerified,
+    blacklisted,
+    subscribed,
+    sort,
+    pages,
+    email,
+    fullname,
+    phone,
+  } = useSelector((store) => store.users);
+  const url = `users/?pages=${pages}&sort=${sort}&email=${email}&fullname=${fullname}&gender=${gendersearch}&isVerified=${
+    isVerified === "verified"
+      ? true
+      : isVerified === "not verified"
+      ? false
+      : "All"
+  }&blacklisted=${
+    blacklisted === "blacklisted"
+      ? true
+      : blacklisted === "not blacklisted"
+      ? false
+      : "All"
+  }&emailNotification=${
+    subscribed === "subscribed"
+      ? true
+      : subscribed === "not subscribed"
+      ? false
+      : "All"
+  }&phone=${phone || ""}`;
+
+  // console.log(fullname, email, phone, sort);
+  const {
+    status: isGettingAllUser,
+    data: users,
+    refetch,
+  } = useQuery({
+    queryKey: ["allusers"],
+    queryFn: async () => {
+      const { data } = await customFetch.get(url);
+      return data;
+    },
+    onSuccess: ({ data }) => {
+      console.log("Query succeeded!", data);
+    },
+    onError: (err) => {
+      toast.error(err.response.data.msg);
+      console.log(err);
+    },
+  });
+  return { isGettingAllUser, users, refetch };
+};
+
+export const useSingleUser = (id) => {
+  // console.log(id);
+  const {
+    status: isGettingSingleUser,
+    data: singleuser,
+    refetch,
+  } = useQuery({
+    queryKey: ["singleuser"],
+    queryFn: async () => {
+      const { data } = await customFetch.get(`users/${id}`);
+      return data;
+    },
+    enabled: false,
+    onSuccess: (data) => {
+      console.log("Query succeeded!", data);
+    },
+    onError: (err) => {
+      toast.error(err.response.data.msg);
+      // console.log(err);
+    },
+  });
+  return { isGettingSingleUser, singleuser, refetch };
+};
+
+export const useUpdateUser = () => {
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate: updateUser, status: isUpdatingUser } = useMutation({
+    mutationFn: async ({ userDetails, id }) => {
+      console.log(userDetails, "here");
+      const { data } = await customFetch.patch(`users/${id}`, {
+        ...userDetails,
+      });
+      return data;
+    },
+    onSuccess: ({ msg }) => {
+      // console.log(msg);
+      queryClient.invalidateQueries({ queryKey: ["allusers"] });
+      // dispatch(handleReset());
+      toast.success(msg);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.response?.data?.msg || "An error occurred.");
+    },
+  });
+  return { updateUser, isUpdatingUser };
+};
+export const useBlacklistUser = (id) => {
+  // const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate: blacklistUser, status: blacklisting } = useMutation({
+    mutationFn: async (blacklistDetails) => {
+      console.log(blacklistDetails, "here");
+      const { data } = await customFetch.patch(
+        `authflow/blacklist/${id}`,
+        blacklistDetails
+      );
+      return data;
+    },
+    onSuccess: ({ msg }) => {
+      // console.log(msg);
+      // queryClient.invalidateQueries({ queryKey: ["allusers", "singleuser"] });
+      queryClient.invalidateQueries({ queryKey: ["allusers", "singleuser"] });
+      // dispatch(handleReset());
+      toast.success(msg);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.response?.data?.msg || "An error occurred.");
+    },
+  });
+  return { blacklistUser, blacklisting };
+};
+export const useSubscribeUser = () => {
+  // const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate: subscribeUser, status: subscribing } = useMutation({
+    mutationFn: async ({ subscribe, id }) => {
+      console.log(subscribe, "here");
+      const { data } = await customFetch.patch(`users/subscribe/${id}`, {
+        subscribe,
+      });
+      return data;
+    },
+    onSuccess: ({ msg }) => {
+      // console.log(msg);
+      queryClient.invalidateQueries({ queryKey: ["allusers"] });
+      // dispatch(handleReset());
+      toast.success(msg);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.response?.data?.msg || "An error occurred.");
+    },
+  });
+  return { subscribeUser, subscribing };
+};
+export const useUnsubscribeUser = () => {
+  // const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate: unSubscribeUser, status: unSubscribing } = useMutation({
+    mutationFn: async ({ unSubscribe, id }) => {
+      console.log(unSubscribe, "here");
+      const { data } = await customFetch.patch(`users/unsubscribe/${id}`, {
+        unSubscribe,
+      });
+      return data;
+    },
+    onSuccess: ({ msg }) => {
+      // console.log(msg);
+      queryClient.invalidateQueries({ queryKey: ["allusers"] });
+      // dispatch(handleReset());
+      toast.success(msg);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.response?.data?.msg || "An error occurred.");
+    },
+  });
+  return { unSubscribeUser, unSubscribing };
 };

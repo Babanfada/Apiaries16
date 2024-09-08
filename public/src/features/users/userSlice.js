@@ -1,4 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+const searchQueryParams = {
+  gendersearch: "All",
+  isVerified: "All",
+  blacklisted: "All",
+  subscribed: "All",
+  sort: "A-Z",
+  pages: 1,
+};
 const initialState = {
   email: "",
   //   validationError: false,
@@ -8,7 +16,9 @@ const initialState = {
   phone: "",
   gender: "",
   emailNotification: true,
+  ...searchQueryParams,
 };
+
 const userSlice = createSlice({
   name: "users",
   initialState,
@@ -16,15 +26,20 @@ const userSlice = createSlice({
     handelChange: (state, { payload }) => {
       const { name, value } = payload;
       state[name] = value;
-    //   console.log({
-    //     email: state.email,
-    //     fullname: state.fullname,
-    //     password: state.password,
-    //     address: state.address,
-    //     phone: state.phone,
-    //     gender: state.gender,
-    //     emailNotification: state.emailNotification,
-    //   });
+      console.log({
+        //     email: state.email,
+        //     fullname: state.fullname,
+        //     password: state.password,
+        //     address: state.address,
+        //     phone: state.phone,
+        //     gender: state.gender,
+        //     emailNotification: state.emailNotification,
+        // gendersearch: state.gendersearch,
+        // isVerified: state.isVerified,
+        // blacklisted: state.blacklisted,
+        // subscribed: state.subscribed,
+        // sort: state.sort,
+      });
     },
     handlePhoneInput: (state, { payload }) => {
       //   console.log({ phone: state.phone });
@@ -33,8 +48,17 @@ const userSlice = createSlice({
         phone: payload,
       };
     },
+    changePage: (state, { payload }) => {
+      state.pages = payload;
+    },
+    resetValues: (state) => {
+      return {
+        ...initialState,
+      };
+    },
   },
 });
 
-export const { handelChange, handlePhoneInput } = userSlice.actions;
+export const { handelChange, handlePhoneInput, changePage, resetValues } =
+  userSlice.actions;
 export default userSlice.reducer;
