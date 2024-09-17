@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { convertToDateOnly } from "../../../utils";
 const initialState = {
   email: "",
   first_name: "",
@@ -15,9 +14,11 @@ const initialState = {
   salary: "",
   skill: "",
   notes: "",
-  employment_status: "",
-  employment_type: "",
+  employment_status: "---",
+  employment_type: "---",
   isEdit: false,
+  salaryRange: [1000, 1000000],
+  pages: 1,
 };
 const employeesSlice = createSlice({
   name: "employees",
@@ -61,6 +62,20 @@ const employeesSlice = createSlice({
     setUpdateEmployee: (state, { payload }) => {
       return { ...state, ...payload, isEdit: true };
     },
+    updateSalaryRange: (state, { payload }) => {
+      return {
+        ...state,
+        salaryRange: payload,
+      };
+    },
+    resetValues: (state) => {
+      return {
+        ...initialState,
+      };
+    },
+    changePage: (state, { payload }) => {
+      state.pages = payload;
+    },
   },
 });
 
@@ -70,5 +85,8 @@ export const {
   handleDob,
   handleReset,
   setUpdateEmployee,
+  updateSalaryRange,
+  resetValues,
+  changePage,
 } = employeesSlice.actions;
 export default employeesSlice.reducer;

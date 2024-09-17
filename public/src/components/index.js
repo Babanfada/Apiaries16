@@ -10,9 +10,13 @@ import {
 } from "./TextField";
 import { CustomButton } from "./Button";
 import CustomCharts from "./Charts";
-import CollapsibleTable from "./component's_Tables/EmployeesTables";
+import EmployeesTable from "./component's_Tables/EmployeesTables";
 import UsersTable from "./component's_Tables/UserTable";
 import UserSearchModal from "./searchModals/UserSearchModals";
+import RangeSlider from "./TextField";
+import StationsTable from "./component's_Tables/StationsTable";
+import EquipmentTable from "./component's_Tables/EquipmentsTable";
+import SuppliesTable from "./component's_Tables/SuppliesTable";
 
 export {
   UserInput,
@@ -23,9 +27,13 @@ export {
   PhoneInputs,
   Subscribe,
   CustomCharts,
-  CollapsibleTable,
+  EmployeesTable,
   DateRegister,
   InputFileUpload,
   UsersTable,
   UserSearchModal,
+  RangeSlider,
+  StationsTable,
+  EquipmentTable,
+  SuppliesTable,
 };

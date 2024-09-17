@@ -13,16 +13,56 @@ const getAllEquipments = async (req, res) => {
     tool_name: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
-    category: (value) => value,
-    status: (value) => value,
-    storage_location: (value) => value,
-    supplier: (value) => value,
-    currency: (value) => value,
-    // retired: (value) => value,
+    supplier: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    currency: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
     retired: (value) => {
-      if (value.toLowerCase() === "true") return true;
-      if (value.toLowerCase() === "false") return false;
-      return false; // Handle unexpected values if necessary
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["retired", "not retired"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+
+      return undefined;
+    },
+    storage_location: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["warehouse", "apiary site", "factory"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    status: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["used", "new", "need repair"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    category: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["beekeping", "carpentary", "processing"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
     },
   };
 
@@ -46,11 +86,11 @@ const getAllEquipments = async (req, res) => {
       (match) => `/${operatorMap[match]}/`
     );
     // console.log(filter);
-    const options = ["quantity", "purchase_cost", "last_maintanace_date"];
+    const options = ["quantity", "purchase_cost", "purchase_date"];
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
       if (options.includes(field)) {
-        if (field === "last_maintanace_date") {
+        if (field === "purchase_date") {
           const dateValue = moment(value, "YYYY-MM-DD", true);
           if (dateValue.isValid()) {
             queryObject[field] = {
@@ -66,7 +106,7 @@ const getAllEquipments = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalEquipments / limit);
   let sortList;

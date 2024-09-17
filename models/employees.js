@@ -129,11 +129,11 @@ module.exports = function (sequelize, DataTypes) {
     });
     employees.hasMany(models.apiary_stations, {
       as: "internallySupervising",
-      foreignKey: "supervisor(int)",
+      foreignKey: "supervisor_int",
     });
     employees.hasMany(models.apiary_stations, {
       as: "externallySupervising",
-      foreignKey: "supervisor(ext)",
+      foreignKey: "supervisor_ext",
     });
     employees.hasMany(models.catch_reports, {
       foreignKey: "assigned_supervisor",

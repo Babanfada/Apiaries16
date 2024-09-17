@@ -3,12 +3,58 @@ import customFetch from "../../../utils";
 import { toast } from "react-toastify";
 import { handleReset } from "./employeesSlice";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export const useAllEmployess = () => {
-  const { status: isGettingAllEmployees, data: employees } = useQuery({
+  const {
+    first_name,
+    last_name,
+    employment_type,
+    employment_status,
+    dob,
+    role,
+    joining_date,
+    salaryRange,
+    pages,
+  } = useSelector((store) => store.employees);
+  // console.log(first_name);
+  // console.log(
+  //   first_name,
+  //   last_name,
+  //   employment_type,
+  //   employment_status,
+  //   dob,
+  //   role,
+  //   joining_date,
+  //   salaryRange
+  // );
+
+  // Define the numberFilter parameters only when they are selected
+  const numberFilterParams = [
+    salaryRange[0] !== undefined ? `salary>=${salaryRange[0]}` : "",
+    salaryRange[1] !== undefined ? `salary<=${salaryRange[1]}` : "",
+    dob ? `dob=${dob}` : "",
+    joining_date ? `joining_date=${joining_date}` : "",
+  ];
+
+  // Filter out the empty values and join the selected parameters into one string
+  const numberFilterString = numberFilterParams
+    .filter(Boolean) // This will remove any empty values
+    .join(" "); // Join the selected params with space for a clean format
+
+  const url = `employees/?first_name=${first_name}&last_name=${last_name}&role=${role}&numberFilter=${numberFilterString}&employment_type=${employment_type}&employment_status=${employment_status}&pages=${pages}`;
+
+  // console.log(url);
+
+  const {
+    status: isGettingAllEmployees,
+    data: employees,
+    refetch,
+  } = useQuery({
     queryKey: ["allemployees"],
     queryFn: async () => {
-      const { data } = await customFetch.get(`employees`);
+      const { data } = await customFetch.get(url);
+      // console.log(data)
       return data;
     },
     onSuccess: ({ data }) => {
@@ -19,7 +65,7 @@ export const useAllEmployess = () => {
       console.log(err);
     },
   });
-  return { isGettingAllEmployees, employees };
+  return { isGettingAllEmployees, employees, refetch };
 };
 export const useSingleEmployee = (id) => {
   // console.log(id);

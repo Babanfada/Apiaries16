@@ -213,27 +213,28 @@ export const usegetAllUser = () => {
     fullname,
     phone,
   } = useSelector((store) => store.users);
+  // const url1 = `users/?pages=${pages}&sort=${sort}&email=${email}&fullname=${fullname}&gender=${gendersearch}&phone=${phone || ""}`;
   const url = `users/?pages=${pages}&sort=${sort}&email=${email}&fullname=${fullname}&gender=${gendersearch}&isVerified=${
     isVerified === "verified"
       ? true
       : isVerified === "not verified"
       ? false
-      : "All"
+      : "---"
   }&blacklisted=${
     blacklisted === "blacklisted"
       ? true
       : blacklisted === "not blacklisted"
       ? false
-      : "All"
+      : "---"
   }&emailNotification=${
     subscribed === "subscribed"
       ? true
       : subscribed === "not subscribed"
       ? false
-      : "All"
+      : "---"
   }&phone=${phone || ""}`;
 
-  // console.log(fullname, email, phone, sort);
+  // console.log(url);
   const {
     status: isGettingAllUser,
     data: users,

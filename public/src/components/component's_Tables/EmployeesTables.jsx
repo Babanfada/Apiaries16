@@ -24,6 +24,7 @@ import {
   useDeleteEmployee,
   // useSingleEmployee,
 } from "../../features/employees/employeesThunk";
+import PaginationControlled from "./Pagination";
 
 function Row(props) {
   const { employee } = props;
@@ -74,7 +75,7 @@ function Row(props) {
   };
   const handleDelete = () => {
     const confirmation = window.confirm(
-      "You are about to Delete an employeee records permanently, ARE YOU SURE?"
+      "You are about to Delete an employee records permanently, ARE YOU SURE?"
     );
     if (!confirmation) return;
     deleteEmployee(emp_id);
@@ -130,7 +131,7 @@ function Row(props) {
             {/* <CiEdit /> */}
             edit
           </Link>
-          <button onClick={() => handleDelete()}>delete</button>
+          {/* <button onClick={() => handleDelete()}>delete</button> */}
         </TableCell>
       </TableRow>
       {/* <TableRow>
@@ -176,7 +177,12 @@ function Row(props) {
   );
 }
 
-export default function CollapsibleTable({ employees }) {
+export default function EmployeesTable({
+  handleChange,
+  employees,
+  numOfPages,
+  pages,
+}) {
   //   console.log(employees);
   return (
     <TableContainer component={Paper}>
@@ -202,6 +208,7 @@ export default function CollapsibleTable({ employees }) {
           ))}
         </TableBody>
       </Table>
+      <PaginationControlled pageDetails={{ handleChange, numOfPages, pages }} />
     </TableContainer>
   );
 }

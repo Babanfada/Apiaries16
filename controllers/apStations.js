@@ -20,10 +20,60 @@ const getAllStations = async (req, res) => {
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
     station_id: (value) => value,
-    station_size: (value) => value,
-    status: (value) => value,
-    "supervisor(int)": (value) => value,
-    "supervisor(ext)": (value) => value,
+    // station_size: (value) => value,
+    // status: (value) => value,
+    station_size: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["small", "medium", "large"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    status: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["active", "inactive", "terminated"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    supervisor_int: (value) => {
+      if (Number(value) === 0) {
+        // When value is 0, return all rows (no filter)
+        return {
+          [Sequelize.Op.ne]: null,
+        };
+      }
+      if (value !== 0 && value !== undefined) {
+        // When value is greater than 0, return the specified row
+        return value;
+      }
+      return undefined; // No condition applied if value is undefined
+    },
+    supervisor_ext: (value) => {
+      if (Number(value) === 0) {
+        console.log(value, typeof value);
+        // When value is 0, return all rows (no filter)
+        return {
+          [Sequelize.Op.ne]: null,
+        };
+      }
+      if (value !== 0 && value !== undefined) {
+        // When value is greater than 0, return the specified row
+        return value;
+      }
+      return undefined; // No condition applied if value is undefined
+    },
+
+    // supervisor_int: (value) => value,
+    // supervisor_ext: (value) => value,
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -70,9 +120,9 @@ const getAllStations = async (req, res) => {
       }
     });
   }
-  console.log(queryObject);
+  // console.log(queryObject);
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalStations / limit);
   let sortList;
@@ -95,7 +145,7 @@ const getAllStations = async (req, res) => {
   }
   const stations = await Apiary.findAll({
     where: { ...queryObject },
-    numOfPages,
+    // numOfPages,
     attributes: fields ? fields.split(",") : undefined,
     order: sortList,
     limit,

@@ -22,10 +22,52 @@ const getAllEmployees = async (req, res) => {
     last_name: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
+    email: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    role: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
     emp_id: (value) => value,
     department: (value) => value,
-    employment_type: (value) => value,
-    employment_status: (value) => value,
+    employment_status: (value) => {
+      // If "All" is selected, include all rows regardless of 'employment_status'
+      if (value === "---") {
+        return { [Sequelize.Op.or]: ["active", "inactive", "terminated"] };
+      }
+
+      // If a specific status (not "---" and not undefined) is selected, filter by that status
+      if (value !== "---" && value !== undefined) {
+        return value; // Returns the selected employment status
+      }
+
+      // If undefined, skip adding this filter
+      return undefined;
+    },
+
+    // employment_type: (value) => value,
+    employment_type: (value) => {
+      // If "---" is selected, include all rows regardless of 'employment_status'
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: [
+            "full staff",
+            "contract staff",
+            "station supervisor(ext)",
+          ],
+        };
+      }
+
+      // If a specific status (not "---" and not undefined) is selected, filter by that status
+      if (value !== "---" && value !== undefined) {
+        return value; // Returns the selected employment status
+      }
+
+      // If undefined, skip adding this filter
+      return undefined;
+    },
+
+    // employment_status: (value) => value,
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -51,7 +93,7 @@ const getAllEmployees = async (req, res) => {
     const options = ["salary", "dob", "joining_date"];
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
-      console.log(field);
+      // console.log(field);
 
       if (options.includes(field)) {
         if (field === "salary") {
@@ -68,12 +110,12 @@ const getAllEmployees = async (req, res) => {
             console.error(`Invalid date format for ${field}: ${value}`);
           }
         }
-        console.log(queryObject);
+        // console.log(queryObject);
       }
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 20;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalEmployees / limit);
   let sortList;

@@ -10,7 +10,7 @@ import Orders from "./Orders";
 import PollinationServices from "./PollinationServices";
 import ServicesList from "./ServicesList";
 import Stations from "./Stations";
-import Suppliers from "./Suppliers";
+import Supplies from "./Supplies";
 import SupplyProvisionItems from "./SupplyProvisionItems";
 import SwarmHunters from "./SwarmHunters";
 import UsersList from "./UsersList";
@@ -19,6 +19,12 @@ import CreateUpdateEmployees from "./CreateUpdateEmployees";
 import Overview from "./Overview";
 import SingleEmployee from "./SingleEmployee";
 import SingleUser from "./SingleUser";
+import SingleStation from "./SingleStation";
+import CreateUpdateStation from "./CreateUpdateStation";
+import SingleEquipment from "./SingleEquipment";
+import CreateUpdateEquipment from "./CreateUpdateEquipment";
+import CreateUpdateSupplies from "./CreateUpdateSupplies";
+import SingleSupply from "./SingleSupply";
 
 export {
   Home,
@@ -33,7 +39,7 @@ export {
   PollinationServices,
   ServicesList,
   Stations,
-  Suppliers,
+  Supplies,
   SupplyProvisionItems,
   SwarmHunters,
   UsersList,
@@ -42,4 +48,10 @@ export {
   Overview,
   SingleEmployee,
   SingleUser,
+  SingleStation,
+  CreateUpdateStation,
+  SingleEquipment,
+  CreateUpdateEquipment,
+  CreateUpdateSupplies,
+  SingleSupply,
 };

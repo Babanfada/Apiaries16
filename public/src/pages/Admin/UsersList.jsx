@@ -27,7 +27,7 @@ const UsersList = () => {
     users: Users = [],
     totalUsers = 0,
     count = 0,
-    numOfPages = 0,
+    numOfPages = 1,
     genderCount = [],
     verificationCount = [],
   } = users || {};

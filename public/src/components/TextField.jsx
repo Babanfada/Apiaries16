@@ -28,7 +28,7 @@ import Select from "@mui/material/Select";
 // color picker
 // import { useState } from "react";
 // import { ChromePicker } from "react-color";
-import { Popover, Tooltip } from "@mui/material";
+import { Box, Popover, Slider, Tooltip } from "@mui/material";
 // import { useDispatch, useSelector } from "react-redux";
 // import {
 //   setDefaultSearch,
@@ -382,7 +382,7 @@ export function DateRegister({ name, value, onChange }) {
       onChange={handleDateChange}
       showIcon
       toggleCalendarOnIconClick
-      isClearable
+      // isClearable
       placeholderText="I have been cleared!"
       closeOnScroll={true}
       dateFormat="yyyy-MM-dd"
@@ -398,6 +398,8 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { Loader1 } from "./Loader";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useDispatch } from "react-redux";
+import { updateSalaryRange } from "../features/employees/employeesSlice";
 // import LoadingButton from "@mui/lab/LoadingButton";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -423,5 +425,52 @@ export function InputFileUpload({ name, handleChange, uploading }) {
       Upload files
       <VisuallyHiddenInput type="file" onChange={handleChange} multiple />
     </Button>
+  );
+}
+
+function valuetext(value) {
+  return `${value}°N`;
+}
+export default function RangeSlider({ name, value, min, max, step }) {
+  // const [value, setValue] = React.useState([20, 37]);
+  const dispatch = useDispatch();
+  // const handleChange = (event, newValue) => {
+  //   if (event.target.name === "salary") {
+  //     // dispatch(updateRatingRange(newValue));
+  //     return;
+  //   }
+  //   if (event.target.name === "reviewRatingRange") {
+  //     // dispatch(updateReviewRatingRange(newValue));
+  //     return;
+  //   }
+  //   if (event.target.name === "rating") {
+  //     dispatch(updateCreateRatingRange(newValue));
+  //     return;
+  //   }
+  //   dispatch(updateSalaryRange(newValue));
+  //   // setValue(newValue);
+  // };
+const handleChange = (event, newValue) => {
+  // Ensure the lower range (newValue[0]) remains static
+  const updatedValue = [min, newValue[1]];
+
+  // Dispatch the updated value with a static lower range
+  dispatch(updateSalaryRange(updatedValue));
+};
+  return (
+    <Box>
+      <Slider
+        name={name}
+        getAriaLabel={() => `${name}`}
+        value={value}
+        onChange={handleChange}
+        valueLabelDisplay="auto"
+        getAriaValueText={valuetext}
+        min={min}
+        max={max}
+        step={step}
+        size="small"
+      />
+    </Box>
   );
 }

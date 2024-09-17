@@ -13,7 +13,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
-      "supervisor(int)": {
+      supervisor_int: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
           key: "emp_id",
         },
       },
-      "supervisor(ext)": {
+      supervisor_ext: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
@@ -42,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
       },
       station_size: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.ENUM("small", "medium", "large"),
         allowNull: false,
       },
       number_of_hive_boxes: {
@@ -83,14 +83,14 @@ module.exports = function (sequelize, DataTypes) {
           fields: [{ name: "station_id" }],
         },
         {
-          name: "supervisor(int)",
+          name: "supervisor_int",
           using: "BTREE",
-          fields: [{ name: "supervisor(int)" }],
+          fields: [{ name: "supervisor_int" }],
         },
         {
-          name: "supervisor(ext)",
+          name: "supervisor_ext",
           using: "BTREE",
-          fields: [{ name: "supervisor(ext)" }],
+          fields: [{ name: "supervisor_ext" }],
         },
       ],
     }
@@ -98,11 +98,11 @@ module.exports = function (sequelize, DataTypes) {
   apiary_stations.associate = function (models) {
     apiary_stations.belongsTo(models.employees, {
       as: "internalSupervisor",
-      foreignKey: "supervisor(int)",
+      foreignKey: "supervisor_int",
     });
     apiary_stations.belongsTo(models.employees, {
       as: "externalSupervisor",
-      foreignKey: "supervisor(ext)",
+      foreignKey: "supervisor_ext",
     });
   };
 

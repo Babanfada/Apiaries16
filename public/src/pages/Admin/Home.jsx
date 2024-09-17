@@ -11,7 +11,7 @@ const Home = () => {
   const totalStations = stations?.totalStations ?? "Loading...";
   const totalHives = stations?.totalHives ?? "Loading...";
   const totalUsers = users?.totalUsers ?? "Loading...";
-  //   console.log(isGettingAllprovisions, supplyProvision);
+    // console.log(employees);
   return (
     <section>
       {/* <DateRegister /> */}

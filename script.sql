@@ -1151,8 +1151,11 @@ select * from products;
 select * from product_images;
 select * from product_colors;
 select * from reviews;
+select * from equipments_tools;
+describe equipments_tools;
 select * from review_images;
 select * from honey_harvest; 
+alter table equipments_tools change retired retired enum("retired","not retired")
 select sum(quantity * total_in_stock) as totalvalue, product_type, unit from products group by product_type,unit;
 delete from review_images where image_id = 4;
 describe review_images;

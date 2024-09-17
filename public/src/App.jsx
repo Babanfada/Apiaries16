@@ -127,9 +127,9 @@ const Equipments = lazy(() =>
   }))
 );
 
-const Suppliers = lazy(() =>
+const Supplies = lazy(() =>
   import("./pages/Admin").then((module) => ({
-    default: module.Suppliers,
+    default: module.Supplies,
   }))
 );
 
@@ -164,6 +164,36 @@ const SingleUser = lazy(() =>
     default: module.SingleUser,
   }))
 );
+const SingleStation = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.SingleStation,
+  }))
+);
+const CreateUpdateStation = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateStation,
+  }))
+);
+const SingleEquipment = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.SingleEquipment,
+  }))
+);
+const CreateUpdateEquipment = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateEquipment,
+  }))
+);
+const CreateUpdateSupplies = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateSupplies,
+  }))
+);
+const SingleSupply = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.SingleSupply,
+  }))
+);
 
 // General routes
 const routes = [
@@ -193,13 +223,28 @@ const adminRoutes = [
   { path: "/admin/pollinationservices", element: <PollinationServices /> },
   { path: "/admin/supplyprovisionitems", element: <SupplyProvisionItems /> },
   { path: "/admin/equipments", element: <Equipments /> },
-  { path: "/admin/suppliers", element: <Suppliers /> },
+  { path: "/admin/supplies", element: <Supplies /> },
   { path: "/admin/userslist", element: <UsersList /> },
   { path: "/admin/orders", element: <Orders /> },
   { path: "/admin", element: <Overview /> },
+  { path: "/admin/stations/:id", element: <SingleStation /> },
+  { path: "/admin/supplies/:id", element: <SingleSupply/> },
+  { path: "/admin/equipments/:id", element: <SingleEquipment /> },
   {
     path: "/admin/createupdateemployee/:id",
     element: <CreateUpdateEmployees />,
+  },
+  {
+    path: "/admin/createupdatestation/:id",
+    element: <CreateUpdateStation />,
+  },
+  {
+    path: "/admin/createupdateequipment/:id",
+    element: <CreateUpdateEquipment />,
+  },
+  {
+    path: "/admin/createupdatesupplies/:id",
+    element: <CreateUpdateSupplies />,
   },
 ];
 

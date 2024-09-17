@@ -3,7 +3,6 @@ const { StatusCodes } = require("http-status-codes");
 const { supplies: SUPPLIES } = require("../models");
 const { Op, Sequelize } = require("sequelize");
 const moment = require("moment");
-
 const getAllSupplies = async (req, res) => {
   const queryObject = {};
   const totalSUpplies = await SUPPLIES.count();
@@ -64,7 +63,7 @@ const getAllSupplies = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalSUpplies / limit);
   let sortList;

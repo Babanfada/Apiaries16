@@ -6,6 +6,7 @@ import {
   MultiLineInput,
   PasswordInput,
   PhoneInputs,
+  RangeSlider,
   Subscribe,
   UserInput,
 } from "../components";
@@ -18,7 +19,8 @@ import {
   handlePhoneInputEmp,
 } from "../features/employees/employeesSlice";
 import { convertToDateOnly } from "../../utils";
-import { useUploadEmployeeImages } from "../features/employees/employeesThunk";
+// import { useUploadEmployeeImages } from "../features/employees/employeesThunk";
+// import RangeSlider from "../components/TextField";
 // import { InputFileUpload } from "../components/TextField";
 
 const useRegister = () => {
@@ -193,7 +195,7 @@ const useRegister = () => {
           name={"gendersearch"}
           value={gendersearch}
           type={"text"}
-          gender={["All", "male", "female"]}
+          gender={["---", "male", "female"]}
           handleChange={getInput}
         />
       ),
@@ -205,7 +207,7 @@ const useRegister = () => {
           name={"isVerified"}
           value={isVerified}
           type={"text"}
-          gender={["All", "verified", "not verified"]}
+          gender={["---", "verified", "not verified"]}
           handleChange={getInput}
         />
       ),
@@ -217,7 +219,7 @@ const useRegister = () => {
           name={"blacklisted"}
           value={blacklisted}
           type={"text"}
-          gender={["All", "blacklisted", "not blacklisted"]}
+          gender={["---", "blacklisted", "not blacklisted"]}
           handleChange={getInput}
         />
       ),
@@ -229,7 +231,7 @@ const useRegister = () => {
           name={"subscribed"}
           value={subscribed}
           type={"text"}
-          gender={["All", "subscribed", "not subscribed"]}
+          gender={["---", "subscribed", "not subscribed"]}
           handleChange={getInput}
         />
       ),
@@ -269,6 +271,7 @@ export const useEmployee = () => {
     notes,
     employment_status,
     employment_type,
+    salaryRange,
   } = useSelector((store) => store.employees);
   const dispatch = useDispatch();
   const [validationError, setValidationError] = React.useState(false);
@@ -469,11 +472,58 @@ export const useEmployee = () => {
       ),
     },
   ];
-  // const imageInput = {
-  //   name: "image",
-  //   TextField: (
-  //     <InputFileUpload name={"image"} handleChange={uploadEmployeeAvatar} />
-  //   ),
-  // };
-  return { employeeDetails };
+  // Filtering the relevant fields
+  const searchEmployees = employeeDetails.filter((detail) =>
+    ["first_name", "last_name", "role", "dob", "joining_date"].includes(
+      detail.name
+    )
+  );
+
+  const remainingFields = [
+    {
+      name: " salaryRange",
+      TextField: (
+        <RangeSlider
+          name={" salaryRange"}
+          value={ salaryRange}
+          min={1000}
+          max={100000}
+          step={1000}
+        />
+      ),
+    },
+
+    {
+      name: "employment_status",
+      TextField: (
+        <GenderInput
+          name={"employment_status"}
+          value={employment_status}
+          type={"text"}
+          gender={["---", "active", "inactive", "terminated"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "employment_type",
+      TextField: (
+        <GenderInput
+          name={"employment_type"}
+          value={employment_type}
+          type={"text"}
+          gender={[
+            "---",
+            "full staff",
+            "contract staff",
+            "station supervisor(ext)",
+          ]}
+          handleChange={getInput}
+        />
+      ),
+    },
+  ];
+  searchEmployees.push(...remainingFields);
+
+  return { employeeDetails, searchEmployees };
 };

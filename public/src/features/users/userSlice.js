@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 const searchQueryParams = {
-  gendersearch: "All",
-  isVerified: "All",
-  blacklisted: "All",
-  subscribed: "All",
+  gendersearch: "---",
+  isVerified: "---",
+  blacklisted: "---",
+  subscribed: "---",
   sort: "A-Z",
   pages: 1,
 };

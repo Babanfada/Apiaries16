@@ -95,8 +95,8 @@ export const useAdmin = () => {
       //   icon: <AiFillSetting style={{ color: "#38bdf2" }} title="Equipments" />,
     },
     {
-      name: "Suppliers",
-      link: "/admin/suppliers",
+      name: "Supplies",
+      link: "/admin/supplies",
       //   icon: <FaTruck style={{ color: "#38bdf2" }} title="Suppliers" />,
     },
     {

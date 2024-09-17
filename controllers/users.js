@@ -23,32 +23,32 @@ const getAllUsers = async (req, res) => {
     // phone: (value) => value,
     gender: (value) => {
       // console.log(value);
-      if (value && value !== "All") return value;
+      if (value && value !== "---") return value;
       return null; // Return null to skip adding this filter
     },
     isVerified: (value) => {
-      if (value === "All") {
+      if (value === "---") {
         return { [Sequelize.Op.or]: [true, false] }; // This will include all rows regardless of the 'available' status
       }
-      if (value !== "All" && value !== undefined) {
+      if (value !== "---" && value !== undefined) {
         return value === "true";
       }
       return undefined; // Return undefined to skip adding this filter
     },
     blacklisted: (value) => {
-      if (value === "All") {
+      if (value === "---") {
         return { [Sequelize.Op.or]: [true, false] }; // This will include all rows regardless of the 'available' status
       }
-      if (value !== "All" && value !== undefined) {
+      if (value !== "---" && value !== undefined) {
         return value === "true";
       }
       return undefined; // Return undefined to skip adding this filter
     },
     emailNotification: (value) => {
-      if (value === "All") {
+      if (value === "---") {
         return { [Sequelize.Op.or]: [true, false] }; // This will include all rows regardless of the 'available' status
       }
-      if (value !== "All" && value !== undefined) {
+      if (value !== "---" && value !== undefined) {
         return value === "true";
       }
       return undefined; // Return undefined to skip adding this filter
