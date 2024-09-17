@@ -6,9 +6,21 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { changePage, resetValues } from "../../features/supplies/suppliesSlice";
 import { Link } from "react-router-dom";
+import SuppliesSearchModal from "../../components/searchModals/SupplySearchModal";
 
 const Supplies = () => {
-  const { pages } = useSelector((store) => store.supplies);
+  const {
+    pages,
+    supply_name,
+    category,
+    quantity,
+    status,
+    storage_location,
+    supplier,
+    minimum_stock_level,
+    purchase_date,
+    purchase_cost,
+  } = useSelector((store) => store.supplies);
   const dispatch = useDispatch();
   const {
     isGettingAllSupplies,
@@ -29,7 +41,18 @@ const Supplies = () => {
   };
   React.useEffect(() => {
     refetch();
-  }, [pages]);
+  }, [
+    pages,
+    supply_name,
+    category,
+    quantity,
+    status,
+    storage_location,
+    supplier,
+    minimum_stock_level,
+    purchase_date,
+    purchase_cost,
+  ]);
   console.log(supply);
   return (
     <div>
@@ -73,6 +96,7 @@ const Supplies = () => {
         })}
       </div>
       <p>total Supplies:{totalSUpplies}</p>
+      <SuppliesSearchModal isGettingAllSupplies={isGettingAllSupplies} />
       {supply.length > 0 ? (
         <SuppliesTable
           supply={supply}

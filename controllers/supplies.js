@@ -12,10 +12,45 @@ const getAllSupplies = async (req, res) => {
     supply_name: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
-    category: (value) => value,
-    status: (value) => value,
-    storage_location: (value) => value,
-    supplier: (value) => value,
+    supplier: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    category: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["processing", "packaging"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+
+      return undefined;
+    },
+    status: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["used", "new", "need repair"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+
+      return undefined;
+    },
+    storage_location: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["warehouse", "factory"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+
+      return undefined;
+    },
   };
 
   Object.keys(req.query).forEach((key) => {

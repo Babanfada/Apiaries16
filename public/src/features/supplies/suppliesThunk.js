@@ -6,8 +6,32 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 export const useSupplies = () => {
-  const { pages } = useSelector((store) => store.supplies);
-  const url = `supplies/?pages=${pages}`;
+  const {
+    pages,
+    supply_name,
+    category,
+    quantity,
+    status,
+    storage_location,
+    supplier,
+    minimum_stock_level,
+    purchase_date,
+    purchase_cost,
+  } = useSelector((store) => store.supplies);
+  const numberFilterParams = [
+    quantity !== undefined ? `quantity<=${quantity}` : "",
+    minimum_stock_level !== undefined
+      ? ` minimum_stock_level<=${minimum_stock_level}`
+      : "",
+    purchase_cost !== undefined ? `purchase_cost<=${purchase_cost}` : "",
+    purchase_date ? `purchase_date=${purchase_date}` : "",
+  ];
+  const numberFilterString = numberFilterParams
+    .filter(Boolean) // This will remove any empty values
+    .join(" "); // Join the selected params with space for a clean format
+
+  const url = `supplies/?numberFilter=${numberFilterString}&pages=${pages}&supplier=${supplier}&supply_name=${supply_name}&status=${status}&storage_location=${storage_location}&category=${category}`;
+  // console.log(url);
   const {
     status: isGettingAllSupplies,
     data: supplies,
@@ -28,7 +52,28 @@ export const useSupplies = () => {
   });
   return { isGettingAllSupplies, supplies, refetch };
 };
-
+export const useSingleSuppply = (id) => {
+  const url = `supplies/${id}`;
+  const {
+    status: isGettingSingleSupply,
+    data: singleSupply,
+    refetch,
+  } = useQuery({
+    queryKey: ["singlesupply"],
+    queryFn: async () => {
+      const { data } = await customFetch.get(url);
+      return data;
+    },
+    onSuccess: ({ data }) => {
+      console.log("Query succeeded!", data);
+    },
+    onError: (err) => {
+      toast.error(err.response.data.msg);
+      console.log(err);
+    },
+  });
+  return { isGettingSingleSupply, singleSupply, refetch };
+};
 export const useCreateSupply = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
