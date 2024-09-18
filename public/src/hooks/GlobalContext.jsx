@@ -22,7 +22,7 @@ const GlobalContext = ({ children }) => {
   const { isGettingAllEmployees, employees } = useAllEmployess();
   const { isGettingAllUser, users } = usegetAllUser();
   const { isCheckingCurrentUser, currentUser } = useCurrentUser();
-  const { isGettingAllNok, noks } = useAllNok();
+  const { isGettingAllNok, noks, } = useAllNok();
   const { isGettingStations, stations } = useStations();
   const { isGettingAllHarvest, honey_harvest } = useHoneyHarvest();
   const { isGettingAllHunters, hunters } = useHunters();

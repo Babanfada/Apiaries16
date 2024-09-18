@@ -138,7 +138,6 @@ const useRegister = () => {
         />
       ),
     },
-
     {
       name: "phone",
       TextField: (

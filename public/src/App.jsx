@@ -194,6 +194,11 @@ const SingleSupply = lazy(() =>
     default: module.SingleSupply,
   }))
 );
+const CreateUpdateNok = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateNok,
+  }))
+);
 
 // General routes
 const routes = [
@@ -228,7 +233,7 @@ const adminRoutes = [
   { path: "/admin/orders", element: <Orders /> },
   { path: "/admin", element: <Overview /> },
   { path: "/admin/stations/:id", element: <SingleStation /> },
-  { path: "/admin/supplies/:id", element: <SingleSupply/> },
+  { path: "/admin/supplies/:id", element: <SingleSupply /> },
   { path: "/admin/equipments/:id", element: <SingleEquipment /> },
   {
     path: "/admin/createupdateemployee/:id",
@@ -245,6 +250,10 @@ const adminRoutes = [
   {
     path: "/admin/createupdatesupplies/:id",
     element: <CreateUpdateSupplies />,
+  },
+  {
+    path: "/admin/createupdatenok/:id",
+    element: <CreateUpdateNok />,
   },
 ];
 

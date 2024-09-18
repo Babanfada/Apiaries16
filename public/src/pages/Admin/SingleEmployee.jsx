@@ -66,6 +66,7 @@ const SingleEmployee = () => {
     <div>
       <Link to="/admin/employees">Go back to employee</Link>
       <Link to="/admin/stations">Go back to station</Link>
+      <Link to="/admin/employeenok">Go back to nok</Link>
       SingleEmployee
       <p>salary:{salary}</p>
       <img src={image} alt="image" height={"50px"} />

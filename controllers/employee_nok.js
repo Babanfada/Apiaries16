@@ -12,10 +12,55 @@ const getAllEmployeeNOK = async (req, res) => {
     fullname: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
-    relationship: (value) => value,
-    nok_id: (value) => value,
-    gender: (value) => value,
-    phone: (value) => value,
+    phone: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    email: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    emp_id: (value) => {
+      if (Number(value) === 0) {
+        // When value is 0, return all rows (no filter)
+        return {
+          [Sequelize.Op.ne]: null,
+        };
+      }
+      if (value !== 0 && value !== undefined) {
+        // When value is greater than 0, return the specified row
+        return value;
+      }
+      return undefined; // No condition applied if value is undefined
+    },
+    gender: (value) => {
+      // If "All" is selected, include all rows regardless of 'employment_status'
+      if (value === "---") {
+        return { [Sequelize.Op.or]: ["---", "male", "female"] };
+      }
+
+      // If a specific status (not "---" and not undefined) is selected, filter by that status
+      if (value !== "---" && value !== undefined) {
+        return value; // Returns the selected employment status
+      }
+
+      // If undefined, skip adding this filter
+      return undefined;
+    },
+    relationship: (value) => {
+      // If "All" is selected, include all rows regardless of 'employment_status'
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["---", "spouse", "parent", "guardian", "sibling"],
+        };
+      }
+
+      // If a specific status (not "---" and not undefined) is selected, filter by that status
+      if (value !== "---" && value !== undefined) {
+        return value; // Returns the selected employment status
+      }
+
+      // If undefined, skip adding this filter
+      return undefined;
+    },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -25,7 +70,7 @@ const getAllEmployeeNOK = async (req, res) => {
   });
 
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalEmployeesNOK / limit);
   let sortList;

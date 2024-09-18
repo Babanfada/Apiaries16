@@ -17,7 +17,7 @@ import RangeSlider from "./TextField";
 import StationsTable from "./component's_Tables/StationsTable";
 import EquipmentTable from "./component's_Tables/EquipmentsTable";
 import SuppliesTable from "./component's_Tables/SuppliesTable";
-
+import Nok_Table from "./component's_Tables/Nok_Table";
 export {
   UserInput,
   CustomButton,
@@ -36,4 +36,5 @@ export {
   StationsTable,
   EquipmentTable,
   SuppliesTable,
+  Nok_Table,
 };

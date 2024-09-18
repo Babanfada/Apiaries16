@@ -4,6 +4,7 @@ import employeesReducer from "./src/features/employees/employeesSlice";
 import stationReducer from "./src/features/stations/stationSlice";
 import equipmentReducer from "./src/features/equuipments/equipmentSlice";
 import suppliesReducer from "./src/features/supplies/suppliesSlice";
+import nokReducer from "./src/features/nok/nokSlice";
 const store = configureStore({
   reducer: {
     users: userReducer,
@@ -11,6 +12,7 @@ const store = configureStore({
     stations: stationReducer,
     equipments: equipmentReducer,
     supplies: suppliesReducer,
+    noks: nokReducer,
   },
 });
 export default store;

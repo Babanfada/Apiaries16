@@ -25,7 +25,7 @@ import SingleEquipment from "./SingleEquipment";
 import CreateUpdateEquipment from "./CreateUpdateEquipment";
 import CreateUpdateSupplies from "./CreateUpdateSupplies";
 import SingleSupply from "./SingleSupply";
-
+import CreateUpdateNok from "./CreateUpdateNok";
 export {
   Home,
   ApiarySetupComp,
@@ -54,4 +54,5 @@ export {
   CreateUpdateEquipment,
   CreateUpdateSupplies,
   SingleSupply,
+  CreateUpdateNok
 };

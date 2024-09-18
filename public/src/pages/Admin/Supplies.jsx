@@ -53,7 +53,7 @@ const Supplies = () => {
     purchase_date,
     purchase_cost,
   ]);
-  console.log(supply);
+  // console.log(supply);
   return (
     <div>
       <Link
