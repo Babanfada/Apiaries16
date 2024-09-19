@@ -17,7 +17,7 @@ export const useAllNok = () => {
     pages,
   } = useSelector((store) => store.noks);
   const url = `employeesnok/?emp_id=${emp_id}&fullname=${fullname}&pages=${pages}&email=${email}&address=${address}&phone=${phone}&gender=${gender}&relationship=${relationship}`;
-  console.log(url);
+  // console.log(url);
   const {
     status: isGettingAllNok,
     data: noks,

@@ -18,6 +18,8 @@ import StationsTable from "./component's_Tables/StationsTable";
 import EquipmentTable from "./component's_Tables/EquipmentsTable";
 import SuppliesTable from "./component's_Tables/SuppliesTable";
 import Nok_Table from "./component's_Tables/Nok_Table";
+import Harvest_Table from "./component's_Tables/HarvestTable";
+import HarvestSearchModal from "./searchModals/HarvestSearchModal";
 export {
   UserInput,
   CustomButton,
@@ -37,4 +39,6 @@ export {
   EquipmentTable,
   SuppliesTable,
   Nok_Table,
+  Harvest_Table,
+  HarvestSearchModal,
 };

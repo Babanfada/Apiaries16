@@ -3,7 +3,7 @@ import { useAllEmployess } from "../features/employees/employeesThunk";
 import { useCurrentUser, usegetAllUser } from "../features/users/userThunk";
 import { useAllNok } from "../features/nok/nokThunk";
 import { useStations } from "../features/stations/stationsThunk";
-import { useHoneyHarvest } from "../features/harvest/honey_harvest";
+import { useHoneyHarvest } from "../features/harvest/honey_harvestThunk";
 import { useHunters } from "../features/hunters/hunters";
 import { useHives } from "../features/hives.js/hivesThunk";
 import { useReports } from "../features/catch_reports/reportsThunk";
@@ -22,7 +22,7 @@ const GlobalContext = ({ children }) => {
   const { isGettingAllEmployees, employees } = useAllEmployess();
   const { isGettingAllUser, users } = usegetAllUser();
   const { isCheckingCurrentUser, currentUser } = useCurrentUser();
-  const { isGettingAllNok, noks, } = useAllNok();
+  const { isGettingAllNok, noks } = useAllNok();
   const { isGettingStations, stations } = useStations();
   const { isGettingAllHarvest, honey_harvest } = useHoneyHarvest();
   const { isGettingAllHunters, hunters } = useHunters();

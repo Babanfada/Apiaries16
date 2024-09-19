@@ -547,6 +547,17 @@ export const useSuppliesInputs = () => {
       ),
     },
   ];
-
-  return { suppliesDetails };
+  const searchSupplies = suppliesDetails.filter((detail) =>
+    [
+      "supply_name",
+      "category",
+      "quantity",
+      "status",
+      "storage_location",
+      "supplier",
+      "purchase_cost",
+      "purchase_date",
+    ].includes(detail.name)
+  );
+  return { suppliesDetails, searchSupplies };
 };

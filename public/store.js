@@ -5,6 +5,7 @@ import stationReducer from "./src/features/stations/stationSlice";
 import equipmentReducer from "./src/features/equuipments/equipmentSlice";
 import suppliesReducer from "./src/features/supplies/suppliesSlice";
 import nokReducer from "./src/features/nok/nokSlice";
+import HarvestReducer from "./src/features/harvest/honey_harvestSlice";
 const store = configureStore({
   reducer: {
     users: userReducer,
@@ -13,6 +14,7 @@ const store = configureStore({
     equipments: equipmentReducer,
     supplies: suppliesReducer,
     noks: nokReducer,
+    harvests: HarvestReducer,
   },
 });
 export default store;

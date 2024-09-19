@@ -16,8 +16,32 @@ const getAllHarvest = async (req, res) => {
     colouration: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
-    station_id: (value) => value,
-    harvest_id: (value) => value,
+    station_id: (value) => {
+      if (Number(value) === 1) {
+        // When value is 0, return all rows (no filter)
+        return {
+          [Sequelize.Op.ne]: null,
+        };
+      }
+      if (value !== 0 && value !== undefined) {
+        // When value is greater than 0, return the specified row
+        return value;
+      }
+      return undefined; // No condition applied if value is undefined
+    },
+    harvest_year: (value) => {
+      if (Number(value) === 2000) {
+        // When value is 0, return all rows (no filter)
+        return {
+          [Sequelize.Op.ne]: null,
+        };
+      }
+      if (value !== 0 && value !== undefined) {
+        // When value is greater than 0, return the specified row
+        return value;
+      }
+      return undefined; // No condition applied if value is undefined
+    },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -38,12 +62,7 @@ const getAllHarvest = async (req, res) => {
       regEx,
       (match) => `/${operatorMap[match]}/`
     );
-    const options = [
-      "harvest_year",
-      "harvest_date",
-      "quantity_collected",
-      "quality_rating",
-    ];
+    const options = ["harvest_date", "quantity_collected", "quality_rating"];
     console.log(filter);
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
@@ -65,7 +84,7 @@ const getAllHarvest = async (req, res) => {
     console.log(queryObject, "here");
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalHarvest / limit);
   //   console.log(numOfPages);
@@ -126,6 +145,7 @@ const getAllHarvest = async (req, res) => {
     harvestedVolumeByYear,
     qualityRatingCount,
     numOfPages,
+    totalHarvest,
   });
 };
 const getSingleHarvest = async (req, res) => {

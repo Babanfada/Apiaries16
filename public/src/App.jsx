@@ -199,6 +199,11 @@ const CreateUpdateNok = lazy(() =>
     default: module.CreateUpdateNok,
   }))
 );
+const CreateUpdateHarvest = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateHarvest,
+  }))
+);
 
 // General routes
 const routes = [
@@ -254,6 +259,10 @@ const adminRoutes = [
   {
     path: "/admin/createupdatenok/:id",
     element: <CreateUpdateNok />,
+  },
+  {
+    path: "/admin/createupdateharvest/:id",
+    element: <CreateUpdateHarvest />,
   },
 ];
 
