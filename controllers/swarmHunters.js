@@ -12,7 +12,6 @@ const getAllHunters = async (req, res) => {
   const queryObject = {};
   const totalHunters = await HUNTERS.count();
   const { numberFilter, fields, sort } = req.query;
-
   const fieldsToCheck = {
     fullname: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
@@ -20,10 +19,47 @@ const getAllHunters = async (req, res) => {
     emergency_contact_name: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
-    hunter_id: (value) => value,
-    phone: (value) => value,
-    emergency_contact: (value) => value,
-    employment_status: (value) => value,
+    emergency_contact: (value) =>
+      value !== undefined
+        ? {
+            [Sequelize.Op.like]: Sequelize.fn(
+              "LOWER",
+              `%${value.toLowerCase()}%`
+            ),
+          }
+        : undefined,
+    phone: (value) =>
+      value !== undefined
+        ? {
+            [Sequelize.Op.like]: Sequelize.fn(
+              "LOWER",
+              `%${value.toLowerCase()}%`
+            ),
+          }
+        : undefined,
+
+    employment_status: (value) => {
+      if (value === "---") {
+        return { [Sequelize.Op.or]: ["active", "inactive", "terminated"] };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    assigned_supervisor: (value) => {
+      if (Number(value) === 0) {
+        // When value is 0, return all rows (no filter)
+        return {
+          [Sequelize.Op.ne]: null,
+        };
+      }
+      if (value !== 0 && value !== undefined) {
+        // When value is greater than 0, return the specified row
+        return value;
+      }
+      return undefined; // No condition applied if value is undefined
+    },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -46,13 +82,13 @@ const getAllHunters = async (req, res) => {
       (match) => `/${operatorMap[match]}/`
     );
     // console.log(filter);
-    const options = ["tip(naira)", "joining_date"];
+    const options = ["tip", "joining_date"];
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
       //   console.log(field);
 
       if (options.includes(field)) {
-        if (field === "tip(naira)") {
+        if (field === "tip") {
           queryObject[field] = {
             [Sequelize.Op[operator]]: Number(value),
           };
@@ -71,16 +107,16 @@ const getAllHunters = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalHunters / limit);
   let sortList;
   switch (sort) {
     case "high-low":
-      sortList = [["tip(naira)", "DESC"]];
+      sortList = [["tip", "DESC"]];
       break;
     case "low-high":
-      sortList = [["tip(naira)", "ASC"]];
+      sortList = [["tip", "ASC"]];
       break;
     case "A-Z":
       sortList = [["fullname", "ASC"]];

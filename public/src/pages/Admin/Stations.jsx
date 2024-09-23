@@ -20,6 +20,7 @@ const Stations = () => {
     number_of_hive_boxes,
     last_inspection_date,
     next_inspection_date,
+    sort,
   } = useSelector((store) => store.stations);
   const {
     isGettingStations,
@@ -58,6 +59,7 @@ const Stations = () => {
     number_of_hive_boxes,
     last_inspection_date,
     next_inspection_date,
+    sort,
   ]);
   return (
     <div>

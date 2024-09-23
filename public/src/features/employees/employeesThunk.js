@@ -16,6 +16,7 @@ export const useAllEmployess = () => {
     joining_date,
     salaryRange,
     pages,
+    sort,
   } = useSelector((store) => store.employees);
   // console.log(first_name);
   // console.log(
@@ -42,7 +43,7 @@ export const useAllEmployess = () => {
     .filter(Boolean) // This will remove any empty values
     .join(" "); // Join the selected params with space for a clean format
 
-  const url = `employees/?first_name=${first_name}&last_name=${last_name}&role=${role}&numberFilter=${numberFilterString}&employment_type=${employment_type}&employment_status=${employment_status}&pages=${pages}`;
+  const url = `employees/?first_name=${first_name}&last_name=${last_name}&role=${role}&numberFilter=${numberFilterString}&employment_type=${employment_type}&employment_status=${employment_status}&pages=${pages}&sort=${sort}`;
 
   // console.log(url);
 
@@ -107,8 +108,15 @@ export const useCreateEmployee = () => {
       toast.success(msg);
     },
     onError: (error) => {
+      const Msg = error.response?.data?.msg;
+      if (Msg.includes("Data truncated for column")) {
+        toast.error(
+          "The department || employment type/status fields cannot be empty !!!"
+        );
+      } else {
+        toast.error(error.response?.data?.msg || "An error occurred.");
+      }
       console.log(error);
-      toast.error(error.response?.data?.msg || "An error occurred.");
     },
   });
   return { createEmployee, isCreatingEmployee };
@@ -131,8 +139,14 @@ export const useUpdateEmployee = () => {
       toast.success(msg);
     },
     onError: (error) => {
-      console.log(error);
-      toast.error(error.response?.data?.msg || "An error occurred.");
+      const Msg = error.response?.data?.msg;
+      if (Msg.includes("Data truncated for column")) {
+        toast.error(
+          "The department || employment type/status fields cannot be empty !!!"
+        );
+      } else {
+        toast.error(error.response?.data?.msg || "An error occurred.");
+      }
     },
   });
   return { updateEmployee, isUpdatingEmployee };

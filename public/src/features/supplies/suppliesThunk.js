@@ -17,6 +17,7 @@ export const useSupplies = () => {
     minimum_stock_level,
     purchase_date,
     purchase_cost,
+    sort,
   } = useSelector((store) => store.supplies);
   const numberFilterParams = [
     quantity !== undefined ? `quantity<=${quantity}` : "",
@@ -30,7 +31,7 @@ export const useSupplies = () => {
     .filter(Boolean) // This will remove any empty values
     .join(" "); // Join the selected params with space for a clean format
 
-  const url = `supplies/?numberFilter=${numberFilterString}&pages=${pages}&supplier=${supplier}&supply_name=${supply_name}&status=${status}&storage_location=${storage_location}&category=${category}`;
+  const url = `supplies/?numberFilter=${numberFilterString}&pages=${pages}&supplier=${supplier}&supply_name=${supply_name}&status=${status}&storage_location=${storage_location}&category=${category}&sort=${sort}`;
   // console.log(url);
   const {
     status: isGettingAllSupplies,

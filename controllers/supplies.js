@@ -121,7 +121,7 @@ const getAllSupplies = async (req, res) => {
     case "Z-A":
       sortList = [["supply_name", "DESC"]];
       break;
-    case "recently":
+    case "recent":
       sortList = [["purchase_date", "DESC"]];
       break;
     case "old":

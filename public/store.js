@@ -6,6 +6,9 @@ import equipmentReducer from "./src/features/equuipments/equipmentSlice";
 import suppliesReducer from "./src/features/supplies/suppliesSlice";
 import nokReducer from "./src/features/nok/nokSlice";
 import HarvestReducer from "./src/features/harvest/honey_harvestSlice";
+import HunterReducer from "./src/features/hunters/huntersSlice";
+import HiveReducer from "./src/features/hives/hiveSlice";
+import ReportReducer from "./src/features/catch_reports/reportSlice";
 const store = configureStore({
   reducer: {
     users: userReducer,
@@ -15,6 +18,9 @@ const store = configureStore({
     supplies: suppliesReducer,
     noks: nokReducer,
     harvests: HarvestReducer,
+    hunters: HunterReducer,
+    hives: HiveReducer,
+    reports: ReportReducer,
   },
 });
 export default store;

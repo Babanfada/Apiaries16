@@ -27,6 +27,12 @@ import CreateUpdateSupplies from "./CreateUpdateSupplies";
 import SingleSupply from "./SingleSupply";
 import CreateUpdateNok from "./CreateUpdateNok";
 import CreateUpdateHarvest from "./CreateUpdateHarvest";
+import CreateUpdateHunter from "./CreateUpdateHunter";
+import SingleHunter from "./SingleHunter";
+import CreateUpdateHive from "./CreateUpdateHive";
+import SingleHive from "./SingleHive";
+import CreateUpdateReport from "./CreateUpdateReport";
+import SingleReport from "./SingleReport";
 export {
   Home,
   ApiarySetupComp,
@@ -57,4 +63,10 @@ export {
   SingleSupply,
   CreateUpdateNok,
   CreateUpdateHarvest,
+  CreateUpdateHunter,
+  SingleHunter,
+  CreateUpdateHive,
+  SingleHive,
+  CreateUpdateReport,
+  SingleReport,
 };

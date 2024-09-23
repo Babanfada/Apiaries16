@@ -90,22 +90,22 @@ const getAllHarvest = async (req, res) => {
   //   console.log(numOfPages);
   let sortList;
   switch (sort) {
-    case "high-low":
+    case "high-rating":
       sortList = [["quality_rating", "DESC"]];
       break;
-    case "low-high":
+    case "low-rating":
       sortList = [["quality_rating", "ASC"]];
       break;
     case "low_Volume":
       sortList = [["quantity_collected", "ASC"]];
       break;
-    case "high_volume":
+    case "high-volume":
       sortList = [["quantity_collected", "DESC"]];
       break;
-    case "latest":
+    case "latest-harvest":
       sortList = [["harvest_year", "ASC"]];
       break;
-    case "oldest":
+    case "oldest-harvest":
       sortList = [["harvest_year", "DESC"]];
       break;
     default:

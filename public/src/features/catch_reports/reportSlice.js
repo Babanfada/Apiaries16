@@ -1,32 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  emp_id: 0,
-  fullname: "",
-  email: "",
-  address: "",
-  phone: "",
-  gender: "---",
-  relationship: "---",
+  hunter_id: 0,
+  assigned_supervisor: 0,
+  total_boxes_assigned: 10 * 10,
+  colonized_boxes: 10 * 10,
+  uncolonized_boxes: 10 * 10,
+  delivered_to_apiary: "---",
+  date_assigned: "",
+  catch_date: "",
+  catch_location: "",
+  catch_status: "---",
+  season: "---",
+  sort: "---",
+  notes: "",
   isEdit: false,
   pages: 1,
-  sort: "---",
 };
-const nokSlice = createSlice({
-  name: "nok",
+const reportSlice = createSlice({
+  name: "hives",
   initialState,
   reducers: {
-    handelChangeNok: (state, { payload }) => {
+    handleChangeReport: (state, { payload }) => {
       const { name, value } = payload;
       state[name] = value;
     },
-    handlePhoneInputNok: (state, { payload }) => {
-      return {
-        ...state,
-        phone: payload,
-      };
-    },
 
-    handleDob: (state, { payload }) => {
+    handleDateReport: (state, { payload }) => {
       const { name, date } = payload;
       console.log({ name, date });
       state[name] = date;
@@ -34,7 +33,7 @@ const nokSlice = createSlice({
     handleReset: (state) => {
       return { ...initialState };
     },
-    setUpdateNok: (state, { payload }) => {
+    setUpdateReport: (state, { payload }) => {
       return { ...state, ...payload, isEdit: true };
     },
     resetValues: (state) => {
@@ -49,12 +48,11 @@ const nokSlice = createSlice({
 });
 
 export const {
-  handelChangeNok,
-  handlePhoneInputNok,
-  handleDob,
+  handleChangeReport,
+  handleDateReport,
   handleReset,
-  setUpdateNok,
+  setUpdateReport,
   resetValues,
   changePage,
-} = nokSlice.actions;
-export default nokSlice.reducer;
+} = reportSlice.actions;
+export default reportSlice.reducer;

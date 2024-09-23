@@ -19,6 +19,7 @@ const EmployeeNok = () => {
     phone,
     gender,
     relationship,
+    sort,
   } = useSelector((store) => store.noks);
   const dispatch = useDispatch();
   const {
@@ -39,7 +40,17 @@ const EmployeeNok = () => {
   };
   React.useEffect(() => {
     refetch();
-  }, [emp_id, fullname, email, address, phone, gender, relationship, pages]);
+  }, [
+    emp_id,
+    fullname,
+    email,
+    address,
+    phone,
+    gender,
+    relationship,
+    pages,
+    sort,
+  ]);
   return (
     <div>
       <Link

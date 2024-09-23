@@ -12,6 +12,7 @@ const initialState = {
   purchase_cost: "",
   isEdit: false,
   pages: 1,
+  sort: "---",
 };
 const suppliesSlice = createSlice({
   name: "supplies",

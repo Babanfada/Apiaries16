@@ -18,6 +18,7 @@ export const useEquipments = () => {
     quantity,
     purchase_cost,
     purchase_date,
+    sort,
   } = useSelector((store) => store.equipments);
   //  const numberFilterParams = `quantity<=${quantity}`;
   const numberFilterParams = [
@@ -29,7 +30,7 @@ export const useEquipments = () => {
     .filter(Boolean) // This will remove any empty values
     .join(" "); // Join the selected params with space for a clean format
 
-  const url = `equipments/?numberFilter=${numberFilterString}&pages=${pages}&tool_name=${tool_name}&currency=${currency}&supplier=${supplier}&status=${status}&storage_location=${storage_location}&retired=${retired}&category=${category}`;
+  const url = `equipments/?numberFilter=${numberFilterString}&pages=${pages}&tool_name=${tool_name}&currency=${currency}&supplier=${supplier}&status=${status}&storage_location=${storage_location}&retired=${retired}&category=${category}&sort=${sort}`;
   // console.log(url);
   const {
     status: isGettingAllequipments,

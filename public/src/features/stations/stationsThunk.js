@@ -15,12 +15,13 @@ export const useStations = () => {
     status,
     station_size,
     number_of_hive_boxes,
+    sort,
     // last_inspection_date,
     // next_inspection_date,
   } = useSelector((store) => store.stations);
 
   const numberFilterParams = `number_of_hive_boxes>=${number_of_hive_boxes}`;
-  const url = `apiarystations/?numberFilter=${numberFilterParams}&pages=${pages}&location=${location}&status=${status}&station_size=${station_size}&supervisor_int=${supervisor_int}&supervisor_ext=${supervisor_ext}&station_name=${station_name}`;
+  const url = `apiarystations/?numberFilter=${numberFilterParams}&pages=${pages}&location=${location}&status=${status}&station_size=${station_size}&supervisor_int=${supervisor_int}&supervisor_ext=${supervisor_ext}&station_name=${station_name}&sort=${sort}`;
   // console.log(url);
   const {
     status: isGettingStations,

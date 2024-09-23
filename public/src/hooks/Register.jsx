@@ -271,6 +271,7 @@ export const useEmployee = () => {
     employment_status,
     employment_type,
     salaryRange,
+    sort,
   } = useSelector((store) => store.employees);
   const dispatch = useDispatch();
   const [validationError, setValidationError] = React.useState(false);
@@ -408,7 +409,7 @@ export const useEmployee = () => {
           name={"department"}
           value={department}
           type={"text"}
-          gender={["beekeeping", "operation", "administration"]}
+          gender={["---", "beekeeping", "operation", "administration"]}
           handleChange={getInput}
         />
       ),
@@ -431,7 +432,7 @@ export const useEmployee = () => {
           name={"employment_status"}
           value={employment_status}
           type={"text"}
-          gender={["active", "inactive", "terminated"]}
+          gender={["---", "active", "inactive", "terminated"]}
           handleChange={getInput}
         />
       ),
@@ -443,7 +444,12 @@ export const useEmployee = () => {
           name={"employment_type"}
           value={employment_type}
           type={"text"}
-          gender={["full staff", "contract staff", "station supervisor(ext)"]}
+          gender={[
+            "---",
+            "full staff",
+            "contract staff",
+            "station supervisor(ext)",
+          ]}
           handleChange={getInput}
         />
       ),
@@ -484,7 +490,7 @@ export const useEmployee = () => {
       TextField: (
         <RangeSlider
           name={" salaryRange"}
-          value={ salaryRange}
+          value={salaryRange}
           min={1000}
           max={100000}
           step={1000}
@@ -516,6 +522,26 @@ export const useEmployee = () => {
             "full staff",
             "contract staff",
             "station supervisor(ext)",
+          ]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={[
+            "---",
+            "A-Z",
+            "Z-A",
+            "high-low",
+            "low-high",
+            "youngest",
+            "oldest",
           ]}
           handleChange={getInput}
         />

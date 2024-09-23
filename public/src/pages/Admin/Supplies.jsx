@@ -20,6 +20,7 @@ const Supplies = () => {
     minimum_stock_level,
     purchase_date,
     purchase_cost,
+    sort
   } = useSelector((store) => store.supplies);
   const dispatch = useDispatch();
   const {
@@ -52,6 +53,7 @@ const Supplies = () => {
     minimum_stock_level,
     purchase_date,
     purchase_cost,
+    sort
   ]);
   // console.log(supply);
   return (

@@ -15,6 +15,7 @@ const initialState = {
   note: "",
   isEdit: false,
   pages: 1,
+  sort:"---"
 };
 const equipmentSlice = createSlice({
   name: "equipments",

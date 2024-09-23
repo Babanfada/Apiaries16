@@ -63,10 +63,12 @@ const CreateUpdateSupplies = () => {
     <div>
       <Link to="/admin/supplies">Go back</Link>CreateUpdateSupplies
       <form onSubmit={handleSubmit}>
-        {suppliesDetails.map((detail) => {
-          const { name, TextField } = detail;
-          return <div key={name}>{TextField}</div>;
-        })}
+        {suppliesDetails
+          .filter((detail) => detail.name !== "sort")
+          .map((detail) => {
+            const { name, TextField } = detail;
+            return <div key={name}>{TextField}</div>;
+          })}
 
         <CustomButton
           background={"#1212121F"}

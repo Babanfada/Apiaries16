@@ -7,7 +7,7 @@ const initialState = {
   phone: "",
   gender: "",
   role: "",
-  department: "",
+  department: "---",
   dob: "",
   // dob: convertToDateOnly(new Date()),
   joining_date: "",
@@ -19,6 +19,7 @@ const initialState = {
   isEdit: false,
   salaryRange: [1000, 1000000],
   pages: 1,
+  sort: "---",
 };
 const employeesSlice = createSlice({
   name: "employees",

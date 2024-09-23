@@ -16,6 +16,7 @@ export const useHoneyHarvest = () => {
     quantity_collected,
     colouration,
     quality_rating,
+    sort,
   } = useSelector((store) => store.harvests);
   const numberFilterParams = [
     quality_rating !== undefined ? `quality_rating<=${quality_rating}` : "",
@@ -28,7 +29,7 @@ export const useHoneyHarvest = () => {
     .filter(Boolean) // This will remove any empty values
     .join(" "); // Join the selected params with space for a clean format
 
-  const url = `honeyharvest/?numberFilter=${numberFilterString}&pages=${pages}&station_id=${station_id}&station_name=${station_name}&harvest_year=${harvest_year}&colouration=${colouration}`;
+  const url = `honeyharvest/?numberFilter=${numberFilterString}&pages=${pages}&station_id=${station_id}&station_name=${station_name}&harvest_year=${harvest_year}&colouration=${colouration}&sort=${sort}`;
   // console.log(url);
   const {
     status: isGettingAllHarvest,

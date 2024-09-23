@@ -111,10 +111,10 @@ const getAllEquipments = async (req, res) => {
   const numOfPages = Math.ceil(totalEquipments / limit);
   let sortList;
   switch (sort) {
-    case "high-low":
+    case "high-purchase-cost":
       sortList = [["purchase_cost", "DESC"]];
       break;
-    case "low-high":
+    case "low-purchase-cost":
       sortList = [["purchase_cost", "ASC"]];
       break;
     case "A-Z":
@@ -123,7 +123,7 @@ const getAllEquipments = async (req, res) => {
     case "Z-A":
       sortList = [["tool_name", "DESC"]];
       break;
-    case "recently":
+    case "recent":
       sortList = [["purchase_date", "DESC"]];
       break;
     case "old":

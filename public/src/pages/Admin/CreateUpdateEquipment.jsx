@@ -93,12 +93,13 @@ const CreateUpdateEquipment = () => {
         {equipmentDetails
           .filter((detail) => {
             if (
-              !isEdit &&
-              (detail.name === "retired" ||
-                detail.name === "last_maintanace_date" ||
-                detail.name === "next_maintanace_date")
+              detail.name === "sort" || // Exclude 'sort' in all cases
+              (!isEdit &&
+                (detail.name === "retired" ||
+                  detail.name === "last_maintanace_date" ||
+                  detail.name === "next_maintanace_date"))
             ) {
-              return false; // Exclude these fields in edit mode
+              return false; // Exclude these fields
             }
             return true; // Include all other fields
           })

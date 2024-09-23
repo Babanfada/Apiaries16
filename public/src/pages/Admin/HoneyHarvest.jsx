@@ -21,6 +21,7 @@ const HoneyHarvest = () => {
     unit,
     quality_rating,
     note,
+    sort
   } = useSelector((store) => store.harvests);
   const dispatch = useDispatch();
   const {
@@ -53,6 +54,7 @@ const HoneyHarvest = () => {
     unit,
     quality_rating,
     note,
+    sort
   ]);
   return (
     <div>

@@ -1129,7 +1129,7 @@ ALTER TABLE `supplies`
 CHANGE COLUMN `created_at` `createdAt` DATETIME,
 CHANGE COLUMN `updated_at` `updatedAt` DATETIME;
 
-ALTER TABLE `supply_provision_items` 
+ALTER TABLE `orders` 
 ADD COLUMN createdAt DATETIME default current_timestamp,
 ADD COLUMN updatedAt DATETIME default current_timestamp on update current_timestamp;
 describe swarm_hunters;
@@ -1147,40 +1147,46 @@ select * from consultancy_items;
 describe apiary_setup_components;
 select * from token;
 select * from users;
-select * from products;
+select * from products;         
 select * from product_images;
 select * from product_colors;
 select * from reviews;
-select * from equipments_tools;
-describe equipments_tools;
 select * from review_images;
-select * from honey_harvest; 
-alter table equipments_tools change retired retired enum("retired","not retired")
-select sum(quantity * total_in_stock) as totalvalue, product_type, unit from products group by product_type,unit;
 delete from review_images where image_id = 4;
 describe review_images;
+select * from users;
 select * from orders;
 select * from order_items;
-select * from employees;
 select * from delivery_address;
-select * from honey_harvest;
-select sum(quantity_collected) as harvested_volume, harvest_year from honey_harvest group by harvest_year;
-alter table employees add gender enum("male","female") after dob;
-select * from employees;
-UPDATE employees SET gender = 'female' WHERE emp_id IN (2, 4, 7);
-alter table orders change user user_id int;
-delete from users where user_id = 30;
-update  products set available = false where product_id = 6;
+select * from user_orders;
+SELECT 
+    DATE_FORMAT(createdAt, '%Y-%m') AS month, 
+    SUM(total) AS total_revenue
+FROM 
+    orders
+GROUP BY 
+    DATE_FORMAT(createdAt, '%Y-%m')
+ORDER BY 
+    month ASC;
+
+alter table user_orders change _id status_id int;
+delete from product_images where image_id = 14;
+update  order_items set product_id = 9 where item_id = 5;
+select * from order_items;
+alter table order_items add product_id int after order_id; 
+alter table order_items add foreign key(product_id) references products(product_id);
+describe order_items;
+select count(paymentStatus) as count, paymentStatus from orders where user_id = 3 group by paymentStatus;
 alter table review_images add column img0_public_id text after image0,add column img1_public_id text after image1,add column img2_public_id text after image2 ;
 alter table users modify img_public_id varchar(200) after image;
 alter table products modify available bool not null;
 alter table products drop constraint products_ibfk_1;
 alter table products drop column user; 
-describe products;
+describe orders;
 update users set role = "admin" where user_id  = 7;
 select count(station_id) as stations, status from `apiary_stations` group by status;
 select sum(number_of_hive_boxes) as total_hives from `apiary_stations`;
-alter table `honey_harvest` add colouration varchar(100) not null;
+-- alter table `order_items` add pr varchar(100) not null;
 alter table `swarm_hunters` modify employment_status enum ("active","inactive","terminated") default "active";
 update `apiary_stations` set station_name = 'celestia' where station_id = 15; 
 alter table `apiary_stations` change name station_name varchar(50) not null;

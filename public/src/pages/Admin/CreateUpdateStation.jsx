@@ -72,7 +72,9 @@ const CreateUpdateStation = () => {
     );
 
     if (!isValid) {
-      alert("Please fill out all required fields,especially the dates field if available.");
+      alert(
+        "Please fill out all required fields,especially the dates field if available."
+      );
       return;
     }
 
@@ -91,9 +93,10 @@ const CreateUpdateStation = () => {
         {station_details
           .filter((detail) => {
             if (
-              !isEdit &&
-              (detail.name === "next_inspection_date" ||
-                detail.name === "last_inspection_date")
+              detail.name === "sort" ||
+              (!isEdit &&
+                (detail.name === "next_inspection_date" ||
+                  detail.name === "last_inspection_date"))
             ) {
               return false; // Exclude these fields in edit mode
             }

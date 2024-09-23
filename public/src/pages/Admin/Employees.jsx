@@ -27,6 +27,7 @@ const Employees = () => {
     role,
     salaryRange,
     pages,
+    sort,
   } = useSelector((store) => store.employees);
   const {
     employees: Employees = [],
@@ -50,6 +51,7 @@ const Employees = () => {
     role,
     pages,
     salaryRange,
+    sort,
   ]);
   const employeesPerPage = Employees.length; // Assuming each page shows `Employees.length`
   const cumulativeCount = (pages - 1) * employeesPerPage + employeesPerPage; // Calculate cumulative count

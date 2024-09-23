@@ -50,10 +50,12 @@ const CreateUpdateNok = () => {
     <div>
       <Link to="/admin/employeenok">Go back</Link>
       <form onSubmit={handleSubmit}>
-        {nokInput.map((detail) => {
-          const { name, TextField } = detail;
-          return <div key={name}>{TextField}</div>;
-        })}
+        {nokInput
+          .filter((detail) => detail.name !== "sort")
+          .map((detail) => {
+            const { name, TextField } = detail;
+            return <div key={name}>{TextField}</div>;
+          })}
         <CustomButton
           background={"#1212121F"}
           backgroundhover={"#59d9d9"}

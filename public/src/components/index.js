@@ -20,6 +20,10 @@ import SuppliesTable from "./component's_Tables/SuppliesTable";
 import Nok_Table from "./component's_Tables/Nok_Table";
 import Harvest_Table from "./component's_Tables/HarvestTable";
 import HarvestSearchModal from "./searchModals/HarvestSearchModal";
+import Hunters_Table from "./component's_Tables/HuntersTable";
+import HivesTable from "./component's_Tables/HivesTable";
+import ReportTable from "./component's_Tables/ReportTable";
+import ReportSearchModal from "./searchModals/ReportSearchModal";
 export {
   UserInput,
   CustomButton,
@@ -41,4 +45,8 @@ export {
   Nok_Table,
   Harvest_Table,
   HarvestSearchModal,
+  Hunters_Table,
+  HivesTable,
+  ReportTable,
+  ReportSearchModal,
 };

@@ -37,6 +37,7 @@ const Equipments = () => {
     quantity,
     purchase_cost,
     purchase_date,
+    sort
   } = useSelector((store) => store.equipments);
   const { refetch, isGettingAllequipments } = useEquipments();
   const handleChange = (event, value) => {
@@ -57,6 +58,7 @@ const Equipments = () => {
     quantity,
     purchase_cost,
     purchase_date,
+    sort
   ]);
   // console.log(equipment);
   return (

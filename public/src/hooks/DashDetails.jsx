@@ -33,6 +33,7 @@ export const useDashDetails_1 = () => {
     last_inspection_date,
     next_inspection_date,
     notes,
+    sort,
   } = useSelector((store) => store.stations);
   const getInput = (e) => {
     const { name, value } = e.target;
@@ -204,6 +205,18 @@ export const useDashDetails_1 = () => {
         />
       ),
     },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={["---", "A-Z", "Z-A", "high-low", "low-high"]}
+          handleChange={getInput}
+        />
+      ),
+    },
   ];
   const searchStations = station_details.filter((detail) =>
     [
@@ -214,6 +227,7 @@ export const useDashDetails_1 = () => {
       "supervisor_int",
       "supervisor_ext",
       "number_of_hive_boxes",
+      "sort",
       //   "last_inspection_date",
       //   "next_inspection_date",
     ].includes(detail.name)
@@ -236,6 +250,7 @@ export const useEquipments = () => {
     next_maintanace_date,
     retired,
     note,
+    sort
   } = useSelector((store) => store.equipments);
   const dispatch = useDispatch();
   const getDob = (e) => {
@@ -398,6 +413,26 @@ export const useEquipments = () => {
         />
       ),
     },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={[
+            "---",
+            "high-purchase-cost",
+            "low-purchase-cost",
+            "A-Z",
+            "Z-A",
+            "recent",
+            "old",
+          ]}
+          handleChange={getInput}
+        />
+      ),
+    },
   ];
   const searchEquipments = equipmentDetails.filter((detail) =>
     [
@@ -411,6 +446,7 @@ export const useEquipments = () => {
       "quantity",
       "purchase_cost",
       "purchase_date",
+      "sort",
     ].includes(detail.name)
   );
 
@@ -428,6 +464,7 @@ export const useSuppliesInputs = () => {
     minimum_stock_level,
     purchase_date,
     purchase_cost,
+    sort
   } = useSelector((store) => store.supplies);
   const dispatch = useDispatch();
   const getDob = (e) => {
@@ -542,6 +579,26 @@ export const useSuppliesInputs = () => {
           name={"minimum_stock_level"}
           value={minimum_stock_level}
           type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={[
+            "---",
+            "high-low",
+            "low-high",
+            "high-stock",
+            "low-stock",
+            "recent",
+            "old",
+          ]}
           handleChange={getInput}
         />
       ),

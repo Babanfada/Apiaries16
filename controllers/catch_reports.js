@@ -13,9 +13,28 @@ const getAllReports = async (req, res) => {
   const { numberFilter, fields, sort } = req.query;
 
   const fieldsToCheck = {
-    report_id: (value) => value,
-    season: (value) => value,
-    catch_status: (value) => value,
+    season: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["dry", "rain"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    catch_status: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["all pending", "all successfull", "some pending"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -63,27 +82,15 @@ const getAllReports = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalReports / limit);
   let sortList;
   switch (sort) {
-    case "colonized-desc":
-      sortList = [["colonized_boxes", "DESC"]];
-      break;
-    case "colonized-asc":
-      sortList = [["colonized_boxes", "ASC"]];
-      break;
-    case "uncolonized_asc":
-      sortList = [["uncolonized_boxes", "ASC"]];
-      break;
-    case "uncolonized_desc":
-      sortList = [["uncolonized_boxes", "DESC"]];
-      break;
-    case "newest":
+    case "new":
       sortList = [["catch_date", "DESC"]];
       break;
-    case "oldest":
+    case "old":
       sortList = [["catch_date", "ASC"]];
       break;
     default:

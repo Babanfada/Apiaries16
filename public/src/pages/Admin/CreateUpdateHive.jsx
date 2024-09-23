@@ -1,61 +1,60 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useHarvest } from "../../hooks/DashDetails_2";
-import {
-  useCreateHarvest,
-  useUpdateHarvest,
-} from "../../features/harvest/honey_harvestThunk";
 import { CustomButton } from "../../components";
 import { Loader1 } from "../../components/Loader";
 import { useParams } from "react-router-dom";
+import { useHives } from "../../hooks/DashDetails_2";
+import { useCreateHive, useUpdateHive } from "../../features/hives/hivesThunk";
 
-const CreateUpdateHarvest = () => {
+const CreateUpdateHive = () => {
   const { id } = useParams();
-  const { harvestInputs } = useHarvest();
-  const { isUpdatingHarvest, updateHarvest } = useUpdateHarvest();
-  const { createHarvest, isCreatingHarvest } = useCreateHarvest();
+  const { hiveInputs } = useHives();
+  const { isUpdatingHive, updateHive } = useUpdateHive();
+  const { createHive, isCreatingHive } = useCreateHive();
   const {
-    harvest_year,
-    station_id,
-    station_name,
-    harvest_date,
-    quantity_collected,
-    colouration,
-    unit,
-    quality_rating,
+    assigned_hunter,
+    hive_type,
+    num_of_frames,
+    colonized,
+    status,
+    use_condition,
+    first_installation,
+    current_location,
+    last_inspection_date,
     note,
     isEdit,
-  } = useSelector((store) => store.harvests);
-  const harvestDetails = {
-    harvest_year,
-    station_id,
-    station_name,
-    harvest_date,
-    quantity_collected,
-    colouration,
-    unit,
-    quality_rating,
+  } = useSelector((store) => store.hives);
+  const hiveDetails = {
+    assigned_hunter,
+    hive_type,
+    num_of_frames,
+    colonized,
+    status,
+    use_condition,
+    first_installation,
+    current_location,
+    last_inspection_date,
     note,
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isValid = Object.values(harvestDetails).every(
+    const isValid = Object.values(hiveDetails).every(
       (value) => value !== undefined && value !== null && value !== ""
     );
     if (!isValid) {
       alert("Please fill out all required fields.");
       return;
     }
-    if (isEdit) return updateHarvest({ harvestDetails, id });
-    createHarvest(harvestDetails);
+    if (isEdit) return updateHive({ hiveDetails, id });
+    createHive(hiveDetails);
   };
   return (
     <div>
-      <Link to={`/admin/honeyharvest`}>Go back</Link>
+      <Link to={`/admin/hives`}>Go back</Link>
 
       <form onSubmit={handleSubmit}>
-        {harvestInputs
+        {hiveInputs
           .filter((detail) => detail.name !== "sort")
           .map((detail) => {
             const { name, TextField } = detail;
@@ -69,8 +68,7 @@ const CreateUpdateHarvest = () => {
           type="submit"
           // disabled={!isValid}
         >
-          {isCreatingHarvest === "pending" ||
-          isUpdatingHarvest === "pending" ? (
+          {isCreatingHive === "pending" || isUpdatingHive === "pending" ? (
             <Loader1 />
           ) : isEdit ? (
             "Update"
@@ -83,4 +81,4 @@ const CreateUpdateHarvest = () => {
   );
 };
 
-export default CreateUpdateHarvest;
+export default CreateUpdateHive;

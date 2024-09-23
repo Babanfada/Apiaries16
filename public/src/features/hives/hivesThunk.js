@@ -2,39 +2,36 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customFetch from "../../../utils";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { handleReset } from "./reportSlice";
+import { handleReset } from "./hiveSlice";
 import { useSelector } from "react-redux";
 
-export const useReports = () => {
+export const useHives = () => {
   const {
     pages,
-    total_boxes_assigned,
-    catch_date,
-    catch_status,
-    season,
-    colonized_boxes,
-    uncolonized_boxes,
+    num_of_frames,
+    first_installation,
+    hive_type,
+    colonized,
+    status,
+    use_condition,
+    current_location,
     sort,
-  } = useSelector((store) => store.reports);
+  } = useSelector((store) => store.hives);
   const numberFilterParams = [
-    colonized_boxes !== undefined ? `colonized_boxes<=${colonized_boxes}` : "",
-    uncolonized_boxes !== undefined
-      ? `uncolonized_boxes<=${uncolonized_boxes}`
+    num_of_frames !== undefined ? `num_of_frames<=${num_of_frames}` : "",
+    first_installation !== undefined
+      ? `first_installation=${first_installation}`
       : "",
-    total_boxes_assigned !== undefined
-      ? `total_boxes_assigned<=${total_boxes_assigned}`
-      : "",
-    catch_date !== undefined ? `catch_date=${catch_date}` : "",
   ];
   const numberFilterString = numberFilterParams.filter(Boolean).join(" ");
-  const url = `catchreports/?sort=${sort}&pages=${pages}&season=${season}&catch_status=${catch_status}&sort=${sort}&numberFilter=${numberFilterString}`;
+  const url = `hives/?pages=${pages}&numberFilter=${numberFilterString}&current_location=${current_location}&status=${status}&colonized=${colonized}&use_condition=${use_condition}&hive_type=${hive_type}&sort=${sort}`;
   // console.log(url);
   const {
-    status: isGettingAllReports,
-    data: catch_reports,
+    status: isGettingAllHives,
+    data: hives,
     refetch,
   } = useQuery({
-    queryKey: ["allreports"],
+    queryKey: ["allhives"],
     queryFn: async () => {
       const { data } = await customFetch.get(url);
       return data;
@@ -47,18 +44,19 @@ export const useReports = () => {
       console.log(err);
     },
   });
-  return { isGettingAllReports, catch_reports, refetch };
+  return { isGettingAllHives, hives, refetch };
 };
 
-export const useSingleReport = (id) => {
-  const url = `catchreports/${id}`;
+export const useSingleHive = (id) => {
+  // const { pages } = useSelector((store) => store.stations);
+  const url = `hives/${id}`;
   // console.log(url);
   const {
-    status: isGettingSingleReport,
-    data: singleReport,
+    status: isGettingSingleHive,
+    data: singleHive,
     refetch,
   } = useQuery({
-    queryKey: ["singlereport"],
+    queryKey: ["singlehive"],
     queryFn: async () => {
       const { data } = await customFetch.get(url);
       return data;
@@ -71,20 +69,22 @@ export const useSingleReport = (id) => {
       console.log(err);
     },
   });
-  return { isGettingSingleReport, singleReport, refetch };
+  return { isGettingSingleHive, singleHive, refetch };
 };
-export const useCreateReport = () => {
+export const useCreateHive = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const { mutate: createReport, status: isCreatingReport } = useMutation({
-    mutationFn: async (reportDetails) => {
-      const { data } = await customFetch.post("catchreports", {
-        ...reportDetails,
+  const { mutate: createHive, status: isCreatingHive } = useMutation({
+    mutationFn: async (hiveDetails) => {
+      // console.log(nokDetails, "here");
+      const { data } = await customFetch.post("hives", {
+        ...hiveDetails,
       });
       return data;
     },
     onSuccess: ({ msg }) => {
-      queryClient.invalidateQueries({ queryKey: ["allreports"] });
+      // console.log(msg);
+      queryClient.invalidateQueries({ queryKey: ["allhives"] });
       dispatch(handleReset());
       toast.success(msg);
     },
@@ -97,26 +97,28 @@ export const useCreateReport = () => {
           "Cannot add or update a child row: a foreign key constraint fails"
         )
       ) {
-        toast.error("The assigned_hunter or supervisor does not exist !!!!");
+        toast.error("The assigned_hunter does not exist !!!!");
       } else {
         toast.error(error.response?.data?.msg || "An error occurred.");
       }
     },
   });
-  return { createReport, isCreatingReport };
+  return { createHive, isCreatingHive };
 };
-export const useUpdateReport = () => {
+export const useUpdateHive = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const { mutate: updateReport, status: isUpdatingReport } = useMutation({
-    mutationFn: async ({ reportDetails, id }) => {
-      const { data } = await customFetch.patch(`catchreports/${id}`, {
-        ...reportDetails,
+  const { mutate: updateHive, status: isUpdatingHive } = useMutation({
+    mutationFn: async ({ hiveDetails, id }) => {
+      // console.log(hiveDetails, "here");
+      const { data } = await customFetch.patch(`hives/${id}`, {
+        ...hiveDetails,
       });
       return data;
     },
     onSuccess: ({ msg }) => {
-      queryClient.invalidateQueries({ queryKey: ["allreports"] });
+      // console.log(msg);
+      queryClient.invalidateQueries({ queryKey: ["allhives"] });
       dispatch(handleReset());
       toast.success(msg);
     },
@@ -125,17 +127,20 @@ export const useUpdateReport = () => {
       toast.error(error.response?.data?.msg || "An error occurred.");
     },
   });
-  return { updateReport, isUpdatingReport };
+  return { updateHive, isUpdatingHive };
 };
-export const useDeleteReport = () => {
+export const useDeleteHive = () => {
+  // const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const { mutate: deleteReport, status: isDeletingReport } = useMutation({
+  const { mutate: deleteHive, status: isDeletingHive } = useMutation({
     mutationFn: async (id) => {
-      const { data } = await customFetch.delete(`catchreports/${id}`);
+      // console.log(id, "here");
+      const { data } = await customFetch.delete(`hives/${id}`);
       return data;
     },
     onSuccess: ({ msg }) => {
-      queryClient.invalidateQueries({ queryKey: ["allreports"] });
+      // console.log(msg);
+      queryClient.invalidateQueries({ queryKey: ["allhives"] });
       toast.error(msg);
     },
     onError: (error) => {
@@ -143,5 +148,5 @@ export const useDeleteReport = () => {
       toast.error(error.response?.data?.msg || "An error occurred.");
     },
   });
-  return { deleteReport, isDeletingReport };
+  return { deleteHive, isDeletingHive };
 };

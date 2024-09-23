@@ -204,6 +204,36 @@ const CreateUpdateHarvest = lazy(() =>
     default: module.CreateUpdateHarvest,
   }))
 );
+const CreateUpdateHunter = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateHunter,
+  }))
+);
+const CreateUpdateHive = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateHive,
+  }))
+);
+const SingleHunter = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.SingleHunter,
+  }))
+);
+const SingleHive = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.SingleHive,
+  }))
+);
+const SingleReport = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.SingleReport,
+  }))
+);
+const CreateUpdateReport = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateReport,
+  }))
+);
 
 // General routes
 const routes = [
@@ -225,8 +255,11 @@ const adminRoutes = [
   { path: "/admin/stations", element: <Stations /> },
   { path: "/admin/honeyharvest", element: <HoneyHarvest /> },
   { path: "/admin/swarmhunters", element: <SwarmHunters /> },
+  { path: "/admin/swarmhunters/:id", element: <SingleHunter /> },
   { path: "/admin/hives", element: <Hives /> },
+  { path: "/admin/hives/:id", element: <SingleHive /> },
   { path: "/admin/catchreports", element: <CatchReports /> },
+  { path: "/admin/catchreports/:id", element: <SingleReport /> },
   { path: "/admin/services", element: <ServicesList /> },
   { path: "/admin/apiarysetupcomp", element: <ApiarySetupComp /> },
   { path: "/admin/consultaionitems", element: <ConsultationItems /> },
@@ -264,19 +297,31 @@ const adminRoutes = [
     path: "/admin/createupdateharvest/:id",
     element: <CreateUpdateHarvest />,
   },
+  {
+    path: "/admin/createupdatehunter/:id",
+    element: <CreateUpdateHunter />,
+  },
+  {
+    path: "/admin/createupdatehive/:id",
+    element: <CreateUpdateHive />,
+  },
+  {
+    path: "/admin/createupdatereport/:id",
+    element: <CreateUpdateReport />,
+  },
 ];
 
-const AdminRoutesWrapper = () => {
-  return (
-    <Suspense fallback={<Loader2 />}>
-      <Routes>
-        {adminRoutes.map(({ path, element }) => (
-          <Route key={path} path={path} element={element} />
-        ))}
-      </Routes>
-    </Suspense>
-  );
-};
+// const AdminRoutesWrapper = () => {
+//   return (
+//     <Suspense fallback={<Loader2 />}>
+//       <Routes>
+//         {adminRoutes.map(({ path, element }) => (
+//           <Route key={path} path={path} element={element} />
+//         ))}
+//       </Routes>
+//     </Suspense>
+//   );
+// };
 function App() {
   return (
     <>

@@ -35,7 +35,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.DATEONLY,
         allowNull: true,
       },
-      "tip(naira)": {
+      tip: {
         type: DataTypes.DECIMAL(10, 3),
         allowNull: true,
       },

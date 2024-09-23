@@ -4,13 +4,14 @@ const initialState = {
   station_id: 1,
   station_name: "",
   harvest_date: "",
-  quantity_collected: 100*100,
+  quantity_collected: 100 * 100,
   colouration: "",
   unit: "---",
   quality_rating: 5,
   note: "",
   isEdit: false,
   pages: 1,
+  sort: "---",
 };
 const harvestSlice = createSlice({
   name: "honey_harvest",
@@ -19,7 +20,7 @@ const harvestSlice = createSlice({
     handleChangeHarv: (state, { payload }) => {
       const { name, value } = payload;
       state[name] = value;
-    //   console.log({ year: state.harvest_year });
+      //   console.log({ year: state.harvest_year });
     },
     resetValues: (state) => {
       return {

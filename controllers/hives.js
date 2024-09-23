@@ -10,12 +10,61 @@ const getAllHives = async (req, res) => {
   const { numberFilter, fields, sort } = req.query;
 
   const fieldsToCheck = {
-    hive_id: (value) => value,
-    hive_type: (value) => value,
-    colonized: (value) => value,
-    use_condition: (value) => value,
-    status: (value) => value,
-    current_location: (value) => value,
+    hive_type: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["langstroth", "top bar", "local"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    colonized: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["pending", "confirmed", "installed"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    use_condition: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["need repair", "used", "new"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    status: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["unuse", "inuse", "empty"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
+    current_location: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["swarm field", "station", "warehouse"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+      return undefined;
+    },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -63,7 +112,7 @@ const getAllHives = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalHives / limit);
   let sortList;
@@ -74,16 +123,10 @@ const getAllHives = async (req, res) => {
     case "low-high":
       sortList = [["num_of_frames", "ASC"]];
       break;
-    case "A-Z":
-      sortList = [["fullname", "ASC"]];
-      break;
-    case "Z-A":
-      sortList = [["fullname", "DESC"]];
-      break;
-    case "recently":
+    case "recent":
       sortList = [["first_installation", "DESC"]];
       break;
-    case "awhile":
+    case "old":
       sortList = [["first_installation", "ASC"]];
       break;
     default:

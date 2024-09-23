@@ -15,6 +15,7 @@ const initialState = {
   notes: "",
   isEdit: false,
   pages: 1,
+  sort: "---",
 };
 const stationSlice = createSlice({
   name: "stations",
