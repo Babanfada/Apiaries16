@@ -36,46 +36,35 @@ const getAllITEMS = async (req, res) => {
       (match) => `/${operatorMap[match]}/`
     );
     // console.log(filter);
-    const options = ["price(NGN)", "numOfTimesRendered"];
+    const options = ["price", "numOfTimesRendered"];
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
       console.log(field, value);
 
       if (options.includes(field)) {
-        // if (field === "num_of_frames") {
         queryObject[field] = {
           [Sequelize.Op[operator]]: Number(value),
-          //   };
-          // } else {
-          //   const dateValue = moment(value, "YYYY-MM-DD", true);
-          //   if (dateValue.isValid()) {
-          //     queryObject[field] = {
-          //       [Sequelize.Op[operator]]: dateValue.toDate(),
-          //     };
-          //   } else {
-          //     console.error(`Invalid date format for ${field}: ${value}`);
-          //   }
         };
         // console.log(queryObject);
       }
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalCitems / limit);
   let sortList;
   switch (sort) {
     case "high-low":
-      sortList = [["price(NGN)", "DESC"]];
+      sortList = [["price", "DESC"]];
       break;
     case "low-high":
-      sortList = [["price(NGN)", "ASC"]];
+      sortList = [["price", "ASC"]];
       break;
-    case "high-stock":
+    case "high-rendered":
       sortList = [["numOfTimesRendered", "DESC"]];
       break;
-    case "low-stock":
+    case "low-rendered":
       sortList = [["numOfTimesRendered", "ASC"]];
       break;
     default:

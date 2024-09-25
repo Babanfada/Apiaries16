@@ -170,7 +170,6 @@ const getAllEmployees = async (req, res) => {
     ],
     group: ["employment_status"],
   });
-
   const employmentTypeCount = await Employees.findAll({
     attributes: [
       "employment_type",

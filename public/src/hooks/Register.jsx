@@ -486,10 +486,10 @@ export const useEmployee = () => {
 
   const remainingFields = [
     {
-      name: " salaryRange",
+      name: "salaryRange",
       TextField: (
         <RangeSlider
-          name={" salaryRange"}
+          name={"salaryRange"}
           value={salaryRange}
           min={1000}
           max={100000}

@@ -400,6 +400,8 @@ import { Loader1 } from "./Loader";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useDispatch } from "react-redux";
 import { updateSalaryRange } from "../features/employees/employeesSlice";
+import { updatePriceRange } from "../features/apiarySetup/setupCompSlice";
+import { updatePriceRangeConsultation } from "../features/consultation/consultationSlice";
 // import LoadingButton from "@mui/lab/LoadingButton";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -432,6 +434,7 @@ function valuetext(value) {
   return `${value}°N`;
 }
 export default function RangeSlider({ name, value, min, max, step }) {
+  // console.log({ name, value, min, max, step });
   // const [value, setValue] = React.useState([20, 37]);
   const dispatch = useDispatch();
   // const handleChange = (event, newValue) => {
@@ -450,13 +453,20 @@ export default function RangeSlider({ name, value, min, max, step }) {
   //   dispatch(updateSalaryRange(newValue));
   //   // setValue(newValue);
   // };
-const handleChange = (event, newValue) => {
-  // Ensure the lower range (newValue[0]) remains static
-  const updatedValue = [min, newValue[1]];
-
-  // Dispatch the updated value with a static lower range
-  dispatch(updateSalaryRange(updatedValue));
-};
+  const handleChange = (event, newValue) => {
+    // Ensure the lower range (newValue[0]) remains static
+    const updatedValue = [min, newValue[1]];
+    if (event.target.name === "priceRange") {
+      dispatch(updatePriceRange(updatedValue));
+      return;
+    }
+    if (event.target.name === "priceRangeC") {
+      dispatch(updatePriceRangeConsultation(updatedValue));
+      return;
+    }
+    // Dispatch the updated value with a static lower range
+    dispatch(updateSalaryRange(updatedValue));
+  };
   return (
     <Box>
       <Slider

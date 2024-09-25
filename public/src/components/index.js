@@ -24,6 +24,10 @@ import Hunters_Table from "./component's_Tables/HuntersTable";
 import HivesTable from "./component's_Tables/HivesTable";
 import ReportTable from "./component's_Tables/ReportTable";
 import ReportSearchModal from "./searchModals/ReportSearchModal";
+import ServicesTable from "./component's_Tables/ServicesTable";
+import SetupTable from "./component's_Tables/SetupTable";
+import SetupSearchModal from "./searchModals/SetupSearchModal"; 
+import ConsultancyTable from "./component's_Tables/ConsultancyTable";
 export {
   UserInput,
   CustomButton,
@@ -49,4 +53,8 @@ export {
   HivesTable,
   ReportTable,
   ReportSearchModal,
+  ServicesTable,
+  SetupTable,
+  SetupSearchModal,
+  ConsultancyTable
 };

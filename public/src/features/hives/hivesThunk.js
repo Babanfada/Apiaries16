@@ -124,7 +124,18 @@ export const useUpdateHive = () => {
     },
     onError: (error) => {
       console.log(error);
-      toast.error(error.response?.data?.msg || "An error occurred.");
+      const Msg = error.response?.data?.msg;
+      if (Msg.includes("Data truncated for column ")) {
+        toast.error("you have not select one or more fields !!!!");
+      } else if (
+        Msg.includes(
+          "Cannot add or update a child row: a foreign key constraint fails"
+        )
+      ) {
+        toast.error("The assigned_hunter does not exist !!!!");
+      } else {
+        toast.error(error.response?.data?.msg || "An error occurred.");
+      }
     },
   });
   return { updateHive, isUpdatingHive };

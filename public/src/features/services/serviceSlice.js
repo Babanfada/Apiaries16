@@ -1,31 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  hunter_id: 0,
-  assigned_supervisor: 0,
-  total_boxes_assigned: 10 * 10,
-  colonized_boxes: 10 * 10,
-  uncolonized_boxes: 10 * 10,
-  delivered_to_apiary: "---",
-  date_assigned: "",
-  catch_date: "",
-  catch_location: "",
-  catch_status: "---",
-  season: "---",
-  sort: "---",
-  notes: "",
+  service_name: "",
+  description: "",
+  numOfTimesRendered: 10000,
+  category: "---",
   isEdit: false,
   pages: 1,
+  sort: "---",
 };
-const reportSlice = createSlice({
-  name: "reports",
+const serviceSlice = createSlice({
+  name: "services",
   initialState,
   reducers: {
-    handleChangeReport: (state, { payload }) => {
+    handleChangeService: (state, { payload }) => {
       const { name, value } = payload;
       state[name] = value;
     },
 
-    handleDateReport: (state, { payload }) => {
+    handleDateService: (state, { payload }) => {
       const { name, date } = payload;
       console.log({ name, date });
       state[name] = date;
@@ -33,7 +25,7 @@ const reportSlice = createSlice({
     handleReset: (state) => {
       return { ...initialState };
     },
-    setUpdateReport: (state, { payload }) => {
+    setUpdateService: (state, { payload }) => {
       return { ...state, ...payload, isEdit: true };
     },
     resetValues: (state) => {
@@ -48,11 +40,11 @@ const reportSlice = createSlice({
 });
 
 export const {
-  handleChangeReport,
-  handleDateReport,
+  handleChangeService,
+  handleDateService,
   handleReset,
-  setUpdateReport,
+  setUpdateService,
   resetValues,
   changePage,
-} = reportSlice.actions;
-export default reportSlice.reducer;
+} = serviceSlice.actions;
+export default serviceSlice.reducer;

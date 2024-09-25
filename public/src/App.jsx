@@ -234,6 +234,21 @@ const CreateUpdateReport = lazy(() =>
     default: module.CreateUpdateReport,
   }))
 );
+const CreateUpdateService = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateService,
+  }))
+);
+const CreateUpdateSetup = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateSetup,
+  }))
+);
+const CreateUpdateConsultation = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateConsultation,
+  }))
+);
 
 // General routes
 const routes = [
@@ -308,6 +323,18 @@ const adminRoutes = [
   {
     path: "/admin/createupdatereport/:id",
     element: <CreateUpdateReport />,
+  },
+  {
+    path: "/admin/createupdateservice/:id",
+    element: <CreateUpdateService />,
+  },
+  {
+    path: "/admin/createupdatesetup/:id",
+    element: <CreateUpdateSetup />,
+  },
+  {
+    path: "/admin/createupdateconsultation/:id",
+    element: <CreateUpdateConsultation />,
   },
 ];
 

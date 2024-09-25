@@ -33,6 +33,9 @@ import CreateUpdateHive from "./CreateUpdateHive";
 import SingleHive from "./SingleHive";
 import CreateUpdateReport from "./CreateUpdateReport";
 import SingleReport from "./SingleReport";
+import CreateUpdateService from "./CreateUpdateService";
+import CreateUpdateSetup from "./CreateUpdateSetup";
+import CreateUpdateConsultation from "./CreateUpdateConsultation";
 export {
   Home,
   ApiarySetupComp,
@@ -69,4 +72,7 @@ export {
   SingleHive,
   CreateUpdateReport,
   SingleReport,
+  CreateUpdateService,
+  CreateUpdateSetup,
+  CreateUpdateConsultation,
 };

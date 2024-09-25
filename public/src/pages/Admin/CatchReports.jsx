@@ -47,6 +47,7 @@ const CatchReports = () => {
     season,
     sort,
   ]);
+  // console.log(reports)
   return (
     <div>
       <Link

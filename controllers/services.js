@@ -20,7 +20,24 @@ const getAllServices = async (req, res) => {
     service_name: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
-    category: (value) => value,
+    category: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: [
+            "Consultancy",
+            "Apiary Setup",
+            "Supply Provision",
+            "Pollination",
+            "Other",
+          ],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+
+      return undefined;
+    },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -46,7 +63,7 @@ const getAllServices = async (req, res) => {
     const options = ["numOfTimesRendered"];
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
-      //   console.log(field);
+        console.log(field);
 
       if (options.includes(field)) {
         // if (field === "num_of_frames") {
@@ -63,12 +80,12 @@ const getAllServices = async (req, res) => {
           //     console.error(`Invalid date format for ${field}: ${value}`);
           //   }
         };
-        // console.log(queryObject);
+        console.log(queryObject);
       }
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalServices / limit);
   let sortList;

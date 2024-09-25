@@ -9,6 +9,9 @@ import HarvestReducer from "./src/features/harvest/honey_harvestSlice";
 import HunterReducer from "./src/features/hunters/huntersSlice";
 import HiveReducer from "./src/features/hives/hiveSlice";
 import ReportReducer from "./src/features/catch_reports/reportSlice";
+import ServiceReducer from "./src/features/services/serviceSlice";
+import SetupReducer from "./src/features/apiarySetup/setupCompSlice";
+import ConsultationReducer from "./src/features/consultation/consultationSlice";
 const store = configureStore({
   reducer: {
     users: userReducer,
@@ -21,6 +24,9 @@ const store = configureStore({
     hunters: HunterReducer,
     hives: HiveReducer,
     reports: ReportReducer,
+    services: ServiceReducer,
+    setups: SetupReducer,
+    consultations: ConsultationReducer,
   },
 });
 export default store;
