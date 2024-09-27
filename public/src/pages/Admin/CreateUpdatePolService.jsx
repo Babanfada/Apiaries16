@@ -4,44 +4,52 @@ import { Link } from "react-router-dom";
 import { CustomButton } from "../../components";
 import { Loader1 } from "../../components/Loader";
 import { useParams } from "react-router-dom";
-import { useCreateConsultation, useUpdateConsultation } from "../../features/consultation/consultationThunk";
-import { useConsultationInputs } from "../../hooks/ServicesDetails";
+import {
+  useCreatePolServices,
+  useUpdatePolServices,
+} from "../../features/pollination/polservicesThunk";
+import { usePolServiceInputs } from "../../hooks/ServicesDetails";
 
 
-const CreateUpdateConsultation = () => {
+const CreateUpdatePolServices = () => {
   const { id } = useParams();
-  const { consultationInputs } = useConsultationInputs();
-  const { isUpdatingConsultation, updateConsultation } = useUpdateConsultation();
-  const { createConsultation, isCreatingConsultation } = useCreateConsultation();
-  const { service_id, item_name, description, numOfTimesRendered, price, isEdit } =
-    useSelector((store) => store.consultations);
-  const consultationDetails = {
+  const { polServiceInputs } = usePolServiceInputs();
+  const { isUpdatingPolservices, updatePolService } = useUpdatePolServices();
+  const { createPolService, isCreatingPolservice } = useCreatePolServices();
+  const {
     service_id,
-    item_name,
-    description,
-    numOfTimesRendered,
+    crop_type,
+    service_description,
+    rendered,
+    price,
+    isEdit,
+  } = useSelector((store) => store.polservices);
+  const polServiceDetails = {
+    service_id,
+    crop_type,
+    service_description,
+    rendered,
     price,
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isValid = Object.values(consultationDetails).every(
+    const isValid = Object.values(polServiceDetails).every(
       (value) => value !== undefined && value !== null && value !== ""
     );
     if (!isValid) {
       alert("Please fill out all required fields.");
       return;
     }
-    if (isEdit) return updateConsultation({ consultationDetails, id });
-    createConsultation(consultationDetails);
+    if (isEdit) return updatePolService({ polServiceDetails, id });
+    createPolService(polServiceDetails);
   };
   return (
     <div>
-      <Link to={`/admin/consultaionitems`}>Go back</Link>
-
+      <Link to={`/admin/pollinationservices`}>Go back</Link>
       <form onSubmit={handleSubmit}>
-        {consultationInputs
+        {polServiceInputs
           .filter(
-            (detail) => detail.name !== "sort" && detail.name !== "priceRangeC"
+            (detail) => detail.name !== "sort" && detail.name !== "priceRangeP"
           )
           .map((detail) => {
             const { name, TextField } = detail;
@@ -55,7 +63,8 @@ const CreateUpdateConsultation = () => {
           type="submit"
           // disabled={!isValid}
         >
-          {isCreatingConsultation === "pending" || isUpdatingConsultation === "pending" ? (
+          {isCreatingPolservice === "pending" ||
+          isUpdatingPolservices === "pending" ? (
             <Loader1 />
           ) : isEdit ? (
             "Update"
@@ -68,4 +77,4 @@ const CreateUpdateConsultation = () => {
   );
 };
 
-export default CreateUpdateConsultation;
+export default CreateUpdatePolServices;

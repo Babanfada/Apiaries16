@@ -60,7 +60,7 @@ const HoneyHarvest = () => {
     <div>
       <Link
         onClick={() => dispatch(resetValues())}
-        to="/admin/createupdateharvest/add"
+        to="/admin/harvests/add"
       >
         create harvest
       </Link>

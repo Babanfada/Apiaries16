@@ -28,7 +28,7 @@ const ApiarySetupComp = () => {
       count = 0,
       numOfPages = 0,
       totalSetupComp = 0,
-    },
+    } = {},
     refetch,
   } = useSetupComp();
   const handleChange = (event, value) => {

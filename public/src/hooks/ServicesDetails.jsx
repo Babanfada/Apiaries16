@@ -9,6 +9,8 @@ import {
 } from "../components";
 import { handleChangeSetup } from "../features/apiarySetup/setupCompSlice";
 import { handleChangeConsultation } from "../features/consultation/consultationSlice";
+import { handleChangePolServ } from "../features/pollination/polservicesSlice";
+import { handleChangeProvision } from "../features/supplyProvision/supplyProvSlice";
 
 export const useServiceInputs = () => {
   const dispatch = useDispatch();
@@ -305,4 +307,224 @@ export const useConsultationInputs = () => {
     },
   ];
   return { consultationInputs };
+};
+export const usePolServiceInputs = () => {
+  const dispatch = useDispatch();
+  const {
+    service_id,
+    priceRangeP,
+    price,
+    sort,
+    crop_type,
+    service_description,
+    rendered,
+  } = useSelector((store) => store.polservices);
+  const getInput = (e) => {
+    const { name, value } = e.target;
+    const numericFields = ["rendered", "price", "service_id"];
+
+    let processedValue = numericFields.includes(name) ? Number(value) : value;
+    if (numericFields.includes(name) && processedValue < 0) {
+      processedValue = 0;
+    }
+    dispatch(handleChangePolServ({ name, value: processedValue }));
+  };
+  const polServiceInputs = [
+    {
+      name: "service_id",
+      TextField: (
+        <UserInput
+          name={"service_id"}
+          value={service_id}
+          type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "crop_type",
+      TextField: (
+        <UserInput
+          name={"crop_type"}
+          value={crop_type}
+          type={"name"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "service_description",
+      TextField: (
+        <MultiLineInput
+          name={"service_description"}
+          value={service_description}
+          type={"text"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "rendered",
+      TextField: (
+        <UserInput
+          name={"rendered"}
+          value={rendered}
+          type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "price",
+      TextField: (
+        <UserInput
+          name={"price"}
+          value={price}
+          type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "priceRangeP",
+      TextField: (
+        <RangeSlider
+          name={"priceRangeP"}
+          value={priceRangeP}
+          min={1000}
+          max={100000}
+          step={1000}
+        />
+      ),
+    },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={[
+            "---",
+            "high-low",
+            "low-high",
+            "high-rendered",
+            "low-rendered",
+          ]}
+          handleChange={getInput}
+        />
+      ),
+    },
+  ];
+  return { polServiceInputs };
+};
+export const useProvisionInputs = () => {
+  const dispatch = useDispatch();
+  const {
+    service_id,
+    priceRangeSP,
+    price_NGN,
+    sort,
+    item_name,
+    description,
+    quantity,
+  } = useSelector((store) => store.provisions);
+  const getInput = (e) => {
+    const { name, value } = e.target;
+    const numericFields = ["quantity", "price_NGN", "service_id"];
+
+    let processedValue = numericFields.includes(name) ? Number(value) : value;
+    if (numericFields.includes(name) && processedValue < 0) {
+      processedValue = 0;
+    }
+    dispatch(handleChangeProvision({ name, value: processedValue }));
+  };
+  const provisionInputs = [
+    {
+      name: "service_id",
+      TextField: (
+        <UserInput
+          name={"service_id"}
+          value={service_id}
+          type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "item_name",
+      TextField: (
+        <UserInput
+          name={"item_name"}
+          value={item_name}
+          type={"name"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "description",
+      TextField: (
+        <MultiLineInput
+          name={"description"}
+          value={description}
+          type={"text"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "quantity",
+      TextField: (
+        <UserInput
+          name={"quantity"}
+          value={quantity}
+          type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "price_NGN",
+      TextField: (
+        <UserInput
+          name={"price_NGN"}
+          value={price_NGN}
+          type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "priceRangeSP",
+      TextField: (
+        <RangeSlider
+          name={"priceRangeSP"}
+          value={priceRangeSP}
+          min={1000}
+          max={100000}
+          step={1000}
+        />
+      ),
+    },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={[
+            "---",
+            "high-low",
+            "low-high",
+            "high-quantity",
+            "low-quantity",
+          ]}
+          handleChange={getInput}
+        />
+      ),
+    },
+  ];
+  return { provisionInputs };
 };

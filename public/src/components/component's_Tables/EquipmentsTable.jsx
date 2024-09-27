@@ -87,7 +87,7 @@ function Row(props) {
         <TableCell align="left">
           <Link
             onClick={() => handleEdit()}
-            to={`/admin/createupdateequipment/${tool_id}`}
+            to={`/admin/createupdateequipments/${tool_id}`}
           >
             <CiEdit />
           </Link>

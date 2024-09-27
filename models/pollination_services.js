@@ -29,7 +29,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.DECIMAL(10, 0),
         allowNull: true,
       },
-      "price/hct_NGN": {
+      price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
@@ -53,10 +53,10 @@ module.exports = function (sequelize, DataTypes) {
       ],
     }
   );
-   pollination_services.associate = function (models) {
-     pollination_services.belongsTo(models.services, {
-       foreignKey: "service_id",
-     });
-   };
+  pollination_services.associate = function (models) {
+    pollination_services.belongsTo(models.services, {
+      foreignKey: "service_id",
+    });
+  };
   return pollination_services;
 };

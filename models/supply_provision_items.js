@@ -29,7 +29,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      "price_NGN": {
+      price_NGN: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
@@ -53,10 +53,10 @@ module.exports = function (sequelize, DataTypes) {
       ],
     }
   );
-   supply_provision_items.associate = function (models) {
-     supply_provision_items.belongsTo(models.services, {
-       foreignKey: "service_id",
-     });
-   };
+  supply_provision_items.associate = function (models) {
+    supply_provision_items.belongsTo(models.services, {
+      foreignKey: "service_id",
+    });
+  };
   return supply_provision_items;
 };

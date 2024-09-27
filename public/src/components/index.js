@@ -26,8 +26,12 @@ import ReportTable from "./component's_Tables/ReportTable";
 import ReportSearchModal from "./searchModals/ReportSearchModal";
 import ServicesTable from "./component's_Tables/ServicesTable";
 import SetupTable from "./component's_Tables/SetupTable";
-import SetupSearchModal from "./searchModals/SetupSearchModal"; 
+import SetupSearchModal from "./searchModals/SetupSearchModal";
 import ConsultancyTable from "./component's_Tables/ConsultancyTable";
+import Pol_ServTable from "./component's_Tables/Pol_ServTable";
+import PolServSearchModal from "./searchModals/PolServSearchModal";
+import ProvisionsTable from "./component's_Tables/ProvisionsTable";
+import ProvisionSearchModal from "./searchModals/ProvisionSearchModal";
 export {
   UserInput,
   CustomButton,
@@ -56,5 +60,9 @@ export {
   ServicesTable,
   SetupTable,
   SetupSearchModal,
-  ConsultancyTable
+  ConsultancyTable,
+  Pol_ServTable,
+  ProvisionsTable,
+  PolServSearchModal,
+  ProvisionSearchModal,
 };

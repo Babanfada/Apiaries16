@@ -249,6 +249,16 @@ const CreateUpdateConsultation = lazy(() =>
     default: module.CreateUpdateConsultation,
   }))
 );
+const CreateUpdatePolServices = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdatePolServices,
+  }))
+);
+const CreateUpdateprovision = lazy(() =>
+  import("./pages/Admin").then((module) => ({
+    default: module.CreateUpdateprovision,
+  }))
+);
 
 // General routes
 const routes = [
@@ -289,7 +299,7 @@ const adminRoutes = [
   { path: "/admin/supplies/:id", element: <SingleSupply /> },
   { path: "/admin/equipments/:id", element: <SingleEquipment /> },
   {
-    path: "/admin/createupdateemployee/:id",
+    path: "/admin/createupdateemployees/:id",
     element: <CreateUpdateEmployees />,
   },
   {
@@ -297,7 +307,7 @@ const adminRoutes = [
     element: <CreateUpdateStation />,
   },
   {
-    path: "/admin/createupdateequipment/:id",
+    path: "/admin/createupdateequipments/:id",
     element: <CreateUpdateEquipment />,
   },
   {
@@ -309,7 +319,7 @@ const adminRoutes = [
     element: <CreateUpdateNok />,
   },
   {
-    path: "/admin/createupdateharvest/:id",
+    path: "/admin/harvests/:id",
     element: <CreateUpdateHarvest />,
   },
   {
@@ -333,8 +343,16 @@ const adminRoutes = [
     element: <CreateUpdateSetup />,
   },
   {
-    path: "/admin/createupdateconsultation/:id",
+    path: "/admin/consultations/:id",
     element: <CreateUpdateConsultation />,
+  },
+  {
+    path: "/admin/pollinationservices/:id",
+    element: <CreateUpdatePolServices />,
+  },
+  {
+    path: "/admin/provisions/:id",
+    element: <CreateUpdateprovision />,
   },
 ];
 

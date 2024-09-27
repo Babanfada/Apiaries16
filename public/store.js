@@ -12,6 +12,8 @@ import ReportReducer from "./src/features/catch_reports/reportSlice";
 import ServiceReducer from "./src/features/services/serviceSlice";
 import SetupReducer from "./src/features/apiarySetup/setupCompSlice";
 import ConsultationReducer from "./src/features/consultation/consultationSlice";
+import PolServReducer from "./src/features/pollination/polservicesSlice";
+import ProvisionReducer from "./src/features/supplyProvision/supplyProvSlice";
 const store = configureStore({
   reducer: {
     users: userReducer,
@@ -27,6 +29,8 @@ const store = configureStore({
     services: ServiceReducer,
     setups: SetupReducer,
     consultations: ConsultationReducer,
+    polservices: PolServReducer,
+    provisions: ProvisionReducer,
   },
 });
 export default store;

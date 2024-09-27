@@ -61,7 +61,7 @@ const Employees = () => {
     <div>
       <Link
         onClick={() => dispatch(handleReset())}
-        to="/admin/createupdateemployee/add"
+        to="/admin/createupdateemployees/add"
       >
         create emp
       </Link>

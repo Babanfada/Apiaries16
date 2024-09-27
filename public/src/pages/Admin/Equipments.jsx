@@ -65,7 +65,7 @@ const Equipments = () => {
     <div>
       <Link
         onClick={() => dispatch(resetValues())}
-        to="/admin/createupdateequipment/add"
+        to="/admin/createupdateequipments/add"
       >
         create equipment
       </Link>

@@ -98,7 +98,7 @@ function Row(props) {
         <TableCell align="left">
           <Link
             onClick={() => handleEdit()}
-            to={`/admin/createupdateemployee/${emp_id}`}
+            to={`/admin/createupdateemployees/${emp_id}`}
           >
             {image ? (
               <img
@@ -126,7 +126,7 @@ function Row(props) {
         <TableCell align="left">
           <Link
             onClick={() => handleEdit()}
-            to={`/admin/createupdateemployee/${emp_id}`}
+            to={`/admin/createupdateemployees/${emp_id}`}
           >
             {/* <CiEdit /> */}
             edit

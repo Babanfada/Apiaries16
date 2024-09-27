@@ -4,44 +4,46 @@ import { Link } from "react-router-dom";
 import { CustomButton } from "../../components";
 import { Loader1 } from "../../components/Loader";
 import { useParams } from "react-router-dom";
-import { useCreateConsultation, useUpdateConsultation } from "../../features/consultation/consultationThunk";
-import { useConsultationInputs } from "../../hooks/ServicesDetails";
+import {
+  useCreateProvision,
+  useUpdateProvision,
+} from "../../features/supplyProvision/supplyprovThunk";
+import { useProvisionInputs } from "../../hooks/ServicesDetails";
 
-
-const CreateUpdateConsultation = () => {
+const CreateUpdateprovision = () => {
   const { id } = useParams();
-  const { consultationInputs } = useConsultationInputs();
-  const { isUpdatingConsultation, updateConsultation } = useUpdateConsultation();
-  const { createConsultation, isCreatingConsultation } = useCreateConsultation();
-  const { service_id, item_name, description, numOfTimesRendered, price, isEdit } =
-    useSelector((store) => store.consultations);
-  const consultationDetails = {
+  const { provisionInputs } = useProvisionInputs();
+  const { isUpdatingProvision, updateProvision } = useUpdateProvision();
+  const { createProvision, isCreatingProvision } = useCreateProvision();
+  const { service_id, item_name, description, quantity, price_NGN, isEdit } =
+    useSelector((store) => store.provisions);
+  const provisionDetails = {
     service_id,
     item_name,
     description,
-    numOfTimesRendered,
-    price,
+    quantity,
+    price_NGN,
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isValid = Object.values(consultationDetails).every(
+    const isValid = Object.values(provisionDetails).every(
       (value) => value !== undefined && value !== null && value !== ""
     );
     if (!isValid) {
       alert("Please fill out all required fields.");
       return;
     }
-    if (isEdit) return updateConsultation({ consultationDetails, id });
-    createConsultation(consultationDetails);
+    if (isEdit) return updateProvision({ provisionDetails, id });
+    createProvision(provisionDetails);
   };
   return (
     <div>
-      <Link to={`/admin/consultaionitems`}>Go back</Link>
+      <Link to={`/admin/supplyprovisionitems`}>Go back</Link>
 
       <form onSubmit={handleSubmit}>
-        {consultationInputs
+        {provisionInputs
           .filter(
-            (detail) => detail.name !== "sort" && detail.name !== "priceRangeC"
+            (detail) => detail.name !== "sort" && detail.name !== "priceRangeSP"
           )
           .map((detail) => {
             const { name, TextField } = detail;
@@ -55,7 +57,8 @@ const CreateUpdateConsultation = () => {
           type="submit"
           // disabled={!isValid}
         >
-          {isCreatingConsultation === "pending" || isUpdatingConsultation === "pending" ? (
+          {isCreatingProvision === "pending" ||
+          isUpdatingProvision === "pending" ? (
             <Loader1 />
           ) : isEdit ? (
             "Update"
@@ -68,4 +71,4 @@ const CreateUpdateConsultation = () => {
   );
 };
 
-export default CreateUpdateConsultation;
+export default CreateUpdateprovision;

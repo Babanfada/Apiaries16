@@ -36,7 +36,7 @@ const getAllPolServices = async (req, res) => {
       (match) => `/${operatorMap[match]}/`
     );
     // console.log(filter);
-    const options = ["price/hct_NGN", "rendered"];
+    const options = ["price", "rendered"];
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
       console.log(field, value);
@@ -61,16 +61,16 @@ const getAllPolServices = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalPolServices / limit);
   let sortList;
   switch (sort) {
     case "high-low":
-      sortList = [["price/hct_NGN", "DESC"]];
+      sortList = [["price", "DESC"]];
       break;
     case "low-high":
-      sortList = [["price/hct_NGN", "ASC"]];
+      sortList = [["price", "ASC"]];
       break;
     case "high-rendered":
       sortList = [["rendered", "DESC"]];

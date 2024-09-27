@@ -36,6 +36,9 @@ import SingleReport from "./SingleReport";
 import CreateUpdateService from "./CreateUpdateService";
 import CreateUpdateSetup from "./CreateUpdateSetup";
 import CreateUpdateConsultation from "./CreateUpdateConsultation";
+import CreateUpdatePolServices from "./CreateUpdatePolService";
+import CreateUpdateprovision from "./CreateUpdateProvision";
+
 export {
   Home,
   ApiarySetupComp,
@@ -75,4 +78,6 @@ export {
   CreateUpdateService,
   CreateUpdateSetup,
   CreateUpdateConsultation,
+  CreateUpdatePolServices,
+  CreateUpdateprovision,
 };

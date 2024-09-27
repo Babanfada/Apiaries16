@@ -17,8 +17,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PaginationControlled from "./Pagination";
-import { useDeleteConsultation } from "../../features/consultation/consultationThunk";
-import { setUpdateConsultation } from "../../features/consultation/consultationSlice";
+import { useDeleteProvision } from "../../features/supplyProvision/supplyprovThunk";
+import { setUpdateProvision } from "../../features/supplyProvision/supplyProvSlice";
+
 
 function Row(props) {
   const { item } = props;
@@ -27,27 +28,27 @@ function Row(props) {
     service_id,
     item_name,
     description,
-    numOfTimesRendered,
-    price,
+    quantity,
+    price_NGN,
   } = item;
   const payload = {
     service_id,
     item_name,
     description,
-    numOfTimesRendered,
-    price,
+    quantity,
+    price_NGN,
   };
   const dispatch = useDispatch();
-  const { deleteConsultation } = useDeleteConsultation();
+  const { deleteProvision } = useDeleteProvision();
   const handleEdit = () => {
-    dispatch(setUpdateConsultation(payload));
+    dispatch(setUpdateProvision(payload));
   };
   const handleDelete = () => {
     const confirmation = window.confirm(
-      "You are about to Delete a apiary item  records permanently, ARE YOU SURE?"
+      "You are about to Delete a provision records permanently, ARE YOU SURE?"
     );
     if (!confirmation) return;
-    deleteConsultation(item_id);
+    deleteProvision(item_id);
   };
   return (
     <React.Fragment>
@@ -55,7 +56,7 @@ function Row(props) {
         <TableCell component="th" scope="row">
           <Link
             onClick={() => handleEdit()}
-            to={`/admin/consultations/${item_id}`}
+            to={`/admin/provisions/${item_id}`}
           >
             {item_id}
           </Link>
@@ -67,12 +68,12 @@ function Row(props) {
             ? `${description.slice(0, 50)}...`
             : description}
         </TableCell>
-        <TableCell align="right">{numOfTimesRendered}</TableCell>
-        <TableCell align="right">{price}</TableCell>
+        <TableCell align="right">{quantity}</TableCell>
+        <TableCell align="right">{price_NGN}</TableCell>
         <TableCell align="left">
           <Link
             onClick={() => handleEdit()}
-            to={`/admin/consultations/${item_id}`}
+            to={`/admin/provisions/${item_id}`}
           >
             <CiEdit />
           </Link>
@@ -83,9 +84,9 @@ function Row(props) {
   );
 }
 
-export default function ConsultancyTable({
+export default function ProvisionsTable({
   handleChange,
-  consultancy_items,
+  provisions,
   numOfPages,
   pages,
 }) {
@@ -99,13 +100,13 @@ export default function ConsultancyTable({
             <TableCell>SERVICE ID</TableCell>
             <TableCell align="right">ITEM NAME</TableCell>
             <TableCell align="right">DESCRIPTION</TableCell>
-            <TableCell align="right">RENDERED</TableCell>
+            <TableCell align="right">QUANTITY</TableCell>
             <TableCell>PRICE</TableCell>
             <TableCell align="left">MANAGE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {consultancy_items.map((item, i) => (
+          {provisions.map((item, i) => (
             <Row key={i} item={item} />
           ))}
         </TableBody>

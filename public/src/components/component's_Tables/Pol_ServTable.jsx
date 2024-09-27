@@ -17,37 +17,36 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PaginationControlled from "./Pagination";
-import { useDeleteConsultation } from "../../features/consultation/consultationThunk";
-import { setUpdateConsultation } from "../../features/consultation/consultationSlice";
-
+import { useDeletePolServices } from "../../features/pollination/polservicesThunk";
+import { setUpdatePolServ } from "../../features/pollination/polservicesSlice";
 function Row(props) {
   const { item } = props;
   const {
-    item_id,
+    pol_service_id,
     service_id,
-    item_name,
-    description,
-    numOfTimesRendered,
+    crop_type,
+    service_description,
+    rendered,
     price,
   } = item;
   const payload = {
     service_id,
-    item_name,
-    description,
-    numOfTimesRendered,
+    crop_type,
+    service_description,
+    rendered,
     price,
   };
   const dispatch = useDispatch();
-  const { deleteConsultation } = useDeleteConsultation();
+  const { deletePolService } = useDeletePolServices();
   const handleEdit = () => {
-    dispatch(setUpdateConsultation(payload));
+    dispatch(setUpdatePolServ(payload));
   };
   const handleDelete = () => {
     const confirmation = window.confirm(
-      "You are about to Delete a apiary item  records permanently, ARE YOU SURE?"
+      "You are about to Delete a pollination service records permanently, ARE YOU SURE?"
     );
     if (!confirmation) return;
-    deleteConsultation(item_id);
+    deletePolService(pol_service_id);
   };
   return (
     <React.Fragment>
@@ -55,24 +54,24 @@ function Row(props) {
         <TableCell component="th" scope="row">
           <Link
             onClick={() => handleEdit()}
-            to={`/admin/consultations/${item_id}`}
+            to={`/admin/pollinationservices/${pol_service_id}`}
           >
-            {item_id}
+            {pol_service_id}
           </Link>
         </TableCell>
         <TableCell align="left">{service_id}</TableCell>
-        <TableCell align="left">{item_name}</TableCell>
-        <TableCell title={description} align="left">
-          {description.length > 50
-            ? `${description.slice(0, 50)}...`
-            : description}
+        <TableCell align="left">{crop_type}</TableCell>
+        <TableCell title={service_description} align="left">
+          {service_description.length > 50
+            ? `${service_description.slice(0, 50)}...`
+            : service_description}
         </TableCell>
-        <TableCell align="right">{numOfTimesRendered}</TableCell>
+        <TableCell align="right">{rendered}</TableCell>
         <TableCell align="right">{price}</TableCell>
         <TableCell align="left">
           <Link
             onClick={() => handleEdit()}
-            to={`/admin/consultations/${item_id}`}
+            to={`/admin/pollinationservices/${pol_service_id}`}
           >
             <CiEdit />
           </Link>
@@ -83,9 +82,9 @@ function Row(props) {
   );
 }
 
-export default function ConsultancyTable({
+export default function Pol_ServTable({
   handleChange,
-  consultancy_items,
+  polservices,
   numOfPages,
   pages,
 }) {
@@ -97,15 +96,15 @@ export default function ConsultancyTable({
           <TableRow>
             <TableCell>SN</TableCell>
             <TableCell>SERVICE ID</TableCell>
-            <TableCell align="right">ITEM NAME</TableCell>
+            <TableCell align="right">CROP TYPE</TableCell>
             <TableCell align="right">DESCRIPTION</TableCell>
             <TableCell align="right">RENDERED</TableCell>
-            <TableCell>PRICE</TableCell>
+            <TableCell>PRICE/HCT</TableCell>
             <TableCell align="left">MANAGE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {consultancy_items.map((item, i) => (
+          {polservices.map((item, i) => (
             <Row key={i} item={item} />
           ))}
         </TableBody>

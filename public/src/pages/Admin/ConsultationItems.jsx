@@ -2,11 +2,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { changePage, resetValues } from "../../features/consultation/consultationSlice";
+import {
+  changePage,
+  resetValues,
+} from "../../features/consultation/consultationSlice";
 import { useConsultation } from "../../features/consultation/consultationThunk";
 import { ConsultancyTable } from "../../components";
 import ConsultationSearchModal from "../../components/searchModals/ConsultationSearchModal";
-
 
 const ConsultationItems = () => {
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ const ConsultationItems = () => {
       count = 0,
       numOfPages = 0,
       totalCitems = 0,
-    },
+    } = {},
     refetch,
   } = useConsultation();
   const handleChange = (event, value) => {
@@ -60,7 +62,7 @@ const ConsultationItems = () => {
     <div>
       <Link
         onClick={() => dispatch(resetValues())}
-        to="/admin/createupdateconsultation/add"
+        to="/admin/consultations/add"
       >
         create Consultation
       </Link>

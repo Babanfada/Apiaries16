@@ -402,6 +402,8 @@ import { useDispatch } from "react-redux";
 import { updateSalaryRange } from "../features/employees/employeesSlice";
 import { updatePriceRange } from "../features/apiarySetup/setupCompSlice";
 import { updatePriceRangeConsultation } from "../features/consultation/consultationSlice";
+import { updatePriceRangePolServ } from "../features/pollination/polservicesSlice";
+import { updatePriceRangeProvision } from "../features/supplyProvision/supplyProvSlice";
 // import LoadingButton from "@mui/lab/LoadingButton";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -462,6 +464,14 @@ export default function RangeSlider({ name, value, min, max, step }) {
     }
     if (event.target.name === "priceRangeC") {
       dispatch(updatePriceRangeConsultation(updatedValue));
+      return;
+    }
+    if (event.target.name === "priceRangeP") {
+      dispatch(updatePriceRangePolServ(updatedValue));
+      return;
+    }
+    if (event.target.name === "priceRangeSP") {
+      dispatch(updatePriceRangeProvision(updatedValue));
       return;
     }
     // Dispatch the updated value with a static lower range
