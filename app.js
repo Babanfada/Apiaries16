@@ -64,6 +64,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5003",
+      "http://localhost:3000",
       // "https://accounts.google.com",
     ], // specify the allowed origin(s)
     credentials: true, // enable sending/receiving cookies
