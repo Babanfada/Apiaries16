@@ -24,22 +24,22 @@ const equipmentSlice = createSlice({
     handleChangeEquip: (state, { payload }) => {
       const { name, value } = payload;
       state[name] = value;
-      console.log({
-        //     tool_name: state.tool_name,
-        //     category: state.category,
-        //     quantity: state.quantity,
-        //     status: state.status,
-        //     storage_location: state.storage_location,
-        //     note: state.note,
-        //     supplier: state.supplier,
-        //     purchase_date: state.purchase_date,
-        //     purchase_cost: state.purchase_cost,
-        currency: state.currency,
-        retired: state.retired,
-        //     last_maintanace_date: state.last_maintanace_date,
-        //     next_maintanace_date: state.next_maintanace_date,
-        //     isEdit: state.currency,
-      });
+      // console.log({
+      //     tool_name: state.tool_name,
+      //     category: state.category,
+      //     quantity: state.quantity,
+      //     status: state.status,
+      //     storage_location: state.storage_location,
+      //     note: state.note,
+      //     supplier: state.supplier,
+      //     purchase_date: state.purchase_date,
+      //     purchase_cost: state.purchase_cost,
+      // currency: state.currency,
+      // retired: state.retired,
+      //     last_maintanace_date: state.last_maintanace_date,
+      //     next_maintanace_date: state.next_maintanace_date,
+      //     isEdit: state.currency,
+      // });
     },
     resetValues: (state) => {
       return {

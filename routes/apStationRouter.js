@@ -15,10 +15,10 @@ const router = require("express").Router();
 router
   .route("/")
   .post(authenticated, authorizedPermissions("admin"), createStation)
-  .get(authenticated, authorizedPermissions("admin"), getAllStations);
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllStations);
 router
   .route("/:station_id")
-  .get(authenticated, authorizedPermissions("admin"), getSingleStation)
+  .get(authenticated, authorizedPermissions("admin", "test"), getSingleStation)
   .patch(authenticated, authorizedPermissions("admin"), updateStation)
   .delete(authenticated, authorizedPermissions("admin"), deleteStation);
 module.exports = router;

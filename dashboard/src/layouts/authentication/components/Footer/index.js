@@ -57,12 +57,12 @@ function Footer({ light }) {
               </Icon>
             </MDBox>
             by
-            <Link href="https://www.creative-tim.com/" target="_blank">
+            <Link to="#">
               <MDTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
-                &nbsp;Creative Tim&nbsp;
+                &nbsp;Apiaries 16&nbsp;
               </MDTypography>
             </Link>
-            for a better web.
+            {" "} pure, raw, local.
           </MDBox>
           <MDBox
             component="ul"
@@ -81,7 +81,7 @@ function Footer({ light }) {
               },
             })}
           >
-            <MDBox component="li" pr={2} lineHeight={1}>
+            {/* <MDBox component="li" pr={2} lineHeight={1}>
               <Link href="https://www.creative-tim.com/" target="_blank">
                 <MDTypography
                   variant="button"
@@ -124,7 +124,7 @@ function Footer({ light }) {
                   License
                 </MDTypography>
               </Link>
-            </MDBox>
+            </MDBox> */}
           </MDBox>
         </MDBox>
       </Container>

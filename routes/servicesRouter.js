@@ -13,12 +13,12 @@ const {
 const router = require("express").Router();
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllServices)
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllServices)
   .post(authenticated, authorizedPermissions("admin"), createService);
 
 router
   .route("/:service_id")
-  .get(authenticated, authorizedPermissions("admin"), getSingleService)
+  .get(authenticated, authorizedPermissions("admin", "test"), getSingleService)
   .patch(authenticated, authorizedPermissions("admin"), updateService)
   .delete(authenticated, authorizedPermissions("admin"), deleteService);
 module.exports = router;

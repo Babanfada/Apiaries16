@@ -13,11 +13,15 @@ const {
 const router = require("express").Router();
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllEquipments)
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllEquipments)
   .post(authenticated, authorizedPermissions("admin"), createEquipment);
 router
   .route("/:tool_id")
-  .get(authenticated, authorizedPermissions("admin"), getSingleEquipment)
+  .get(
+    authenticated,
+    authorizedPermissions("admin", "test"),
+    getSingleEquipment
+  )
   .patch(authenticated, authorizedPermissions("admin"), updateEquipment)
   .delete(authenticated, authorizedPermissions("admin"), deleteEquipment);
 module.exports = router;

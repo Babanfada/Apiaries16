@@ -14,14 +14,14 @@ const {
 
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllEmployees)
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllEmployees)
   .post(authenticated, authorizedPermissions("admin"), createEmployee);
 router
   .route("/uploadavatar/:emp_id")
   .patch(authenticated, authorizedPermissions("admin"), uploadAvatar);
 router
   .route("/:emp_id")
-  .get(authenticated, authorizedPermissions("admin"), getSingleEmployee)
+  .get(authenticated, authorizedPermissions("admin", "test"), getSingleEmployee)
   .patch(authenticated, authorizedPermissions("admin"), updateEmployee)
   .delete(authenticated, authorizedPermissions("admin"), deleteEmployee);
 

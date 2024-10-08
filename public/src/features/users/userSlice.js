@@ -26,7 +26,7 @@ const userSlice = createSlice({
     handelChange: (state, { payload }) => {
       const { name, value } = payload;
       state[name] = value;
-      console.log({
+      // console.log({
         //     email: state.email,
         //     fullname: state.fullname,
         //     password: state.password,
@@ -39,7 +39,7 @@ const userSlice = createSlice({
         // blacklisted: state.blacklisted,
         // subscribed: state.subscribed,
         // sort: state.sort,
-      });
+      // });
     },
     handlePhoneInput: (state, { payload }) => {
       //   console.log({ phone: state.phone });

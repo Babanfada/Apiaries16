@@ -27,8 +27,31 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 
 // Images
 import bgImage from "assets/images/bg-reset-cover.jpeg";
+import { useForgetPassword } from "features/users/userThunk";
+import useRegister from "hooks/Register";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Loader1 } from "components copy/Loader";
 
 function Cover() {
+  const { forgetPassword, isForgetingPassword } = useForgetPassword();
+  const navigate = useNavigate();
+  const title = "forget password";
+  const dispatch = useDispatch();
+  const { status } = useRegister();
+  const { email } = useSelector((store) => store.users);
+  const handleSubmit = () => {
+    // e.preventDefault();
+    console.log("clicked", email);
+    if (!email) {
+      toast.error("You have not provided your email ");
+      return;
+    }
+    forgetPassword({
+      email,
+    });
+  };
   return (
     <CoverLayout coverHeight="50vh" image={bgImage}>
       <Card>
@@ -47,17 +70,28 @@ function Cover() {
             Reset Password
           </MDTypography>
           <MDTypography display="block" variant="button" color="white" my={1}>
-            You will receive an e-mail in maximum 60 seconds
+            {isForgetingPassword === "success"
+              ? `A link to reset your password has been sent to
+            ${email} If you did not receive the email or if the email address is incorrect, try again...`
+              : "You will receive an e-mail in maximum 60 seconds"}
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={4}>
-              <MDInput type="email" label="Email" variant="standard" fullWidth />
+              {/* <MDInput type="email" label="Email" variant="standard" fullWidth /> */}
+              {status.TextField}
             </MDBox>
             <MDBox mt={6} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
-                reset
+              <MDButton
+                onClick={() => handleSubmit()}
+                disabled={!email}
+                variant="gradient"
+                color="info"
+                // type="submit"
+                fullWidth
+              >
+                {isForgetingPassword === "pending" ? <Loader1 /> : "reset"}
               </MDButton>
             </MDBox>
           </MDBox>

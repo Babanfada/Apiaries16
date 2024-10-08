@@ -1,51 +1,48 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useState } from "react";
-
-// react-router-dom components
-import { Link } from "react-router-dom";
-
-// @mui material components
-import Card from "@mui/material/Card";
-import Switch from "@mui/material/Switch";
-import Grid from "@mui/material/Grid";
-import MuiLink from "@mui/material/Link";
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import GoogleIcon from "@mui/icons-material/Google";
-
-// Material Dashboard 2 React components
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Card, Skeleton } from "@mui/material";
+import { useLoginUser, useCurrentUser } from "features/users/userThunk";
+import useRegister from "hooks/Register";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-
-// Authentication layout components
+import { Loader1 } from "components copy/Loader";
 import BasicLayout from "layouts/authentication/components/BasicLayout";
-
-// Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import { Link } from "react-router-dom";
 
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
-
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
+  // State for form input
+  const { email, password } = useSelector((store) => store.users);
+  const { loginUser, isLoginIn } = useLoginUser();
+  const { userDetails } = useRegister();
+  const navigate = useNavigate();
+  const { data: currentUser, refetch, isCheckingCurrentUser } = useCurrentUser();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error("You have not provided your email or password");
+      return;
+    }
+    // Trigger login action
+    loginUser({
+      email,
+      password,
+    });
+  };
+  useEffect(() => {
+    if (isLoginIn === "success") {
+      refetch();
+    }
+    if (isCheckingCurrentUser === "success") navigate("/dashboard");
+  }, [isLoginIn, isCheckingCurrentUser, navigate]);
+
+  // console.log(isLoginIn, currentUser);
   return (
     <BasicLayout image={bgImage}>
       <Card>
@@ -60,64 +57,62 @@ function Basic() {
           mb={1}
           textAlign="center"
         >
-          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Sign in
+          <MDTypography variant="h6" fontWeight="medium" color="white" mt={1}>
+            Glad to see you back again !!
           </MDTypography>
-          <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <FacebookIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GitHubIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GoogleIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-          </Grid>
+          <MDTypography variant="h6" fontWeight="small" color="white" mt={1}>
+            Enter your password to retrieve your info...
+          </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form">
-            <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
-            </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                onClick={handleSetRememberMe}
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;Remember me
-              </MDTypography>
-            </MDBox>
+          <MDBox component="form" role="form" onSubmit={handleSubmit}>
+            <MDTypography variant="h6" fontWeight="light" color="white" mt={1}>
+              <Link to="/authentication/check">Not your Email? Go Back</Link>
+              {!email ? (
+                <Skeleton
+                  variant="rectangular"
+                  width={"fit-content"}
+                  height={"fit-content"}
+                  sx={{
+                    borderRadius: "5px",
+                    background: "none",
+                    fontSize: "small",
+                    color: "red",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Your email is missing, you have to go back!!!
+                </Skeleton>
+              ) : (
+                <MDTypography variant="span" fontWeight="small" color="black" mt={1}>
+                  {email}
+                </MDTypography>
+              )}
+            </MDTypography>
+            <MDBox mb={2}>{userDetails[1].TextField}</MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
-                sign in
+              <MDButton
+                type="submit"
+                disabled={!password}
+                variant="gradient"
+                color="info"
+                fullWidth
+              >
+                {isLoginIn === "pending" ? <Loader1 /> : "Sign in"}
               </MDButton>
             </MDBox>
             <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
-                Don&apos;t have an account?{" "}
+                Forgot password?{" "}
                 <MDTypography
                   component={Link}
-                  to="/authentication/sign-up"
+                  to="/authentication/forget-password"
                   variant="button"
                   color="info"
                   fontWeight="medium"
                   textGradient
                 >
-                  Sign up
+                  reset it
                 </MDTypography>
               </MDTypography>
             </MDBox>

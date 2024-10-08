@@ -3,7 +3,8 @@ const Mailgen = require("mailgen");
 const moment = require("moment");
 
 const sendPasswordResetMail = ({ origin, email, passwordToken, fullname }) => {
-  const resetPassword = `${origin}/authflow/resetpassword?token=${passwordToken}&email=${email}`;
+  // const resetPassword = `${origin}/authflow/resetpassword?token=${passwordToken}&email=${email}`;
+  const resetPassword = `${origin}/authentication/reset-password?token=${passwordToken}&email=${email}`;
   const mailGenerator = new Mailgen({
     theme: "default",
     product: {

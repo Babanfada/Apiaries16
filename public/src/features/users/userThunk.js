@@ -38,6 +38,25 @@ export const useCheckUserOndB = (email) => {
   });
   return { isCheckingUserOnDb, data, isError, isSuccess, refetch };
 };
+
+// export const useCheckUserOndB = () => {
+//   //   const dispatch = useDispatch();
+//   const { mutate: checkUser, status: isCheckingUserOnDb } = useMutation({
+//     mutationFn: async (email) => {
+//       const { data } = await customFetch.post(`authflow/check`, {
+//         ...email,
+//       });
+//       return data;
+//     },
+//     onSuccess: ({ msg }) => {
+//       toast.success(msg);
+//     },
+//     onError: (error) => {
+//       toast.error(error.response.data.msg);
+//     },
+//   });
+//   return { checkUser, isCheckingUserOnDb };
+// };
 export const useCurrentUser = () => {
   const {
     status: isCheckingCurrentUser,

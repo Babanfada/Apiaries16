@@ -14,7 +14,7 @@ const {
 } = require("../middlewares/authentication");
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllUsers);
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllUsers);
 router.route("/avatar").post(authenticated, uploadAvatar);
 router
   .route("/:user_id")

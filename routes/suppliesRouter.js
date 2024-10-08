@@ -13,11 +13,11 @@ const {
 const router = require("express").Router();
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllSupplies)
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllSupplies)
   .post(authenticated, authorizedPermissions("admin"), createSupply);
 router
   .route("/:supply_id")
-  .get(authenticated, authorizedPermissions("admin"), getSingleSupply)
+  .get(authenticated, authorizedPermissions("admin", "test"), getSingleSupply)
   .patch(authenticated, authorizedPermissions("admin"), updateSupply)
   .delete(authenticated, authorizedPermissions("admin"), deleteSupply);
 module.exports = router;

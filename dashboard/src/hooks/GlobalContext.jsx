@@ -27,7 +27,7 @@ const GlobalContext = ({ children }) => {
   const { isGettingStations, stations } = useStations();
   const { isGettingAllHarvest, honey_harvest } = useHoneyHarvest();
   const { isGettingAllHunters, hunters } = useHunters();
-  const { isGettingAllHives, hives } = useHives();
+  const { isGettingAllHives, hives, refetch: refecthHives } = useHives();
   const { isGettingAllReports, catch_reports } = useReports();
   const { isGettingAllequipments, equipments } = useEquipments();
   const { isGettingAllSupplies, supplies } = useSupplies();
@@ -78,6 +78,7 @@ const GlobalContext = ({ children }) => {
     hunters,
     hives,
     catch_reports,
+    refecthHives,
   };
   // console.log(values);
   return <dataContext.Provider value={{ ...values }}>{children}</dataContext.Provider>;

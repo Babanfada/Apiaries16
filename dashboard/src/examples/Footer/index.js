@@ -67,12 +67,12 @@ function Footer({ company, links }) {
           </Icon>
         </MDBox>
         by
-        <Link href={href} target="_blank">
+        <Link to={"#"} target="_blank">
           <MDTypography variant="button" fontWeight="medium">
-            &nbsp;{name}&nbsp;
+            &nbsp;Apiaries 16&nbsp;
           </MDTypography>
         </Link>
-        for a better web.
+        pure, raw, local.
       </MDBox>
       <MDBox
         component="ul"
@@ -91,7 +91,7 @@ function Footer({ company, links }) {
           },
         })}
       >
-        {renderLinks()}
+        {/* {renderLinks()} */}
       </MDBox>
     </MDBox>
   );

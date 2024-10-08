@@ -13,11 +13,15 @@ const {
 const router = require("express").Router();
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllPolServices)
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllPolServices)
   .post(authenticated, authorizedPermissions("admin"), createPolService);
 router
   .route("/:pol_service_id")
-  .get(authenticated, authorizedPermissions("admin"), getSinglePolService)
+  .get(
+    authenticated,
+    authorizedPermissions("admin", "test"),
+    getSinglePolService
+  )
   .patch(authenticated, authorizedPermissions("admin"), updatePolService)
   .delete(authenticated, authorizedPermissions("admin"), deletePolService);
 module.exports = router;

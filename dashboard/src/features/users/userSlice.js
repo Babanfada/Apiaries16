@@ -26,20 +26,29 @@ const userSlice = createSlice({
     handelChange: (state, { payload }) => {
       const { name, value } = payload;
       state[name] = value;
-      console.log({
-        //     email: state.email,
-        //     fullname: state.fullname,
-        //     password: state.password,
-        //     address: state.address,
-        //     phone: state.phone,
-        //     gender: state.gender,
-        //     emailNotification: state.emailNotification,
-        // gendersearch: state.gendersearch,
-        // isVerified: state.isVerified,
-        // blacklisted: state.blacklisted,
-        // subscribed: state.subscribed,
-        // sort: state.sort,
-      });
+      // console.log({
+      //     email: state.email,
+      //     fullname: state.fullname,
+      //     password: state.password,
+      //     address: state.address,
+      //     phone: state.phone,
+      //     gender: state.gender,
+      //     emailNotification: state.emailNotification,
+      // gendersearch: state.gendersearch,
+      // isVerified: state.isVerified,
+      // blacklisted: state.blacklisted,
+      // subscribed: state.subscribed,
+      // sort: state.sort,
+      // });
+    },
+    populate: (state, { payload }) => {
+      const { email, password } = payload;
+      // console.log(payload)
+      return {
+        ...state,
+        email,
+        password,
+      };
     },
     handlePhoneInput: (state, { payload }) => {
       //   console.log({ phone: state.phone });
@@ -59,5 +68,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { handelChange, handlePhoneInput, changePage, resetValues } = userSlice.actions;
+export const { handelChange, handlePhoneInput, changePage, resetValues, populate } = userSlice.actions;
 export default userSlice.reducer;

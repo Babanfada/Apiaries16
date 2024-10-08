@@ -44,7 +44,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
-import routes, { singleroutes } from "routes";
+import routes, { singleroutes, authRoutes } from "routes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -57,6 +57,8 @@ import Loader from "components copy/Loader";
 import { Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+//protect Routes
+import PrivateRoute from "layouts/authentication/private";
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -120,24 +122,30 @@ export default function App() {
       }
 
       if (route.route) {
+        return (
+          <Route
+            exact
+            path={route.route}
+            element={<PrivateRoute>{route.component}</PrivateRoute>}
+            key={route.key}
+          />
+        );
+      }
+
+      return null;
+    });
+  const getauthRoutes = (allRoutes) =>
+    allRoutes.map((route) => {
+      if (route.collapse) {
+        return getRoutes(route.collapse);
+      }
+
+      if (route.route) {
         return <Route exact path={route.route} element={route.component} key={route.key} />;
       }
 
       return null;
     });
-  // const singleRoutes = (allRoutes) =>
-  //   allRoutes.map((route) => {
-  //     if (route.collapse) {
-  //       return getRoutes(route.collapse);
-  //     }
-
-  //     if (route.route) {
-  //       return <Route exact path={route.route} element={route.component} key={route.key} />;
-  //     }
-
-  //     return null;
-  //   });
-
   const configsButton = (
     <MDBox
       display="flex"
@@ -185,7 +193,7 @@ export default function App() {
             {layout === "vr" && <Configurator />}
             <Routes>
               {getRoutes(routes)}
-              <Route path="*" element={<Navigate to="/dashboard" />} />
+              <Route path="*" element={<Navigate to="/authentication/check" />} />
             </Routes>
             <ToastContainer
               position="top-right"
@@ -197,7 +205,6 @@ export default function App() {
               pauseOnFocusLoss
               draggable
               pauseOnHover
-              // theme={isDarkMode ? "dark" : "light"}
             />
           </ThemeProvider>
         </Suspense>
@@ -223,11 +230,22 @@ export default function App() {
             </>
           )}
           {layout === "vr" && <Configurator />}
+          {/* <Routes>
+            {getRoutes(authRoutes)}
+            <Route element={<PrivateRoute />}>
+              {getRoutes(routes)}
+              {getRoutes(singleroutes)}
+            </Route>
+            <Route path="*" element={<Navigate to="/dashboard" />} />
+          </Routes> */}
           <Routes>
+            {getauthRoutes(authRoutes)}
             {getRoutes(routes)}
             {getRoutes(singleroutes)}
-            <Route path="*" element={<Navigate to="/dashboard" />} />
+
+            <Route path="*" element={<Navigate to="/authentication/check" />} />
           </Routes>
+
           <ToastContainer
             position="top-right"
             autoClose={1000}
@@ -238,10 +256,22 @@ export default function App() {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            // theme={isDarkMode ? "dark" : "light"}
           />
         </ThemeProvider>
       </Suspense>
     </GlobalContext>
   );
+}
+// theme={isDarkMode ? "dark" : "light"}
+// theme={isDarkMode ? "dark" : "light"}
+
+{
+  /* <Routes>
+  {getRoutes(authRoutes)}
+  <PrivateRoute>
+  {getRoutes(routes)}
+    {getRoutes(singleroutes)}
+  </PrivateRoute>
+  <Route path="*" element={<Navigate to="/dashboard" />} />
+</Routes> */
 }

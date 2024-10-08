@@ -13,12 +13,12 @@ const {
 const router = require("express").Router();
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllEmployeeNOK)
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllEmployeeNOK)
   .post(authenticated, authorizedPermissions("admin"), createNOK);
 
 router
   .route("/:nok_id")
   .patch(authenticated, authorizedPermissions("admin"), updateNOK)
-  .get(authenticated, authorizedPermissions("admin"), getSingleNOK)
+  .get(authenticated, authorizedPermissions("admin", "test"), getSingleNOK)
   .delete(authenticated, authorizedPermissions("admin"), deleteNOK);
 module.exports = router;

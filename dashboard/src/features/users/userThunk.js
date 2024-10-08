@@ -48,7 +48,7 @@ export const useCurrentUser = () => {
     // enabled: false, // Disable the query from running on component mount
     queryFn: async () => {
       const { data } = await customFetch.get(`authflow/showme`);
-      //   console.log(data);
+        // console.log(data);
       return data;
     },
     onSuccess: ({ data }) => {
@@ -68,7 +68,7 @@ export const useCurrentUser = () => {
       }
     },
   });
-  return { isCheckingCurrentUser, currentUser };
+  return { isCheckingCurrentUser, currentUser, refetch };
 };
 
 export const useRegisterUser = () => {
@@ -277,20 +277,19 @@ export const useUpdateUser = () => {
   });
   return { updateUser, isUpdatingUser };
 };
-export const useBlacklistUser = (id) => {
-  // const dispatch = useDispatch();
+export const useBlacklistUser = () => {
   const queryClient = useQueryClient();
   const { mutate: blacklistUser, status: blacklisting } = useMutation({
     mutationFn: async (blacklistDetails) => {
-      console.log(blacklistDetails, "here");
-      const { data } = await customFetch.patch(`authflow/blacklist/${id}`, blacklistDetails);
+      // console.log(blacklistDetails, "here");
+      const { data } = await customFetch.patch(
+        `authflow/blacklist/${blacklistDetails.user_id}`,
+        blacklistDetails
+      );
       return data;
     },
     onSuccess: ({ msg }) => {
-      // console.log(msg);
-      // queryClient.invalidateQueries({ queryKey: ["allusers", "singleuser"] });
       queryClient.invalidateQueries({ queryKey: ["allusers", "singleuser"] });
-      // dispatch(handleReset());
       toast.success(msg);
     },
     onError: (error) => {

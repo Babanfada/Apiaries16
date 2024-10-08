@@ -14,10 +14,12 @@ const {
 const router = require("express").Router();
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllOrders)
+  .get(authenticated, authorizedPermissions("admin", "test"), getAllOrders)
   .post(authenticated, createOrder);
-  router.route("/getallordersbyuser").get(authenticated, getAllOrdersByUser);
-  router.route("/updatedeliverydetails/:order_id").patch(authenticated, updateDelDetails);
+router.route("/getallordersbyuser").get(authenticated, getAllOrdersByUser);
+router
+  .route("/updatedeliverydetails/:order_id")
+  .patch(authenticated, updateDelDetails);
 router.route("/:order_id").get(authenticated, getSingleOrder);
 router.route("/:order_id").patch(authenticated, updateOrder);
 module.exports = router;

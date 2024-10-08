@@ -15,30 +15,33 @@ const TriangleBar = (props) => {
 
   return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
 };
-export default function CustomCharts({ data, xDataKey, yDataKey }) {
+export default function CustomCharts({ data, xDataKey, yDataKey, title }) {
   //   console.log(data);
 
   return (
-    <BarChart
-      width={500}
-      height={300}
-      data={data}
-      margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey={xDataKey} />
-      <YAxis />
-      <Bar dataKey={yDataKey} fill="#8884d8" shape={<TriangleBar />} label={{ position: "top" }}>
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-        ))}
-      </Bar>
-    </BarChart>
+    <div>
+      <h3 style={{ textAlign: "center" }}>{title}</h3> {/* Title added here */}
+      <BarChart
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey={xDataKey} />
+        <YAxis />
+        <Bar dataKey={yDataKey} fill="#8884d8" shape={<TriangleBar />} label={{ position: "top" }}>
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+          ))}
+        </Bar>
+      </BarChart>
+    </div>
   );
 }
 
@@ -46,6 +49,7 @@ CustomCharts.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   xDataKey: PropTypes.string.isRequired,
   yDataKey: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
 TriangleBar.propTypes = {

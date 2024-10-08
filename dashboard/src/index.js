@@ -24,6 +24,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "react-redux";
 import store from "./store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import GlobalContext from "hooks/GlobalContext";
 
 const container = document.getElementById("app");
 const root = createRoot(container);
@@ -47,7 +48,9 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <MaterialUIControllerProvider>
+          {/* <GlobalContext> */}
           <App />
+          {/* </GlobalContext> */}
         </MaterialUIControllerProvider>
       </QueryClientProvider>
     </Provider>

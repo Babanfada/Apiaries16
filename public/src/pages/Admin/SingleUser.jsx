@@ -32,6 +32,7 @@ const SingleUser = () => {
   const { blacklistUser, blacklisting } = useBlacklistUser(id);
     console.log(deliveryStatusCount, paymentStatusCount);
   console.log(blacklisted, user);
+  
   const activate = {
     blacklist: false,
     isValid: true,
