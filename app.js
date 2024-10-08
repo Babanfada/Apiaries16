@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 5003;
 const connectDB = require("./models");
-
+const path = require("path");
 // uplaod files
 const cloudinary = require("cloudinary").v2;
 const fileUpload = require("express-fileupload");
@@ -73,9 +73,9 @@ app.use(
 // use Cookie
 app.use(cookieParser(process.env.JWT_SECRET));
 // google auth
-app.get("/", (req, res) => {
-  res.send('<a href="api/v1/authflow/google">login with google</a>');
-});
+// app.get("/", (req, res) => {
+//   res.send('<a href="api/v1/authflow/google">login with google</a>');
+// });
 // use upload
 app.use(fileUpload({ useTempFiles: true }));
 cloudinary.config({
@@ -117,7 +117,13 @@ app.use("/api/v1/orderitems", ordeerItemsRoutes);
 app.use("/api/v1/deliveryaddress", deliveryAddressRoutes);
 app.use("/api/v1/usersorders", userOrdersRoutes);
 app.use("/api/v1/authflow", authflowRoutes);
+//Serve static files from the React app
+app.use(express.static(path.join(__dirname, "dashboard", "build")));
 
+// Catch-all route to serve React's index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "dashboard", "build", "index.html"));
+});
 //Error Handling Middleware for routes and interacting with the database
 app.use(notFound);
 app.use(errorHandlerMiddleware);
