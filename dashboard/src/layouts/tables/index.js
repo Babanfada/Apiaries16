@@ -35,7 +35,11 @@ import { handleReset } from "features/employees/employeesSlice";
 import EmployeeSearchModal from "components copy/searchModals/EmployeeSearchModal";
 import PaginationControlled from "components copy/component's_Tables/Pagination";
 import { changePage } from "features/employees/employeesSlice";
-
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+//style
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
 function Empoloyees() {
   const {
     columns,
@@ -75,15 +79,26 @@ function Empoloyees() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Employees {count}/{totalEmployees}
-                  <Link
-                    onClick={() => dispatch(handleReset())}
-                    to="/admin/createupdateemployees/add"
-                  >
-                    create emp
-                  </Link>
-                  <EmployeeSearchModal isGettingAllEmployees={isGettingAllEmployees} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Employees</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalEmployees}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link
+                      onClick={() => dispatch(handleReset())}
+                      to="/admin/createupdateemployees/add"
+                    >
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add employee"
+                      />
+                    </Link>
+                    <EmployeeSearchModal isGettingAllEmployees={isGettingAllEmployees} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -150,7 +165,10 @@ export function SingleEmployee() {
       <MDBox mb={2} />
       <Header info={{ image, first_name, last_name, role }}>
         <MDBox mt={5} mb={3}>
-          <Link to="/employees">Go back</Link>
+          <Link to="/employees">
+            {" "}
+            <ArrowBackIcon />
+          </Link>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
@@ -291,45 +309,53 @@ export function CreateUpdateEmployee() {
       <MDBox mb={2} />
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid className={styling.wrapper} item xs={12} md={6} xl={4} sx={{ display: "flex" }}> */}
+          {/* <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <Link to="/employees">Go back</Link>
-              {isEdit ? (
-                <InputFileUpload
-                  name={"image"}
-                  handleChange={uploadEmployeeAvatar}
-                  uploading={isUploadingEmployeeImages}
-                />
-              ) : (
-                ""
-              )}
-              <form onSubmit={handleSubmit}>
-                {employeeDetails.map((detail) => {
-                  const { name, TextField } = detail;
-                  return <div key={name}>{TextField}</div>;
-                })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingEmployee === "pending" || isUpdatingEmployee === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/employees">
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update ${first_name} ${last_name} details` : "Create Employee"} </h6>
+              <div>
+                {isEdit ? (
+                  <InputFileUpload
+                    name={"image"}
+                    handleChange={uploadEmployeeAvatar}
+                    uploading={isUploadingEmployeeImages}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {employeeDetails.map((detail) => {
+                const { name, TextField } = detail;
+                return <div key={name}>{TextField}</div>;
+              })}
+              <CustomButton
+                background={"inherit"}
+                // background={"#1212121F"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingEmployee === "pending" || isUpdatingEmployee === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} /> */}
+          {/* </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

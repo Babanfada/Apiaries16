@@ -6,25 +6,27 @@ import { TailSpin } from "react-loader-spinner";
 
 const Loader = () => {
   return (
-    <TailSpin
-      visible={true}
-      height="80"
-      width="80"
-      color="#4fa94d"
-      ariaLabel="tail-spin-loading"
-      radius="1"
-      //   wrapperStyle={{ display: flex, alignItems: center }}
-      wrapperClass=""
-    />
+    <div className="loader">
+      <TailSpin
+        visible={true}
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="tail-spin-loading"
+        radius="1"
+        wrapperClass=""
+      />
+    </div>
   );
 };
 export const Loader1 = () => {
   return (
     <ThreeDots
       visible={true}
-      height="80"
-      width="80"
-      color="#4fa94d"
+      height="40"
+      width="40"
+      color="black"
+      // color="#4fa94d"
       radius="9"
       ariaLabel="three-dots-loading"
       wrapperStyle={{}}

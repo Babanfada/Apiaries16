@@ -2,9 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { BiSort } from "react-icons/bi";
-// import styles from "../../styles/components/deliveryaddressmodal.module.scss";
-// import styles from "../../"
 import CloseIcon from "@mui/icons-material/Close";
 import { CustomButton } from "../Button";
 // import { useEmployee } from "../../hooks/register";
@@ -12,10 +9,8 @@ import { Loader1 } from "../Loader";
 import { useDispatch } from "react-redux";
 import { resetValues } from "../../features/stations/stationSlice";
 import { useDashDetails_1 } from "../../hooks/DashDetails";
-// import { resetValues } from "../../features/employees/employeesSlice";
-// import { useThemeContext } from "../../hooks/ThemeContext";
-// import QueryOrder from "../QueryOrder";
-// import QueryProduct from "./QueryProduct";
+import SearchIcon from "@mui/icons-material/Search";
+import styles from "../../layouts/styles/modal.module.scss";
 const style = {
   position: "absolute",
   bgcolor: "background.paper",
@@ -30,12 +25,14 @@ export default function StationSearchModal({ isGettingStations }) {
   //   const { theme } = useThemeContext();
   //   const isDarkMode = theme === "dark-theme";
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div>
-        <BiSort onClick={handleOpen} title="filter" />
-        {/* <button onClick={handleOpen} title="filter">
-          search
-        </button> */}
+        <SearchIcon
+          fontSize="medium"
+          onClick={handleOpen}
+          sx={{ cursor: "pointer", fill: "white" }}
+          title="search"
+        />
       </div>
       <Modal
         open={open}
@@ -43,19 +40,12 @@ export default function StationSearchModal({ isGettingStations }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-        //   sx={{ ...style, background: isDarkMode ? "black" : "white" }}
-        //   className={styles.box}
-        >
+        <Box sx={{ ...style, background: "white" }} className={styles.box}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Filter{" "}
-            <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
+            Search Stations <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
           </Typography>
-          <p>which of your products are you looking for?</p>
-          <SearchStations
-            handleClose={handleClose}
-            isGettingStations={isGettingStations}
-          />
+          <p>which station you looking for?</p>
+          <SearchStations handleClose={handleClose} isGettingStations={isGettingStations} />
         </Box>
       </Modal>
     </div>
@@ -71,14 +61,14 @@ const SearchStations = ({ handleClose, isGettingStations }) => {
   };
 
   return (
-    <form>
+    <form className={styles.paper}>
       {searchStations.map((input) => {
         const { name, TextField } = input;
         return <div key={name}>{TextField}</div>;
       })}
       <CustomButton
         background={"inherit"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={resetQuery}
         type="button"
@@ -91,8 +81,7 @@ const SearchStations = ({ handleClose, isGettingStations }) => {
       </CustomButton>
       <CustomButton
         background={"inherit"}
-        // background={"#3457bf"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={() => handleClose()}
         type="button"
@@ -102,11 +91,7 @@ const SearchStations = ({ handleClose, isGettingStations }) => {
           fontWeight: "bold",
         }}
       >
-        {isGettingStations === "pending" ? (
-          <Loader1 color="success" />
-        ) : (
-          "Find Out"
-        )}
+        {isGettingStations === "pending" ? <Loader1 color="success" /> : "Find Out"}
       </CustomButton>
     </form>
   );

@@ -38,6 +38,11 @@ import moment from "moment";
 import { useDashDetails_1 } from "hooks/DashDetails";
 import { useCreateStation } from "features/stations/stationsThunk";
 import { useUpdateStation } from "features/stations/stationsThunk";
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Icon } from "@mui/material";
 function Stations() {
   const {
     columns,
@@ -99,13 +104,19 @@ function Stations() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Stations
-                  {count}/{totalStations}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdatestation/add">
-                    create station
-                  </Link>
-                  <StationSearchModal isGettingStations={isGettingStations} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Stations</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalStations}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdatestation/add">
+                      <AddIcon sx={{ fill: "white" }} fontSize="medium" titleAccess="add station" />
+                    </Link>
+                    <StationSearchModal isGettingStations={isGettingStations} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -162,9 +173,18 @@ export function SingleStation() {
       <MDBox mb={2} />
       <Header info={{ image: LogoAsana, station_name, location }}>
         <MDBox mt={5} mb={3}>
-          <Link to="/stations">Go back</Link>
-          <Link to="/harvests">back to harvest</Link>
-          <Grid container spacing={1}>
+          <Link to="/stations">
+            {" "}
+            <Icon title="back to stations" fontSize="large">
+              business
+            </Icon>
+          </Link>
+          <Link to="/harvests">
+            <Icon title="back to harvests" fontSize="large">
+              emoji_nature
+            </Icon>
+          </Link>
+          <Grid className={styling.wrapper} container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
               <ProfileInfoCard
@@ -322,49 +342,55 @@ export const CreateUpdateStation = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Link to="/stations"> back to stations</Link>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}> */}
+          {/* <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <form onSubmit={handleSubmit}>
-                {station_details
-                  .filter((detail) => {
-                    if (
-                      detail.name === "sort" ||
-                      (!isEdit &&
-                        (detail.name === "next_inspection_date" ||
-                          detail.name === "last_inspection_date"))
-                    ) {
-                      return false; // Exclude these fields in edit mode
-                    }
-                    return true; // Include all other fields
-                  })
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingStation === "pending" || isUpdatingStation === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/stations">
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update ${station_name} details` : "Create Station"} </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {station_details
+                .filter((detail) => {
+                  if (
+                    detail.name === "sort" ||
+                    (!isEdit &&
+                      (detail.name === "next_inspection_date" ||
+                        detail.name === "last_inspection_date"))
+                  ) {
+                    return false; // Exclude these fields in edit mode
+                  }
+                  return true; // Include all other fields
+                })
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingStation === "pending" || isUpdatingStation === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} /> */}
+          {/* </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

@@ -37,7 +37,10 @@ import provisionsTableData from "./data/provisionsTableData";
 import { useProvisionInputs } from "hooks/ServicesDetails";
 import { useUpdateProvision } from "features/supplyProvision/supplyprovThunk";
 import { useCreateProvision } from "features/supplyProvision/supplyprovThunk";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Provisions() {
   const dispatch = useDispatch();
   const { rows, numOfPages, refetch, count, columns, isGettingAllprovisions, totalProvisions } =
@@ -70,13 +73,23 @@ function Provisions() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Provisions
-                  {count}/{totalProvisions}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdateprovision/add">
-                    create provision
-                  </Link>
-                  <ProvisionSearchModal isGettingAllprovisions={isGettingAllprovisions} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white"> Provisions</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalProvisions}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdateprovision/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add provision"
+                      />
+                    </Link>
+                    <ProvisionSearchModal isGettingAllprovisions={isGettingAllprovisions} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -132,39 +145,45 @@ export const CreateUpdateProvision = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
+            {/* <Link to={`/provisions`}>Go back to provisions</Link> */}
             <div>
-              <Link to={`/provisions`}>Go back to provisions</Link>
-
-              <form onSubmit={handleSubmit}>
-                {provisionInputs
-                  .filter((detail) => detail.name !== "sort" && detail.name !== "priceRangeSP")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingProvision === "pending" || isUpdatingProvision === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/provisions">
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update item ${item_name}'s details` : "Create Provision Item"} </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {provisionInputs
+                .filter((detail) => detail.name !== "sort" && detail.name !== "priceRangeSP")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingProvision === "pending" || isUpdatingProvision === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

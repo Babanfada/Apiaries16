@@ -45,6 +45,11 @@ import { useCreateNok } from "features/nok/nokThunk";
 import { useUpdateNok } from "features/nok/nokThunk";
 import { useNok } from "hooks/DashDetails_2";
 import { resetValues } from "features/nok/nokSlice";
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Icon } from "@mui/material";
 
 function Noks() {
   const {
@@ -103,13 +108,23 @@ function Noks() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Next of Kin
-                  {count}/{totalEmployeesNOK}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdatenok/add">
-                    create nok
-                  </Link>
-                  <NokSearchModal isGettingAllNok={isGettingAllNok} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Next of Kin</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalEmployeesNOK}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdatenok/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add next of kin"
+                      />
+                    </Link>
+                    <NokSearchModal isGettingAllNok={isGettingAllNok} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -168,38 +183,45 @@ export const CreateUpdateNok = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
+            {/* <Link to="/noks">Go back</Link> */}
             <div>
-              <Link to="/noks">Go back</Link>
-              <form onSubmit={handleSubmit}>
-                {nokInput
-                  .filter((detail) => detail.name !== "sort")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingNok === "pendiNokuseCreateNok " || isUpdatingNok === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/noks">
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update ${fullname} details` : "Create Next Of Kin"} </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {nokInput
+                .filter((detail) => detail.name !== "sort")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingNok === "pendiNokuseCreateNok " || isUpdatingNok === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} /> */}
+          {/* </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

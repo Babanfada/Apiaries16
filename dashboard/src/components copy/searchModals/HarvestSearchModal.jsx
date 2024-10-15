@@ -13,6 +13,8 @@ import { useDispatch } from "react-redux";
 // import { resetValues } from "../../features/nok/nokSlice";
 import { useHarvest, useNok } from "../../hooks/DashDetails_2";
 import { resetValues } from "../../features/harvest/honey_harvestSlice";
+import SearchIcon from "@mui/icons-material/Search";
+import styles from "../../layouts/styles/modal.module.scss";
 const style = {
   position: "absolute",
   bgcolor: "background.paper",
@@ -27,12 +29,14 @@ export default function HarvestSearchModal({ isGettingAllHarvest }) {
   //   const { theme } = useThemeContext();
   //   const isDarkMode = theme === "dark-theme";
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div>
-        <BiSort onClick={handleOpen} title="filter" />
-        {/* <button onClick={handleOpen} title="filter">
-          search
-        </button> */}
+        <SearchIcon
+          fontSize="medium"
+          onClick={handleOpen}
+          sx={{ cursor: "pointer", fill: "white" }}
+          title="search"
+        />
       </div>
       <Modal
         open={open}
@@ -40,14 +44,11 @@ export default function HarvestSearchModal({ isGettingAllHarvest }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-        //   sx={{ ...style, background: isDarkMode ? "black" : "white" }}
-        //   className={styles.box}
-        >
+        <Box sx={{ ...style, background: "white" }} className={styles.box}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Filter <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
+            Search Harvests <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
           </Typography>
-          <p>which of your products are you looking for?</p>
+          <p>which harvest are you looking for?</p>
           <SearchHarvest handleClose={handleClose} isGettingAllHarvest={isGettingAllHarvest} />
         </Box>
       </Modal>
@@ -63,7 +64,7 @@ const SearchHarvest = ({ handleClose, isGettingAllHarvest }) => {
   };
 
   return (
-    <form>
+    <form className={styles.paper}>
       {harvestInputs
         .filter((detail) => detail.name !== "note" && detail.name !== "unit")
         .map((input) => {
@@ -73,7 +74,7 @@ const SearchHarvest = ({ handleClose, isGettingAllHarvest }) => {
 
       <CustomButton
         background={"inherit"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={resetQuery}
         type="button"
@@ -86,14 +87,12 @@ const SearchHarvest = ({ handleClose, isGettingAllHarvest }) => {
       </CustomButton>
       <CustomButton
         background={"inherit"}
-        // background={"#3457bf"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={() => handleClose()}
         type="button"
         style={{
           width: "100%",
-          // color: "white",
           fontWeight: "bold",
         }}
       >
@@ -106,12 +105,8 @@ import PropTypes from "prop-types";
 
 // Add PropTypes for HarvestSearchModal
 HarvestSearchModal.propTypes = {
-  isGettingAllHarvest: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool, // Adjust based on the expected type
-  ]).isRequired,
+  isGettingAllHarvest: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
 };
-
 // Add PropTypes for SearchHarvest
 SearchHarvest.propTypes = {
   handleClose: PropTypes.func.isRequired,

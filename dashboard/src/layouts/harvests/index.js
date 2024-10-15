@@ -36,7 +36,10 @@ import { resetValues } from "features/harvest/honey_harvestSlice";
 import { useHarvest } from "hooks/DashDetails_2";
 import { useUpdateHarvest } from "features/harvest/honey_harvestThunk";
 import { useCreateHarvest } from "features/harvest/honey_harvestThunk";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function Harvests() {
   const {
@@ -110,13 +113,23 @@ function Harvests() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Honey Harvest
-                  {count}/{totalHarvest}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdateharvest/add">
-                    create harvest
-                  </Link>
-                  <HarvestSearchModal isGettingAllHarvest={isGettingAllHarvest} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white"> Honey Harvest</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalHarvest}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdateharvest/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add next of kin"
+                      />
+                    </Link>
+                    <HarvestSearchModal isGettingAllHarvest={isGettingAllHarvest} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -141,84 +154,92 @@ function Harvests() {
 export default Harvests;
 
 export const CreateUpdateHarvest = () => {
-   const { id } = useParams();
-   const { harvestInputs } = useHarvest();
-   const { isUpdatingHarvest, updateHarvest } = useUpdateHarvest();
-   const { createHarvest, isCreatingHarvest } = useCreateHarvest();
-   const {
-     harvest_year,
-     station_id,
-     station_name,
-     harvest_date,
-     quantity_collected,
-     colouration,
-     unit,
-     quality_rating,
-     note,
-     isEdit,
-   } = useSelector((store) => store.harvests);
-   const harvestDetails = {
-     harvest_year,
-     station_id,
-     station_name,
-     harvest_date,
-     quantity_collected,
-     colouration,
-     unit,
-     quality_rating,
-     note,
-   };
-   const handleSubmit = (e) => {
-     e.preventDefault();
-     const isValid = Object.values(harvestDetails).every(
-       (value) => value !== undefined && value !== null && value !== ""
-     );
-     if (!isValid) {
-       alert("Please fill out all required fields.");
-       return;
-     }
-     if (isEdit) return updateHarvest({ harvestDetails, id });
-     createHarvest(harvestDetails);
-   };
+  const { id } = useParams();
+  const { harvestInputs } = useHarvest();
+  const { isUpdatingHarvest, updateHarvest } = useUpdateHarvest();
+  const { createHarvest, isCreatingHarvest } = useCreateHarvest();
+  const {
+    harvest_year,
+    station_id,
+    station_name,
+    harvest_date,
+    quantity_collected,
+    colouration,
+    unit,
+    quality_rating,
+    note,
+    isEdit,
+  } = useSelector((store) => store.harvests);
+  const harvestDetails = {
+    harvest_year,
+    station_id,
+    station_name,
+    harvest_date,
+    quantity_collected,
+    colouration,
+    unit,
+    quality_rating,
+    note,
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isValid = Object.values(harvestDetails).every(
+      (value) => value !== undefined && value !== null && value !== ""
+    );
+    if (!isValid) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+    if (isEdit) return updateHarvest({ harvestDetails, id });
+    createHarvest(harvestDetails);
+  };
   return (
     <DashboardLayout>
       <DashboardNavbar />
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
+            {/* <Link to={`/harvests`}>Go back</Link> */}
             <div>
-              <Link to={`/harvests`}>Go back</Link>
-
-              <form onSubmit={handleSubmit}>
-                {harvestInputs
-                  .filter((detail) => detail.name !== "sort")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingHarvest === "pending" || isUpdatingHarvest === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/harvests">
+                <ArrowBackIcon />
+              </Link>
+              <h6>
+                {isEdit ? `Update harvest details for ${station_name}` : `Create harvest details`}{" "}
+              </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {harvestInputs
+                .filter((detail) => detail.name !== "sort")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingHarvest === "pending" || isUpdatingHarvest === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} /> */}
+          {/* </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

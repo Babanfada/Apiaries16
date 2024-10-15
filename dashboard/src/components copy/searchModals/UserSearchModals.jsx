@@ -2,7 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { BiSort } from "react-icons/bi";
+// import { BiSort } from "react-icons/bi";
+import SearchIcon from "@mui/icons-material/Search";
 // import styles from "../../styles/components/deliveryaddressmodal.module.scss";
 // import styles from "../../"
 import CloseIcon from "@mui/icons-material/Close";
@@ -12,6 +13,7 @@ import { resetValues } from "../../features/users/userSlice";
 import { Loader1 } from "../Loader";
 import { useDispatch } from "react-redux";
 import useRegister from "hooks/Register";
+import styles from "../../layouts/styles/modal.module.scss";
 // import { useThemeContext } from "../../hooks/ThemeContext";
 // import QueryOrder from "../QueryOrder";
 // import QueryProduct from "./QueryProduct";
@@ -31,10 +33,12 @@ export default function UserSearchModal({ isGettingAllUser }) {
   return (
     <div>
       <div>
-        <BiSort onClick={handleOpen} title="filter" />
-        {/* <button onClick={handleOpen} title="filter">
-          search
-        </button> */}
+        <SearchIcon
+          fontSize="medium"
+          onClick={handleOpen}
+          sx={{ cursor: "pointer", fill: "white" }}
+          title="search"
+        />
       </div>
       <Modal
         open={open}
@@ -42,19 +46,12 @@ export default function UserSearchModal({ isGettingAllUser }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-        //   sx={{ ...style, background: isDarkMode ? "black" : "white" }}
-        //   className={styles.box}
-        >
+        <Box sx={{ ...style, background: "white" }} className={styles.box}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Filter{" "}
-            <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
+            Search users <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
           </Typography>
-          <p>which of your products are you looking for?</p>
-          <SearchUsers
-            handleClose={handleClose}
-            isGettingAllUser={isGettingAllUser}
-          />
+          <p>which user are you looking for?</p>
+          <SearchUsers handleClose={handleClose} isGettingAllUser={isGettingAllUser} />
         </Box>
       </Modal>
     </div>
@@ -69,14 +66,14 @@ const SearchUsers = ({ handleClose, isGettingAllUser }) => {
   };
 
   return (
-    <form>
+    <form className={styles.paper}>
       {searchUsers.map((input) => {
         const { name, TextField } = input;
         return <div key={name}>{TextField}</div>;
       })}
       <CustomButton
         background={"inherit"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={resetQuery}
         type="button"
@@ -89,8 +86,7 @@ const SearchUsers = ({ handleClose, isGettingAllUser }) => {
       </CustomButton>
       <CustomButton
         background={"inherit"}
-        // background={"#3457bf"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={() => handleClose()}
         type="button"
@@ -100,11 +96,7 @@ const SearchUsers = ({ handleClose, isGettingAllUser }) => {
           fontWeight: "bold",
         }}
       >
-        {isGettingAllUser === "pending" ? (
-          <Loader1 color="success" />
-        ) : (
-          "Find Out"
-        )}
+        {isGettingAllUser === "pending" ? <Loader1 color="success" /> : "Find Out"}
       </CustomButton>
     </form>
   );

@@ -37,20 +37,23 @@ import { useConsultationInputs } from "hooks/ServicesDetails";
 import { useUpdateConsultation } from "features/consultation/consultationThunk";
 import { useCreateConsultation } from "features/consultation/consultationThunk";
 import { resetValues } from "features/consultation/consultationSlice";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Consultation() {
   const { columns, rows, numOfPages, count, refetch, isGettingAllC_Items, totalCitems } =
     consultationTableData();
- const dispatch = useDispatch();
- const { item_id, item_name, description, numOfTimesRendered, price, sort, pages, priceRangeC } =
-   useSelector((store) => store.consultations);
- const handleChange = (event, value) => {
-   event.preventDefault();
-   dispatch(changePage(value));
- };
- React.useEffect(() => {
-   refetch();
- }, [pages, item_id, item_name, description, numOfTimesRendered, price, sort, priceRangeC]);
+  const dispatch = useDispatch();
+  const { item_id, item_name, description, numOfTimesRendered, price, sort, pages, priceRangeC } =
+    useSelector((store) => store.consultations);
+  const handleChange = (event, value) => {
+    event.preventDefault();
+    dispatch(changePage(value));
+  };
+  React.useEffect(() => {
+    refetch();
+  }, [pages, item_id, item_name, description, numOfTimesRendered, price, sort, priceRangeC]);
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -68,13 +71,26 @@ function Consultation() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Consultation
-                  {count}/{totalCitems}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdateconsultation/add">
-                    create consultation
-                  </Link>
-                  <ConsultationSearchModal isGettingAllC_Items={isGettingAllC_Items} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Consultations</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalCitems}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link
+                      onClick={() => dispatch(resetValues())}
+                      to="/createupdateconsultation/add"
+                    >
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add employee"
+                      />
+                    </Link>
+                    <ConsultationSearchModal isGettingAllC_Items={isGettingAllC_Items} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -130,39 +146,45 @@ export const CreateUpdateConsultation = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}> */}
+          {/* <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
+            {/* <Link to={`/consultations`}>Go back</Link> */}
             <div>
-              <Link to={`/consultations`}>Go back</Link>
-
-              <form onSubmit={handleSubmit}>
-                {consultationInputs
-                  .filter((detail) => detail.name !== "sort" && detail.name !== "priceRangeC")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingConsultation === "pending" || isUpdatingConsultation === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to={`/consultations`}>
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update ${item_name} details` : "Create Service"} </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form onSubmit={handleSubmit}>
+              {consultationInputs
+                .filter((detail) => detail.name !== "sort" && detail.name !== "priceRangeC")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingConsultation === "pending" || isUpdatingConsultation === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} /> */}
+          {/* </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

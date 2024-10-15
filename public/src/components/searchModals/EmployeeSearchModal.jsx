@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import SearchIcon from "@mui/icons-material/Search";
 import { BiSort } from "react-icons/bi";
 // import styles from "../../styles/components/deliveryaddressmodal.module.scss";
 // import styles from "../../"
@@ -30,7 +31,7 @@ export default function EmployeeSearchModal({  isGettingAllEmployees }) {
   return (
     <div>
       <div>
-        <BiSort onClick={handleOpen} title="filter" />
+        <SearchIcon onClick={handleOpen} title="search" />
         {/* <button onClick={handleOpen} title="filter">
           search
         </button> */}
@@ -52,7 +53,7 @@ export default function EmployeeSearchModal({  isGettingAllEmployees }) {
           <p>which of your products are you looking for?</p>
           <SearchEmployees
             handleClose={handleClose}
-             isGettingAllEmployees={ isGettingAllEmployees}
+            isGettingAllEmployees={isGettingAllEmployees}
           />
         </Box>
       </Modal>

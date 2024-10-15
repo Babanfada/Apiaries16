@@ -38,7 +38,10 @@ import { useSingleHunter } from "features/hunters/huntersThunk";
 import { useHunters } from "hooks/DashDetails_2";
 import { useUpdateHunter } from "features/hunters/huntersThunk";
 import { useCreateHunter } from "features/hunters/huntersThunk";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Hunters() {
   const {
     columns,
@@ -105,13 +108,23 @@ function Hunters() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Hunters
-                  {count}/{totalHunters}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdatehunter/add">
-                    create hunter
-                  </Link>
-                  <HunterSearchModal isGettingAllHunters={isGettingAllHunters} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Hunters</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalHunters}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdatehunter/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add hunter"
+                      />
+                    </Link>
+                    <HunterSearchModal isGettingAllHunters={isGettingAllHunters} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -168,7 +181,9 @@ export function SingleHunter() {
       <MDBox mb={2} />
       <Header info={{ image: LogoAsana, fullname, phone }}>
         <MDBox mt={5} mb={3}>
-          <Link to="/hunters">Go back</Link>
+          <Link to="/hunters">
+            <ArrowBackIcon />
+          </Link>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
@@ -275,37 +290,43 @@ export const CreateUpdateHunter = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <Link to="/hunters">Go back</Link>
-              <form onSubmit={handleSubmit}>
-                {hunterInputs
-                  .filter((detail) => detail.name !== "sort")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                >
-                  {isCreatingHunter === "pending" || isUpdatingHunter === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/hunters">
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update hunter ${fullname}'s details` : "Create Hunter"} </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {hunterInputs
+                .filter((detail) => detail.name !== "sort")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+              >
+                {isCreatingHunter === "pending" || isUpdatingHunter === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

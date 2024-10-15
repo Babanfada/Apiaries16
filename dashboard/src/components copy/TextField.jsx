@@ -28,7 +28,7 @@ import Select from "@mui/material/Select";
 // color picker
 // import { useState } from "react";
 // import { ChromePicker } from "react-color";
-import { Box, Popover, Slider, Tooltip } from "@mui/material";
+import { Box, FilledInput, Popover, Slider, Tooltip, Typography } from "@mui/material";
 // import { useDispatch, useSelector } from "react-redux";
 // import {
 //   setDefaultSearch,
@@ -52,40 +52,31 @@ import { BsInfoCircle } from "react-icons/bs";
 // function valuetext(value) {
 //   return `${value}°C`;
 // }
-// const capitalizeFirstLetter = (str) => {
-//   return str.charAt(0).toUpperCase() + str.slice(1);
-// };
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
-// const inputStyle = {
-//   fontSize: "small",
-//   fontFamily: '"Quicksand", sans-serif',
-// };
+const inputStyle = {
+  fontSize: "small",
+  fontFamily: '"Quicksand", sans-serif',
+};
 
-export function UserInput({
-  name,
-  value,
-  type,
-  handleChange,
-  validationError,
-  message,
-}) {
+export function UserInput({ name, value, type, handleChange, validationError, message }) {
   return (
-    <div>
-      <TextField
-        error={validationError}
-        name={name}
-        value={value}
-        type={type}
-        // defaultValue="Small"
-        size="small"
-        id="filled-required"
-        label={name}
-        required
-        variant="filled"
-        onChange={handleChange}
-        helperText={validationError ? message : ""}
-      />
-    </div>
+    <TextField
+      error={validationError}
+      name={name}
+      value={value}
+      type={type}
+      size="small"
+      id={name}
+      label={capitalizeFirstLetter(name)}
+      required
+      variant="filled"
+      onChange={handleChange}
+      sx={{ ...inputStyle, width: "100%" }}
+      helperText={validationError ? message : ""}
+    />
   );
 }
 
@@ -93,19 +84,19 @@ export function PhoneInputs({ type, value, handleChange }) {
   // const { theme } = useThemeContext();
   // const isDarkMode = theme === "dark-theme";
   const customCountryListStyle = {
-    // ...inputStyle,
+    ...inputStyle,
     // outline: `${isDarkMode && "1px solid #38bdf2"}`,
     // borderRadius: `${isDarkMode && "5px"}`,
     // paddingLeft: `${isDarkMode && "5px"}`,
     // outline:"1px solid red"
     // border: "1px solid red",
-    // fontSize: "small"
+    fontSize: "small",
     // fontFamily:"",
   };
   return (
     <PhoneInput
       style={customCountryListStyle}
-      // className={styles.phoneinputstyle}
+      className={styling.phoneinputstyle}
       placeholder="Enter phone number"
       defaultCountry="NG"
       // required
@@ -144,7 +135,7 @@ export function MultiLineInput({ name, value, type, handleChange }) {
       }}
       id={id}
       label={name}
-      variant="outlined"
+      variant="filled"
       required
       name={name}
       value={value}
@@ -157,8 +148,8 @@ export function MultiLineInput({ name, value, type, handleChange }) {
 }
 
 export function PasswordInput({ name, value, handleChange }) {
-  // const location = useLocation();
-  // const currentPathname = location.pathname;
+  const location = useLocation();
+  const currentPathname = location.pathname;
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -171,9 +162,8 @@ export function PasswordInput({ name, value, handleChange }) {
   return (
     <FormControl
       size={"small"}
-      // variant="outlined"
       variant="filled"
-      // helperText={helpertext}
+      helperText={helpertext}
       sx={{
         width: "100%",
         fontFamily: '"Quicksand", sans-serif',
@@ -201,7 +191,7 @@ export function PasswordInput({ name, value, handleChange }) {
       <InputLabel htmlFor="outlined-adornment-password">
         {name.charAt(0).toUpperCase() + name.slice(1)}
       </InputLabel>
-      <OutlinedInput
+      <FilledInput
         id={name}
         type={showPassword ? "text" : "password"}
         endAdornment={
@@ -226,15 +216,13 @@ export function PasswordInput({ name, value, handleChange }) {
         onChange={(e) => handleChange(e)}
         required
       />
-      {/* {currentPathname === "/register" ? (
-        <span
-          style={{ fontFamily: '"Quicksand", sans-serif', fontSize: "small" }}
-        >
+      {currentPathname === "/authentication/sign-up" ? (
+        <span style={{ fontFamily: '"Quicksand", sans-serif', fontSize: "small" }}>
           {helpertext}
         </span>
       ) : (
         ""
-      )} */}
+      )}
     </FormControl>
   );
 }
@@ -252,6 +240,16 @@ export function GenderInput({ name, value, type, handleChange, gender }) {
 
   return (
     <>
+      <InputLabel
+        sx={{
+          ...inputStyle,
+          //  color: `${isDarkMode && "white"}`
+        }}
+        id={name}
+      >
+        {capitalizeFirstLetter(name)}
+      </InputLabel>
+
       {/* {!isCategoryRoute && (
         <InputLabel
           sx={{ ...inputStyle, color: `${isDarkMode && "white"}` }}
@@ -271,14 +269,15 @@ export function GenderInput({ name, value, type, handleChange, gender }) {
           // background: isDarkMode && "black",
         }}
         size="small"
-        labelId="demo-simple-select-label"
+        labelId={name}
         id="demo-simple-select"
-        label={name}
+        // label={name}
         name={name}
         value={value}
         type={type}
         onChange={(e) => handleChange(e)}
         required
+        variant="filled"
       >
         {gender.map((gender, index) => {
           return (
@@ -307,20 +306,15 @@ export function Subscribe({ name, value, type, handleChange, show }) {
   // const location = useLocation();
   // const currentPathname = location.pathname;
   const tooltipContent = (
-    // <span style={{ ...inputStyle }}>
-    //   You can unsubscribe by going to the `update details` section in your
-    //   profile
-    // </span>
-    <span>
-      You can unsubscribe by going to the `update details` section in your
-      profile
+    <span style={{ ...inputStyle }}>
+      You can unsubscribe by going to the `update details` section in your profile
     </span>
+    // <span>You can unsubscribe by going to the `update details` section in your profile</span>
   );
 
   const helpertext = (
     <span>
-      Send me hilarious marketing emails. If I don&apos;t giggle, I&apos;ll
-      unsubscribe.
+      Send me hilarious emails.
       <Tooltip title={tooltipContent} placement="top" arrow>
         <IconButton>
           <BsInfoCircle
@@ -360,6 +354,8 @@ export function Subscribe({ name, value, type, handleChange, show }) {
       ) : (
         ""
       )} */}
+
+      <span style={{ ...inputStyle }}>{helpertext}</span>
     </>
   );
 }
@@ -367,7 +363,8 @@ export function Subscribe({ name, value, type, handleChange, show }) {
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import styles from "../layouts/styles/thead.module.scss";
+import styling from "../layouts/styles/createupdate.module.scss";
 export function DateRegister({ name, value, onChange }) {
   const [selectedDate, setSelectedDate] = useState(value || new Date());
 
@@ -377,19 +374,32 @@ export function DateRegister({ name, value, onChange }) {
   };
 
   return (
-    <DatePicker
-      selected={selectedDate}
-      onChange={handleDateChange}
-      showIcon
-      toggleCalendarOnIconClick
-      // isClearable
-      placeholderText="I have been cleared!"
-      closeOnScroll={true}
-      dateFormat="yyyy-MM-dd"
+    <Box
+      sx={{
+        width: "100%",
+        borderBottom: "1px solid grey",
+        backgroundColor: "#f5f5f5",
+      }}
     >
-      {" "}
-      <div style={{ color: "red" }}>Dont forget to check the weather!</div>
-    </DatePicker>
+      <InputLabel sx={{ ...inputStyle, marginBottom: "2px", padding: "2px" }} htmlFor={name}>
+        {capitalizeFirstLetter(name) || "Select Date"}
+      </InputLabel>
+      <DatePicker
+        selected={selectedDate}
+        onChange={handleDateChange}
+        showIcon
+        toggleCalendarOnIconClick
+        isClearable={false}
+        placeholderText={moment(new Date()).format("YYYY-MM-DD")}
+        closeOnScroll={true}
+        dateFormat="yyyy-MM-dd"
+        className={styles.datepicker}
+        style={{ width: "100%" }}
+      >
+        {" "}
+        <div style={{ color: "red" }}>Select the correct {name}!</div>
+      </DatePicker>
+    </Box>
   );
 }
 
@@ -404,6 +414,9 @@ import { updatePriceRange } from "../features/apiarySetup/setupCompSlice";
 import { updatePriceRangeConsultation } from "../features/consultation/consultationSlice";
 import { updatePriceRangePolServ } from "../features/pollination/polservicesSlice";
 import { updatePriceRangeProvision } from "../features/supplyProvision/supplyProvSlice";
+import moment from "moment";
+import { CustomButton } from "./Button";
+import { useLocation } from "react-router-dom";
 // import LoadingButton from "@mui/lab/LoadingButton";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -419,16 +432,31 @@ const VisuallyHiddenInput = styled("input")({
 
 export function InputFileUpload({ name, handleChange, uploading }) {
   return (
-    <Button
+    // <Button
+    //   component="label"
+    //   role={undefined}
+    //   variant="contained"
+    //   tabIndex={-1}
+    //   startIcon={uploading === "pending" ? <Loader1 /> : <CloudUploadIcon />}
+    //   sx={{}}
+    // >
+    //   {/* Upload files */}
+    //   <VisuallyHiddenInput type="file" onChange={handleChange} multiple />
+    // </Button>
+
+    <CustomButton
+      background={"inherit"}
+      backgroundhover={"grey"}
+      height={"4vh"}
       component="label"
       role={undefined}
       variant="contained"
       tabIndex={-1}
       startIcon={uploading === "pending" ? <Loader1 /> : <CloudUploadIcon />}
     >
-      Upload files
+      Upload image
       <VisuallyHiddenInput type="file" onChange={handleChange} multiple />
-    </Button>
+    </CustomButton>
   );
 }
 
@@ -479,8 +507,13 @@ export default function RangeSlider({ name, value, min, max, step }) {
   };
   return (
     <Box>
+      <Typography sx={{ ...inputStyle }} id={name} gutterBottom>
+        {name}
+      </Typography>
       <Slider
+        aria-labelledby={name}
         name={name}
+        label={name}
         getAriaLabel={() => `${name}`}
         value={value}
         onChange={handleChange}
@@ -504,7 +537,6 @@ UserInput.propTypes = {
   validationError: PropTypes.bool,
   message: PropTypes.string,
 };
-
 
 // Phone Input Component
 PhoneInputs.propTypes = {

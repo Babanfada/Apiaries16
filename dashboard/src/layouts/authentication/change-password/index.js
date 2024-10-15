@@ -93,7 +93,16 @@ function ResetPassword() {
             ) : (
               <>
                 FAILED!!! Something went wrong, probably the token expired.{" "}
-                <Link to="/authentication/forget-password">try again</Link>
+                <MDTypography
+                  component={Link}
+                  to="/authentication/forget-password"
+                  variant="button"
+                  color="white"
+                  fontWeight="medium"
+                  textGradient
+                >
+                  try again
+                </MDTypography>
               </>
             )}
           </MDTypography>

@@ -22,6 +22,7 @@ import ProfilesList from "examples/Lists/ProfilesList";
 import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
 import Header from "./profile/components/Header";
 import PlatformSettings from "./profile/components/PlatformSettings";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import { useEmployee } from "hooks/Register";
 // import { useCreateEmployee } from "features/employees/employeesThunk";
 // import { useUpdateEmployee } from "features/employees/employeesThunk";
@@ -39,7 +40,8 @@ import usersTableData from "./data/usersTableData";
 import { changePage } from "features/users/userSlice";
 import { UserSearchModal } from "components copy";
 import { useSingleUser } from "features/users/userThunk";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
 function Users() {
   const {
     columns,
@@ -104,9 +106,16 @@ function Users() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Users {count}/{totalUsers}
-                  <UserSearchModal isGettingAllUser={isGettingAllUser} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Users</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalUsers}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <UserSearchModal isGettingAllUser={isGettingAllUser} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -155,7 +164,10 @@ export function SingleUser() {
       <MDBox mb={2} />
       <Header info={{ image, fullname, address, role }}>
         <MDBox mt={5} mb={3}>
-          <Link to="/users">Go back</Link>
+          <Link to="/users">
+            {" "}
+            <ArrowBackIcon />
+          </Link>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />

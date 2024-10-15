@@ -66,29 +66,43 @@ function Basic() {
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form" onSubmit={handleSubmit}>
-            <MDTypography variant="h6" fontWeight="light" color="white" mt={1}>
-              <Link to="/authentication/check">Not your Email? Go Back</Link>
-              {!email ? (
-                <Skeleton
-                  variant="rectangular"
-                  width={"fit-content"}
-                  height={"fit-content"}
-                  sx={{
-                    borderRadius: "5px",
-                    background: "none",
-                    fontSize: "small",
-                    color: "red",
-                    fontWeight: "bold",
-                  }}
+            <MDBox mt={0} mb={0} textAlign="start">
+              <MDTypography fontFamily="inherit" fontWeight="bold" variant="button" color="text">
+                Not your Email?{" "}
+                <MDTypography
+                  component={Link}
+                  to="/authentication/check"
+                  variant="button"
+                  color="info"
+                  fontWeight="medium"
+                  textGradient
                 >
-                  Your email is missing, you have to go back!!!
-                </Skeleton>
-              ) : (
-                <MDTypography variant="span" fontWeight="small" color="black" mt={1}>
-                  {email}
+                  go back
                 </MDTypography>
-              )}
-            </MDTypography>
+              </MDTypography>
+              <MDTypography variant="h6" fontWeight="bold" color="info" mt={1}>
+                {!email ? (
+                  <Skeleton
+                    variant="rectangular"
+                    width={"fit-content"}
+                    height={"fit-content"}
+                    sx={{
+                      borderRadius: "5px",
+                      background: "none",
+                      fontSize: "small",
+                      color: "red",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Your email is missing, you have to go back!!!
+                  </Skeleton>
+                ) : (
+                  <MDTypography variant="span" fontWeight="bold" color="info" mt={1}>
+                    {email}
+                  </MDTypography>
+                )}
+              </MDTypography>
+            </MDBox>
             <MDBox mb={2}>{userDetails[1].TextField}</MDBox>
             <MDBox mt={4} mb={1}>
               <MDButton

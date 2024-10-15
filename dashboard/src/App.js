@@ -230,19 +230,10 @@ export default function App() {
             </>
           )}
           {layout === "vr" && <Configurator />}
-          {/* <Routes>
-            {getRoutes(authRoutes)}
-            <Route element={<PrivateRoute />}>
-              {getRoutes(routes)}
-              {getRoutes(singleroutes)}
-            </Route>
-            <Route path="*" element={<Navigate to="/dashboard" />} />
-          </Routes> */}
           <Routes>
             {getauthRoutes(authRoutes)}
             {getRoutes(routes)}
             {getRoutes(singleroutes)}
-
             <Route path="*" element={<Navigate to="/authentication/check" />} />
           </Routes>
 
@@ -261,17 +252,4 @@ export default function App() {
       </Suspense>
     </GlobalContext>
   );
-}
-// theme={isDarkMode ? "dark" : "light"}
-// theme={isDarkMode ? "dark" : "light"}
-
-{
-  /* <Routes>
-  {getRoutes(authRoutes)}
-  <PrivateRoute>
-  {getRoutes(routes)}
-    {getRoutes(singleroutes)}
-  </PrivateRoute>
-  <Route path="*" element={<Navigate to="/dashboard" />} />
-</Routes> */
 }
