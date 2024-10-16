@@ -37,7 +37,10 @@ import ServiceSearchModal from "components copy/searchModals/ServiceSearchModal"
 import { useServiceInputs } from "hooks/ServicesDetails";
 import { useUpdateService } from "features/services/servicesThunk";
 import { useCreateService } from "features/services/servicesThunk";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Services() {
   const {
     columns,
@@ -80,13 +83,23 @@ function Services() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Services
-                  {count}/{totalServices}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdateservice/add">
-                    create service
-                  </Link>
-                  <ServiceSearchModal isGettingAllServices={isGettingAllServices} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Services</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalServices}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdateservice/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add a new service"
+                      />
+                    </Link>
+                    <ServiceSearchModal isGettingAllServices={isGettingAllServices} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -109,72 +122,76 @@ function Services() {
 }
 export default Services;
 
-
 export const CreateUpdateService = () => {
-   const { id } = useParams();
-   const { serviceInputs } = useServiceInputs();
-   const { isUpdatingService, updateService } = useUpdateService();
-   const { createService, isCreatingService } = useCreateService();
-   const { service_name, description, numOfTimesRendered, category, isEdit } = useSelector(
-     (store) => store.services
-   );
-   const serviceDetails = {
-     service_name,
-     description,
-     numOfTimesRendered,
-     category,
-   };
-   const handleSubmit = (e) => {
-     e.preventDefault();
-     const isValid = Object.values(serviceDetails).every(
-       (value) => value !== undefined && value !== null && value !== ""
-     );
-     if (!isValid) {
-       alert("Please fill out all required fields.");
-       return;
-     }
-     if (isEdit) return updateService({ serviceDetails, id });
-     createService(serviceDetails);
-   };
+  const { id } = useParams();
+  const { serviceInputs } = useServiceInputs();
+  const { isUpdatingService, updateService } = useUpdateService();
+  const { createService, isCreatingService } = useCreateService();
+  const { service_name, description, numOfTimesRendered, category, isEdit } = useSelector(
+    (store) => store.services
+  );
+  const serviceDetails = {
+    service_name,
+    description,
+    numOfTimesRendered,
+    category,
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isValid = Object.values(serviceDetails).every(
+      (value) => value !== undefined && value !== null && value !== ""
+    );
+    if (!isValid) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+    if (isEdit) return updateService({ serviceDetails, id });
+    createService(serviceDetails);
+  };
   return (
     <DashboardLayout>
       <DashboardNavbar />
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <Link to={`/services`}>Go back</Link>
-
-              <form onSubmit={handleSubmit}>
-                {serviceInputs
-                  .filter((detail) => detail.name !== "sort")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingService === "pending" || isUpdatingService === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
-            </div>{" "}
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+              <Link to="/services">
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update ${service_name} details` : "Create a new Service"} </h6>
+              <div></div>
+            </div>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {serviceInputs
+                .filter((detail) => detail.name !== "sort")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingService === "pending" || isUpdatingService === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>{" "}
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

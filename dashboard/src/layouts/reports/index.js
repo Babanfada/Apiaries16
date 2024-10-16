@@ -42,9 +42,11 @@ import { useUpdateReport } from "features/catch_reports/reportsThunk";
 import { useCreateReport } from "features/catch_reports/reportsThunk";
 import { resetValues } from "features/catch_reports/reportSlice";
 import { changePage } from "features/catch_reports/reportSlice";
-// import { useDashDetails_1 } from "hooks/DashDetails";
-// import { useCreateStation } from "features/stations/stationsThunk";
-// import { useUpdateStation } from "features/stations/stationsThunk";
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Icon } from "@mui/material";
 function Reports() {
   const {
     columns,
@@ -102,13 +104,23 @@ function Reports() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Reports
-                  {count}/{totalReports}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdatereport/add">
-                    create report
-                  </Link>
-                  <ReportSearchModal isGettingAllReports={isGettingAllReports} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Harvest Reports</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalReports}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdatereport/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add a new report"
+                      />
+                    </Link>
+                    <ReportSearchModal isGettingAllReports={isGettingAllReports} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -130,7 +142,6 @@ function Reports() {
   );
 }
 export default Reports;
-
 
 export const CreateUpdateReport = () => {
   const { id } = useParams();
@@ -184,40 +195,53 @@ export const CreateUpdateReport = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Link to="/stations"> back to stations</Link>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        {isEdit ? (
+          <Link to="/stations">
+            <Icon title="back to stations" fontSize="large">
+              business
+            </Icon>
+          </Link>
+        ) : (
+          ""
+        )}
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <Link to={`/admin/catchreports`}>Go back</Link>
-
-              <form onSubmit={handleSubmit}>
-                {reportInputs
-                  .filter((detail) => detail.name !== "sort")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingReport === "pending" || isUpdatingReport === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to={`/reports`}>
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update report details` : "Create a new Report"} </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {reportInputs
+                .filter((detail) => detail.name !== "sort")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingReport === "pending" || isUpdatingReport === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

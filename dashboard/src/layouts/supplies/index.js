@@ -37,7 +37,10 @@ import SuppliesSearchModal from "components copy/searchModals/SupplySearchModal"
 import { useSuppliesInputs } from "hooks/DashDetails";
 import { useCreateSupply } from "features/supplies/suppliesThunk";
 import { useUpdateSupply } from "features/supplies/suppliesThunk";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Supplies() {
   const dispatch = useDispatch();
   const {
@@ -102,13 +105,23 @@ function Supplies() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Supplies
-                  {count}/{totalSUpplies}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdatesupply/add">
-                    create supply
-                  </Link>
-                  <SuppliesSearchModal isGettingAllSupplies={isGettingAllSupplies} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Supplies</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalSUpplies}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdatesupply/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add a new supply"
+                      />
+                    </Link>
+                    <SuppliesSearchModal isGettingAllSupplies={isGettingAllSupplies} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -130,8 +143,6 @@ function Supplies() {
   );
 }
 export default Supplies;
-
-
 
 export const CreateUpdateSupply = () => {
   const { suppliesDetails } = useSuppliesInputs();
@@ -186,39 +197,46 @@ export const CreateUpdateSupply = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
+            {/* <Link to="/supplies">Go back</Link> */}
             <div>
-              <Link to="/supplies">Go back</Link>
-              <form onSubmit={handleSubmit}>
-                {suppliesDetails
-                  .filter((detail) => detail.name !== "sort")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingSupply === "pending" || isUpdatingSupply === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to={`/supplies`}>
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update  ${supply_name}'s details` : "Create a new supply"}</h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {suppliesDetails
+                .filter((detail) => detail.name !== "sort")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingSupply === "pending" || isUpdatingSupply === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

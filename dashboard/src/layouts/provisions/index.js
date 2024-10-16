@@ -85,7 +85,7 @@ function Provisions() {
                       <AddIcon
                         sx={{ fill: "white" }}
                         fontSize="medium"
-                        titleAccess="add provision"
+                        titleAccess="add a new provision"
                       />
                     </Link>
                     <ProvisionSearchModal isGettingAllprovisions={isGettingAllprovisions} />

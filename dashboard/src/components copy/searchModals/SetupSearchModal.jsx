@@ -9,7 +9,8 @@ import { Loader1 } from "../Loader";
 import { useDispatch } from "react-redux";
 import { useSetupInputs } from "../../hooks/ServicesDetails";
 import { resetValues } from "../../features/apiarySetup/setupCompSlice";
-
+import SearchIcon from "@mui/icons-material/Search";
+import styles from "../../layouts/styles/modal.module.scss";
 const style = {
   position: "absolute",
   bgcolor: "background.paper",
@@ -24,12 +25,14 @@ export default function SetupSearchModal({ isGettingAllSetupComp }) {
   //   const { theme } = useThemeContext();
   //   const isDarkMode = theme === "dark-theme";
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div>
-        <BiSort onClick={handleOpen} title="filter" />
-        {/* <button onClick={handleOpen} title="filter">
-          search
-        </button> */}
+        <SearchIcon
+          fontSize="medium"
+          onClick={handleOpen}
+          sx={{ cursor: "pointer", fill: "white" }}
+          title="search"
+        />
       </div>
       <Modal
         open={open}
@@ -37,19 +40,12 @@ export default function SetupSearchModal({ isGettingAllSetupComp }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-        //   sx={{ ...style, background: isDarkMode ? "black" : "white" }}
-        //   className={styles.box}
-        >
+        <Box sx={{ ...style, background: "white" }} className={styles.box}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Filter{" "}
-            <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
+            Search Setup components <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
           </Typography>
-          <p>which of your products are you looking for?</p>
-          <SearchSetup
-            handleClose={handleClose}
-            isGettingAllSetupComp={isGettingAllSetupComp}
-          />
+          <p>which component are you looking for?</p>
+          <SearchSetup handleClose={handleClose} isGettingAllSetupComp={isGettingAllSetupComp} />
         </Box>
       </Modal>
     </div>
@@ -64,13 +60,11 @@ const SearchSetup = ({ handleClose, isGettingAllSetupComp }) => {
   };
 
   return (
-    <form>
+    <form className={styles.paper}>
       {setupInputs
         .filter(
           (detail) =>
-            detail.name !== "description" &&
-            detail.name !== "service_id" &&
-            detail.name !== "price"
+            detail.name !== "description" && detail.name !== "service_id" && detail.name !== "price"
         )
         .map((input) => {
           const { name, TextField } = input;
@@ -79,7 +73,7 @@ const SearchSetup = ({ handleClose, isGettingAllSetupComp }) => {
 
       <CustomButton
         background={"inherit"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={resetQuery}
         type="button"
@@ -93,7 +87,7 @@ const SearchSetup = ({ handleClose, isGettingAllSetupComp }) => {
       <CustomButton
         background={"inherit"}
         // background={"#3457bf"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={() => handleClose()}
         type="button"
@@ -103,11 +97,7 @@ const SearchSetup = ({ handleClose, isGettingAllSetupComp }) => {
           fontWeight: "bold",
         }}
       >
-        {isGettingAllSetupComp === "pending" ? (
-          <Loader1 color="success" />
-        ) : (
-          "Find Out"
-        )}
+        {isGettingAllSetupComp === "pending" ? <Loader1 color="success" /> : "Find Out"}
       </CustomButton>
     </form>
   );

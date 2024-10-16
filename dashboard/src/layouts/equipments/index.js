@@ -37,7 +37,10 @@ import { useEquipments } from "hooks/DashDetails";
 import { useCreateEqupment } from "features/equuipments/equipmentThunk";
 import { useUpdateEquipment } from "features/equuipments/equipmentThunk";
 import { resetValues } from "features/equuipments/equipmentSlice";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Equipments() {
   const dispatch = useDispatch();
   const {
@@ -104,13 +107,23 @@ function Equipments() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Equipments
-                  {count}/{totalEquipments}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdateequipment/add">
-                    create equipment
-                  </Link>
-                  <EquipmentSearchModal isGettingAllequipments={isGettingAllequipments} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Equipments</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalEquipments}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdateequipment/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add a new equipment"
+                      />
+                    </Link>
+                    <EquipmentSearchModal isGettingAllequipments={isGettingAllequipments} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -133,121 +146,7 @@ function Equipments() {
 }
 export default Equipments;
 
-// export function SingleStation() {
-//   const { id } = useParams();
-//   const {
-//     isGettingSingleStation,
-//     singleStation: {
-//       station: {
-//         honey_harvests = [],
-//         last_inspection_date,
-//         latitude,
-//         location,
-//         longitude,
-//         next_inspection_date,
-//         notes,
-//         number_of_hive_boxes,
-//         station_id,
-//         station_maintainace_history,
-//         station_name,
-//         station_size,
-//         status,
-//         supervisor_ext,
-//         supervisor_int,
-//       } = {},
-//     } = {},
-//     refetch,
-//   } = useSingleStation(id);
-//   React.useEffect(() => {
-//     refetch();
-//   }, [id]);
-//   return (
-//     <DashboardLayout>
-//       <DashboardNavbar />
-//       <MDBox mb={2} />
-//       <Header info={{ image: LogoAsana, station_name, location }}>
-//         <MDBox mt={5} mb={3}>
-//           <Link to="/stations">Go back</Link>
-//           <Link to="/harvests">back to harvest</Link>
-//           <Grid container spacing={1}>
-//             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-//               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
-//               <ProfileInfoCard
-//                 title=""
-//                 description=""
-//                 info={{
-//                   station_id,
-//                   station_Name: station_name,
-//                   location,
-//                   station_size,
-//                   status,
-//                   hive_boxes: number_of_hive_boxes,
-//                 }}
-//                 shadow={false}
-//               />
-//               <Divider orientation="vertical" sx={{ mx: 0 }} />
-//             </Grid>
 
-//             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-//               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
-//               <ProfileInfoCard
-//                 title=""
-//                 description=""
-//                 info={{
-//                   longitude: Number(longitude)?.toFixed(2) || "N/A",
-//                   latitude: Number(latitude)?.toFixed(2) || "N/A",
-
-//                   internal_supervisor: (
-//                     <Link to={`/employees/${supervisor_int}`}>{supervisor_int}</Link>
-//                   ),
-//                   external_supervisor: (
-//                     <Link to={`/employees/${supervisor_ext}`}>{supervisor_ext}</Link>
-//                   ),
-//                   last_inspection: last_inspection_date
-//                     ? moment(last_inspection_date).format("YYYY-MM-DD")
-//                     : "N/A",
-//                   next_inspection: next_inspection_date
-//                     ? moment(next_inspection_date).format("YYYY-MM-DD")
-//                     : "N/A",
-//                 }}
-//                 shadow={false}
-//               />
-//               <Divider orientation="vertical" sx={{ mx: 0 }} />
-//             </Grid>
-
-//             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-//               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
-//               <ProfileInfoCard
-//                 title=""
-//                 description=""
-//                 info={{
-//                   maintaince: station_maintainace_history,
-//                   notes,
-//                   ...(honey_harvests.length > 0 && {
-//                     honey_harvests: honey_harvests
-//                       .map(
-//                         (
-//                           { harvest_year, harvest_date, quantity_collected, unit, quality_rating },
-//                           index
-//                         ) =>
-//                           `Harvest ${
-//                             index + 1
-//                           }: Year: ${harvest_year}, Date: ${harvest_date}, Quantity: ${quantity_collected} ${unit}, Rating: ${quality_rating}/5`
-//                       )
-//                       .join(" | "), // Join them as a single string with a separator like " | " or "\n"
-//                   }),
-//                 }}
-//                 shadow={false}
-//               />
-//               <Divider orientation="vertical" sx={{ mx: 0 }} />
-//             </Grid>
-//           </Grid>
-//         </MDBox>
-//       </Header>
-//       <Footer />
-//     </DashboardLayout>
-//   );
-// }
 
 export const CreateUpdateEquipment = () => {
   const dispatch = useDispatch();
@@ -328,50 +227,56 @@ export const CreateUpdateEquipment = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <Link to={`/equipments`}>Go back</Link>
-              <form onSubmit={handleSubmit}>
-                {equipmentDetails
-                  .filter((detail) => {
-                    if (
-                      detail.name === "sort" || // Exclude 'sort' in all cases
-                      (!isEdit &&
-                        (detail.name === "retired" ||
-                          detail.name === "last_maintanace_date" ||
-                          detail.name === "next_maintanace_date"))
-                    ) {
-                      return false; // Exclude these fields
-                    }
-                    return true; // Include all other fields
-                  })
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingEquipment === "pending" || isUpdatingEquipment === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to={`/equipments`}>
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update  ${tool_name}'s details` : "Create a new equipment"}</h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {equipmentDetails
+                .filter((detail) => {
+                  if (
+                    detail.name === "sort" || // Exclude 'sort' in all cases
+                    (!isEdit &&
+                      (detail.name === "retired" ||
+                        detail.name === "last_maintanace_date" ||
+                        detail.name === "next_maintanace_date"))
+                  ) {
+                    return false; // Exclude these fields
+                  }
+                  return true; // Include all other fields
+                })
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingEquipment === "pending" || isUpdatingEquipment === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

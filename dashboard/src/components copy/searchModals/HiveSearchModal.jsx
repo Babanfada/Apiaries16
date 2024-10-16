@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { BiSort } from "react-icons/bi";
-// import styles from "../../styles/components/deliveryaddressmodal.module.scss";
-// import styles from "../../"
+import SearchIcon from "@mui/icons-material/Search";
+import styles from "../../layouts/styles/modal.module.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import { CustomButton } from "../Button";
 // import { useEmployee } from "../../hooks/register";
@@ -26,12 +26,14 @@ export default function HiveSearchModal({ isGettingAllHives }) {
   //   const { theme } = useThemeContext();
   //   const isDarkMode = theme === "dark-theme";
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div>
-        <BiSort onClick={handleOpen} title="filter" />
-        {/* <button onClick={handleOpen} title="filter">
-          search
-        </button> */}
+        <SearchIcon
+          fontSize="medium"
+          onClick={handleOpen}
+          sx={{ cursor: "pointer", fill: "white" }}
+          title="search"
+        />
       </div>
       <Modal
         open={open}
@@ -39,19 +41,12 @@ export default function HiveSearchModal({ isGettingAllHives }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-        //   sx={{ ...style, background: isDarkMode ? "black" : "white" }}
-        //   className={styles.box}
-        >
+        <Box sx={{ ...style, background: "white" }} className={styles.box}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Filter{" "}
-            <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
+            Search Hives <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
           </Typography>
-          <p>which of your products are you looking for?</p>
-          <SearchHive
-            handleClose={handleClose}
-            isGettingAllHives={isGettingAllHives}
-          />
+          <p>which hive are you looking for?</p>
+          <SearchHive handleClose={handleClose} isGettingAllHives={isGettingAllHives} />
         </Box>
       </Modal>
     </div>
@@ -66,7 +61,7 @@ const SearchHive = ({ handleClose, isGettingAllHives }) => {
   };
 
   return (
-    <form>
+    <form className={styles.paper}>
       {hiveInputs
         .filter(
           (detail) =>
@@ -81,7 +76,7 @@ const SearchHive = ({ handleClose, isGettingAllHives }) => {
 
       <CustomButton
         background={"inherit"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={resetQuery}
         type="button"
@@ -94,22 +89,16 @@ const SearchHive = ({ handleClose, isGettingAllHives }) => {
       </CustomButton>
       <CustomButton
         background={"inherit"}
-        // background={"#3457bf"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={() => handleClose()}
         type="button"
         style={{
           width: "100%",
-          // color: "white",
           fontWeight: "bold",
         }}
       >
-        {isGettingAllHives === "pending" ? (
-          <Loader1 color="success" />
-        ) : (
-          "Find Out"
-        )}
+        {isGettingAllHives === "pending" ? <Loader1 color="success" /> : "Find Out"}
       </CustomButton>
     </form>
   );
@@ -117,17 +106,11 @@ const SearchHive = ({ handleClose, isGettingAllHives }) => {
 import PropTypes from "prop-types";
 // Add PropTypes for HiveSearchModal
 HiveSearchModal.propTypes = {
-  isGettingAllHives: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]).isRequired,
+  isGettingAllHives: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
 };
 
 // Add PropTypes for SearchHive
 SearchHive.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  isGettingAllHives: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]).isRequired,
+  isGettingAllHives: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
 };

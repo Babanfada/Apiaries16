@@ -37,7 +37,10 @@ import { useSetupInputs } from "hooks/ServicesDetails";
 import { useUpdateSetup } from "features/apiarySetup/setupCompThunk";
 import { useCreateSetup } from "features/apiarySetup/setupCompThunk";
 import { changePage } from "features/apiarySetup/setupCompSlice";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Setup() {
   const { columns, rows, numOfPages, count, refetch, isGettingAllSetupComp, totalSetupComp } =
     apiarySetupTableData();
@@ -68,13 +71,23 @@ function Setup() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Setup
-                  {count}/{totalSetupComp}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdatesetup/add">
-                    create setup
-                  </Link>
-                  <SetupSearchModal isGettingAllSetupComp={isGettingAllSetupComp} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Setups</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalSetupComp}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdatesetup/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add a new component"
+                      />
+                    </Link>
+                    <SetupSearchModal isGettingAllSetupComp={isGettingAllSetupComp} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -130,39 +143,44 @@ export const CreateUpdateSetup = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <Link to={`/setups`}>Go back</Link>
-
-              <form onSubmit={handleSubmit}>
-                {setupInputs
-                  .filter((detail) => detail.name !== "sort" && detail.name !== "priceRange")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingSetup === "pending" || isUpdatingSetup === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/setups">
+                <ArrowBackIcon />
+              </Link>
+              <h6>{isEdit ? `Update ${component_name}'s details` : "Create a new component"} </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {setupInputs
+                .filter((detail) => detail.name !== "sort" && detail.name !== "priceRange")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingSetup === "pending" || isUpdatingSetup === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

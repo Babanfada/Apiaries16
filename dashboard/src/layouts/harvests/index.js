@@ -125,7 +125,7 @@ function Harvests() {
                       <AddIcon
                         sx={{ fill: "white" }}
                         fontSize="medium"
-                        titleAccess="add next of kin"
+                        titleAccess="add a new harvest details"
                       />
                     </Link>
                     <HarvestSearchModal isGettingAllHarvest={isGettingAllHarvest} />

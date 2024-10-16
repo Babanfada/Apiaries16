@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { BiSort } from "react-icons/bi";
-// import styles from "../../styles/components/deliveryaddressmodal.module.scss";
-// import styles from "../../"
+import SearchIcon from "@mui/icons-material/Search";
+import styles from "../../layouts/styles/modal.module.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import { CustomButton } from "../Button";
 import { Loader1 } from "../Loader";
@@ -23,15 +23,15 @@ export default function SuppliesSearchModal({ isGettingSingleSupply }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  //   const { theme } = useThemeContext();
-  //   const isDarkMode = theme === "dark-theme";
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div>
-        <BiSort onClick={handleOpen} title="filter" />
-        {/* <button onClick={handleOpen} title="filter">
-          search
-        </button> */}
+        <SearchIcon
+          fontSize="medium"
+          onClick={handleOpen}
+          sx={{ cursor: "pointer", fill: "white" }}
+          title="search"
+        />
       </div>
       <Modal
         open={open}
@@ -39,15 +39,11 @@ export default function SuppliesSearchModal({ isGettingSingleSupply }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-        //   sx={{ ...style, background: isDarkMode ? "black" : "white" }}
-        //   className={styles.box}
-        >
+        <Box sx={{ ...style, background: "white" }} className={styles.box}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Filter{" "}
-            <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
+            Search Supplies <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
           </Typography>
-          <p>which of your products are you looking for?</p>
+          <p>which supply are you looking for?</p>
           <SuppliesDetails
             handleClose={handleClose}
             isGettingSingleSupply={isGettingSingleSupply}
@@ -66,14 +62,14 @@ const SuppliesDetails = ({ handleClose, isGettingSingleSupply }) => {
   };
 
   return (
-    <form>
+    <form className={styles.paper}>
       {suppliesDetails.map((input) => {
         const { name, TextField } = input;
         return <div key={name}>{TextField}</div>;
       })}
       <CustomButton
         background={"inherit"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={resetQuery}
         type="button"
@@ -87,21 +83,16 @@ const SuppliesDetails = ({ handleClose, isGettingSingleSupply }) => {
       <CustomButton
         background={"inherit"}
         // background={"#3457bf"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={() => handleClose()}
         type="button"
         style={{
           width: "100%",
-          // color: "white",
           fontWeight: "bold",
         }}
       >
-        {isGettingSingleSupply === "pending" ? (
-          <Loader1 color="success" />
-        ) : (
-          "Find Out"
-        )}
+        {isGettingSingleSupply === "pending" ? <Loader1 color="success" /> : "Find Out"}
       </CustomButton>
     </form>
   );
@@ -109,10 +100,10 @@ const SuppliesDetails = ({ handleClose, isGettingSingleSupply }) => {
 import PropTypes from "prop-types";
 
 SuppliesSearchModal.propTypes = {
-  isGettingSingleSupply: PropTypes.string.isRequired,
+  isGettingSingleSupply: PropTypes.string,
 };
 
 SuppliesDetails.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  isGettingSingleSupply: PropTypes.string.isRequired,
+  isGettingSingleSupply: PropTypes.string,
 };

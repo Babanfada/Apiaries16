@@ -86,7 +86,7 @@ function Consultation() {
                       <AddIcon
                         sx={{ fill: "white" }}
                         fontSize="medium"
-                        titleAccess="add employee"
+                        titleAccess="add a new consultation details"
                       />
                     </Link>
                     <ConsultationSearchModal isGettingAllC_Items={isGettingAllC_Items} />

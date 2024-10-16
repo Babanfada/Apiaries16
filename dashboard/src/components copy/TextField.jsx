@@ -572,10 +572,10 @@ GenderInput.propTypes = {
 // Subscribe Component
 Subscribe.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   type: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
 };
 
 // Date Register Component

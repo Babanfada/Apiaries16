@@ -9,8 +9,8 @@ import { Loader1 } from "../Loader";
 import { useDispatch } from "react-redux";
 import { useServiceInputs } from "../../hooks/ServicesDetails";
 import { resetValues } from "../../features/services/serviceSlice";
-// import { useCatchReports } from "../../hooks/DashDetails_2";
-// import { resetValues } from "../../features/catch_reports/reportSlice";
+import SearchIcon from "@mui/icons-material/Search";
+import styles from "../../layouts/styles/modal.module.scss";
 
 const style = {
   position: "absolute",
@@ -26,12 +26,14 @@ export default function ServiceSearchModal({ isGettingAllServices }) {
   //   const { theme } = useThemeContext();
   //   const isDarkMode = theme === "dark-theme";
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div>
-        <BiSort onClick={handleOpen} title="filter" />
-        {/* <button onClick={handleOpen} title="filter">
-          search
-        </button> */}
+        <SearchIcon
+          fontSize="medium"
+          onClick={handleOpen}
+          sx={{ cursor: "pointer", fill: "white" }}
+          title="search"
+        />
       </div>
       <Modal
         open={open}
@@ -39,19 +41,12 @@ export default function ServiceSearchModal({ isGettingAllServices }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-        //   sx={{ ...style, background: isDarkMode ? "black" : "white" }}
-        //   className={styles.box}
-        >
+        <Box sx={{ ...style, background: "white" }} className={styles.box}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Filter{" "}
-            <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
+            Search Services <CloseIcon style={{ cursor: "pointer" }} onClick={handleClose} />
           </Typography>
-          <p>which of your products are you looking for?</p>
-          <SearchService
-            handleClose={handleClose}
-            isGettingAllServices={isGettingAllServices}
-          />
+          <p>which serviceare you looking for?</p>
+          <SearchService handleClose={handleClose} isGettingAllServices={isGettingAllServices} />
         </Box>
       </Modal>
     </div>
@@ -66,7 +61,7 @@ const SearchService = ({ handleClose, isGettingAllServices }) => {
   };
 
   return (
-    <form>
+    <form className={styles.paper}>
       {serviceInputs
         .filter((detail) => detail.name !== "description")
         .map((input) => {
@@ -76,7 +71,7 @@ const SearchService = ({ handleClose, isGettingAllServices }) => {
 
       <CustomButton
         background={"inherit"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={resetQuery}
         type="button"
@@ -90,7 +85,7 @@ const SearchService = ({ handleClose, isGettingAllServices }) => {
       <CustomButton
         background={"inherit"}
         // background={"#3457bf"}
-        backgroundhover={"rgba(0, 128, 0, 0.9)"}
+        backgroundhover={"grey"}
         height={"8vh"}
         onClick={() => handleClose()}
         type="button"
@@ -100,11 +95,7 @@ const SearchService = ({ handleClose, isGettingAllServices }) => {
           fontWeight: "bold",
         }}
       >
-        {isGettingAllServices === "pending" ? (
-          <Loader1 color="success" />
-        ) : (
-          "Find Out"
-        )}
+        {isGettingAllServices === "pending" ? <Loader1 color="success" /> : "Find Out"}
       </CustomButton>
     </form>
   );

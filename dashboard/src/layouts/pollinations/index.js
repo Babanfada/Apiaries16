@@ -37,7 +37,10 @@ import { useUpdatePolServices } from "features/pollination/polservicesThunk";
 import { useCreatePolServices } from "features/pollination/polservicesThunk";
 import { PolServSearchModal } from "components copy";
 import pollinationTableData from "./data/pollinationTableData";
-
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Pollination() {
   const dispatch = useDispatch();
   const { rows, numOfPages, refetch, count, isGettingAllPolServices, columns, totalPolServices } =
@@ -68,13 +71,23 @@ function Pollination() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Pollination
-                  {count}/{totalPolServices}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdatepollination/add">
-                    create pollination
-                  </Link>
-                  <PolServSearchModal isGettingAllPolServices={isGettingAllPolServices} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Pollination</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalPolServices}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdatepollination/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add a new pollination service"
+                      />
+                    </Link>
+                    <PolServSearchModal isGettingAllPolServices={isGettingAllPolServices} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -130,38 +143,48 @@ export const CreateUpdatePollination = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <Link to={`/pollinations`}>Go back</Link>
-              <form onSubmit={handleSubmit}>
-                {polServiceInputs
-                  .filter((detail) => detail.name !== "sort" && detail.name !== "priceRangeP")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingPolservice === "pending" || isUpdatingPolservices === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/pollinations">
+                <ArrowBackIcon />
+              </Link>
+              <h6>
+                {isEdit
+                  ? `Update polination service ${service_id} details`
+                  : "Create a new pollination service"}{" "}
+              </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {polServiceInputs
+                .filter((detail) => detail.name !== "sort" && detail.name !== "priceRangeP")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingPolservice === "pending" || isUpdatingPolservices === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

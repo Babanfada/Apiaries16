@@ -38,6 +38,11 @@ import { useSingleHive } from "features/hives/hivesThunk";
 import { useUpdateHive } from "features/hives/hivesThunk";
 import { useCreateHive } from "features/hives/hivesThunk";
 import { useHives } from "hooks/DashDetails_2";
+import styles from "../styles/thead.module.scss";
+import styling from "../styles/createupdate.module.scss";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Icon } from "@mui/material";
 
 function Hives() {
   const {
@@ -107,13 +112,23 @@ function Hives() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Hives
-                  {count}/{totalHives}
-                  <Link onClick={() => dispatch(resetValues())} to="/createupdatehive/add">
-                    create hive
-                  </Link>
-                  <HiveSearchModal isGettingAllHives={isGettingAllHives} />
+                <MDTypography className={styles.wrapper} variant="h6" color="white">
+                  <MDBox className={styles.inner}>
+                    <MDTypography color="white">Hives</MDTypography>
+                    <MDTypography color="white">
+                      {count}/{totalHives}
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox className={styles.inner}>
+                    <Link onClick={() => dispatch(resetValues())} to="/createupdatehive/add">
+                      <AddIcon
+                        sx={{ fill: "white" }}
+                        fontSize="medium"
+                        titleAccess="add a new hive"
+                      />
+                    </Link>
+                    <HiveSearchModal isGettingAllHives={isGettingAllHives} />
+                  </MDBox>
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -167,7 +182,9 @@ export function SingleHive() {
       <MDBox mb={2} />
       <Header info={{ image: LogoAsana, hive_type, status }}>
         <MDBox mt={5} mb={3}>
-          <Link to="/hives">Go back</Link>
+          <Link to="/hives">
+            <ArrowBackIcon />
+          </Link>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
@@ -273,39 +290,48 @@ export const CreateUpdateHive = () => {
       {/* <MDBox mb={2} /> */}
       {/* <Header info={{ image, first_name, last_name, role }}> */}
       <MDBox mt={5} mb={3}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+        <Grid className={styling.wrapper} container spacing={1}>
+          {/* <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+            <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} /> */}
+          <div>
             <div>
-              <Link to={`/hives`}>Go back</Link>
-
-              <form onSubmit={handleSubmit}>
-                {hiveInputs
-                  .filter((detail) => detail.name !== "sort")
-                  .map((detail) => {
-                    const { name, TextField } = detail;
-                    return <div key={name}>{TextField}</div>;
-                  })}
-                <CustomButton
-                  background={"#1212121F"}
-                  backgroundhover={"#59d9d9"}
-                  size={"100%"}
-                  height={"3vh"}
-                  type="submit"
-                  // disabled={!isValid}
-                >
-                  {isCreatingHive === "pending" || isUpdatingHive === "pending" ? (
-                    <Loader1 />
-                  ) : isEdit ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )}
-                </CustomButton>
-              </form>
+              <Link to="/hives">
+                <ArrowBackIcon />
+              </Link>
+              <h6>
+                {isEdit
+                  ? `Update ${hive_type} details assignde to hunter ${assigned_hunter}`
+                  : "Create a new Hive"}{" "}
+              </h6>
+              <div></div>
             </div>
-            <Divider orientation="vertical" sx={{ mx: 0 }} />
-          </Grid>
+            <form className={styling.form} onSubmit={handleSubmit}>
+              {hiveInputs
+                .filter((detail) => detail.name !== "sort")
+                .map((detail) => {
+                  const { name, TextField } = detail;
+                  return <div key={name}>{TextField}</div>;
+                })}
+              <CustomButton
+                background={"inherit"}
+                backgroundhover={"grey"}
+                size={"100%"}
+                height={"3vh"}
+                type="submit"
+                // disabled={!isValid}
+              >
+                {isCreatingHive === "pending" || isUpdatingHive === "pending" ? (
+                  <Loader1 />
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </CustomButton>
+            </form>
+          </div>
+          {/* <Divider orientation="vertical" sx={{ mx: 0 }} />
+          </Grid> */}
         </Grid>
       </MDBox>
       {/* </Header> */}

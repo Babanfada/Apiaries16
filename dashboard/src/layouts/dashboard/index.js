@@ -71,12 +71,12 @@ function Dashboard() {
   // const { isGettingAllPolServices, polservices } = usePolServices();
   // const { isGettingAllprovisions, supplyProvision } = useSupplyProvision();
 
-  const totalEmployees = employees?.totalEmployees ?? <Loader />;
-  const totalStations = stations?.totalStations ?? <Loader />;
-  const totalHives = stations?.totalHives ?? <Loader />;
-  const totalUsers = users?.totalUsers ?? <Loader />;
+  const totalEmployees = employees?.totalEmployees ?? "N/A";
+  const totalStations = stations?.totalStations ?? "N/A";
+  const totalHives = stations?.totalHives ?? "N/A";
+  const totalUsers = users?.totalUsers ?? "N/A";
   const salaryData = employees?.salaryData ?? [];
-  const totalHarvestQuantity = honey_harvest?.totalHarvestQuantity ?? <Loader />;
+  const totalHarvestQuantity = honey_harvest?.totalHarvestQuantity ?? "N/A";
   const harvestedVolumeByYear = honey_harvest?.harvestedVolumeByYear ?? [];
   const colonizationCount = hives?.colonizationCount ?? [];
   const stationLocationCount = stations?.stationLocationCount ?? [];
@@ -85,7 +85,7 @@ function Dashboard() {
   const deliveryStatusCount = orders?.deliveryStatusCount ?? [];
   const monthlyRevenue = orders?.monthlyRevenue ?? [];
   const totalQuantity = products?.totalQuantity ?? [];
-  const totalHunters = hunters?.totalHunters ?? <Loader />;
+  const totalHunters = hunters?.totalHunters ?? "N/A";
   const serviceItems = services?.service ?? [];
   const genderCount = users?.genderCount ?? [];
   const verificationCount = users?.verificationCount ?? [];
@@ -97,6 +97,7 @@ function Dashboard() {
     ...item,
     total_revenue: Number(item.total_revenue),
   }));
+  // console.log(typeof totalEmployees, typeof totalUsers);
   return (
     <DashboardLayout>
       <DashboardNavbar />
