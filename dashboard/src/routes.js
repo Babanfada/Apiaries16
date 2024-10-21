@@ -152,6 +152,11 @@ const Pollination = lazy(() =>
     default: module.default,
   }))
 );
+const Products = lazy(() =>
+  import("./layouts/products").then((module) => ({
+    default: module.default,
+  }))
+);
 //single pages........................
 const SingleEmployee = lazy(() =>
   import("./layouts/tables").then((module) => ({
@@ -176,6 +181,11 @@ const SingleHive = lazy(() =>
 const SingleUser = lazy(() =>
   import("./layouts/users").then((module) => ({
     default: module.SingleUser,
+  }))
+);
+const SingleProduct = lazy(() =>
+  import("./layouts/products").then((module) => ({
+    default: module.SingleProduct,
   }))
 );
 
@@ -250,7 +260,11 @@ const CreateUpdateEquipment = lazy(() =>
     default: module.CreateUpdateEquipment,
   }))
 );
-
+const CreateUpdateProduct = lazy(() =>
+  import("./layouts/products").then((module) => ({
+    default: module.CreateUpdateProduct,
+  }))
+);
 const routes = [
   {
     type: "collapse",
@@ -320,9 +334,17 @@ const routes = [
     type: "collapse",
     name: "Provisions",
     key: "provisions",
-    icon: <Icon fontSize="small">inventory</Icon>, // Inventory icon for Provisions
+    icon: <Icon fontSize="small">inventory</Icon>,
     route: "/provisions",
     component: <Provisions />,
+  },
+  {
+    type: "collapse",
+    name: "Products",
+    key: "products",
+    icon: <Icon fontSize="small">storefront</Icon>,
+    route: "/products",
+    component: <Products />,
   },
   {
     type: "collapse",
@@ -466,6 +488,13 @@ export const singleroutes = [
   },
   {
     type: "collapse",
+    name: "single product",
+    key: "single_product",
+    route: "/products/:id",
+    component: <SingleProduct />,
+  },
+  {
+    type: "collapse",
     name: "single station",
     key: "single_station",
     route: "/stations/:id",
@@ -505,6 +534,13 @@ export const singleroutes = [
     key: "updatecreatestation",
     route: "/createupdatestation/:id",
     component: <CreateUpdateStation />,
+  },
+  {
+    type: "collapse",
+    name: "updatecreateproduct",
+    key: "updatecreateproduct",
+    route: "/createupdateproduct/:id",
+    component: <CreateUpdateProduct />,
   },
   {
     type: "collapse",

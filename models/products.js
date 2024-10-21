@@ -49,16 +49,17 @@ module.exports = function (sequelize, DataTypes) {
       harvest_year: {
         type: DataTypes.DATEONLY,
         allowNull: true,
+        // defaultValue: Sequelize.literal("CURRENT_DATE"),
       },
       packaging_type: {
         type: DataTypes.STRING(50),
         allowNull: true,
       },
-      available: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: 1,
-      },
+      // available: {
+      //   type: DataTypes.BOOLEAN,
+      //   allowNull: false,
+      //   defaultValue: 1,
+      // },
       averageRating: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -97,9 +98,8 @@ module.exports = function (sequelize, DataTypes) {
     products.hasMany(models.reviews, { foreignKey: "product_id" });
 
     // Define hooks within the associate function
-    products.beforeDestroy(async (productInstance, options) => {
+    products.afterDestroy(async (productInstance, options) => {
       const { product_id, product_name } = productInstance;
-      // console.log(models.product_images, models.product_colors);
 
       const product_imagesTBD = await models.product_images.findOne({
         where: { product_id },
@@ -110,16 +110,24 @@ module.exports = function (sequelize, DataTypes) {
       const product_reviewsTBD = await models.reviews.findOne({
         where: { product_id },
       });
-      // console.log("Product images and color for Deletion:", {
-      //   product_id,
-      //   product_name,
-      //   image_id: product_imagesTBD.image_id,
-      //   color_id: product_colorsTBD.color_id,
-      // });
 
-      await product_imagesTBD.destroy();
-      await product_colorsTBD.destroy();
-      await product_reviewsTBD.destroy();
+      if (product_imagesTBD) {
+        await product_imagesTBD.destroy();
+      } else {
+        console.warn(`No product image found for product_id: ${product_id}`);
+      }
+
+      if (product_colorsTBD) {
+        await product_colorsTBD.destroy();
+      } else {
+        console.warn(`No product color found for product_id: ${product_id}`);
+      }
+
+      if (product_reviewsTBD) {
+        await product_reviewsTBD.destroy();
+      } else {
+        console.warn(`No product review found for product_id: ${product_id}`);
+      }
     });
 
     products.afterCreate(async (productInstance, options) => {

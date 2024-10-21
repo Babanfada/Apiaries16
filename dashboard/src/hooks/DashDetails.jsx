@@ -2,9 +2,17 @@ import { useDispatch } from "react-redux";
 import { handelChange, handleDob } from "../features/stations/stationSlice";
 import { handleDate, handleChangeEquip } from "../features/equuipments/equipmentSlice";
 import { convertToDateOnly } from "../utils";
-import { DateRegister, GenderInput, MultiLineInput, UserInput } from "../components copy";
+import {
+  DateRegister,
+  GenderInput,
+  MultiLineInput,
+  RangeSlider,
+  UserInput,
+} from "../components copy";
 import { useSelector } from "react-redux";
 import { handleChangeSupp, handleDateSupp } from "../features/supplies/suppliesSlice";
+import { handleDateProducts } from "features/products/productsSlice";
+import { handleChangeProducts } from "features/products/productsSlice";
 
 export const useDashDetails_1 = () => {
   const dispatch = useDispatch();
@@ -518,4 +526,165 @@ export const useSuppliesInputs = () => {
     ].includes(detail.name)
   );
   return { suppliesDetails, searchSupplies };
+};
+export const useProductsInputs = () => {
+  const {
+    sort,
+    product_name,
+    product_type,
+    description,
+    quantity,
+    total_in_stock,
+    unit,
+    harvest_year,
+    packaging_type,
+    // available,
+    price,
+    priceRangePP,
+  } = useSelector((store) => store.products);
+  const dispatch = useDispatch();
+  const getDob = (e) => {
+    const { name, value } = e.target;
+    const formattedDate = convertToDateOnly(value.toISOString());
+    dispatch(handleDateProducts({ name, date: formattedDate }));
+  };
+  const getInput = (e) => {
+    const { name, value } = e.target;
+    // console.log(name, value);
+    const numericFields = ["quantity", "price", "total_in_stock"];
+    let processedValue = numericFields.includes(name) ? Number(value) : value;
+    if (numericFields.includes(name) && processedValue < 1) {
+      processedValue = 1;
+    }
+    dispatch(handleChangeProducts({ name, value: processedValue }));
+  };
+  const productDetails = [
+    {
+      name: "product_name",
+      TextField: (
+        <UserInput
+          name={"product_name"}
+          value={product_name}
+          type={"name"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "product_type",
+      TextField: (
+        <GenderInput
+          name={"product_type"}
+          value={product_type}
+          type={"text"}
+          gender={["---", "honey", "wax", "propolis", "royal jelly", "venom"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "description",
+      TextField: (
+        <MultiLineInput
+          name={"description"}
+          value={description}
+          type={"text"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "quantity",
+      TextField: (
+        <UserInput name={"quantity"} value={quantity} type={"number"} handleChange={getInput} />
+      ),
+    },
+    {
+      name: "total_in_stock",
+      TextField: (
+        <UserInput
+          name={"total_in_stock"}
+          value={total_in_stock}
+          type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "unit",
+      TextField: <UserInput name={"unit"} value={unit} type={"name"} handleChange={getInput} />,
+    },
+    {
+      name: "harvest_year",
+      TextField: <DateRegister name={"harvest_year"} value={harvest_year} onChange={getDob} />,
+    },
+    {
+      name: "packaging_type",
+      TextField: (
+        <UserInput
+          name={"packaging_type"}
+          value={packaging_type}
+          type={"name"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    // {
+    //   name: "available",
+    //   TextField: (
+    //     <GenderInput
+    //       name={"available"}
+    //       value={available}
+    //       type={"text"}
+    //       gender={["---", "available", "not available"]}
+    //       handleChange={getInput}
+    //     />
+    //   ),
+    // },
+    {
+      name: "price",
+      TextField: <UserInput name={"price"} value={price} type={"number"} handleChange={getInput} />,
+    },
+    {
+      name: "priceRangePP",
+      TextField: (
+        <RangeSlider name={"priceRangePP"} value={priceRangePP} min={1000} max={100000} step={2000} />
+      ),
+    },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={[
+            "---",
+            "high-low",
+            "low-high",
+            "high-rating",
+            "low-rating",
+            "high-review",
+            "low-review",
+            "high-sell",
+            "low-sell",
+          ]}
+          handleChange={getInput}
+        />
+      ),
+    },
+  ];
+  // const searchSupplies = productDetails.filter((detail) =>
+  //   [
+  //     "supply_name",
+  //     "category",
+  //     "quantity",
+  //     "status",
+  //     "storage_location",
+  //     "supplier",
+  //     "purchase_cost",
+  //     "purchase_date",
+  //   ].includes(detail.name)
+  // );
+  return { productDetails };
 };

@@ -417,6 +417,7 @@ import { updatePriceRangeProvision } from "../features/supplyProvision/supplyPro
 import moment from "moment";
 import { CustomButton } from "./Button";
 import { useLocation } from "react-router-dom";
+import { updatePriceRangeProduct } from "features/products/productsSlice";
 // import LoadingButton from "@mui/lab/LoadingButton";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -485,6 +486,7 @@ export default function RangeSlider({ name, value, min, max, step }) {
   // };
   const handleChange = (event, newValue) => {
     // Ensure the lower range (newValue[0]) remains static
+    console.log(event.target.name);
     const updatedValue = [min, newValue[1]];
     if (event.target.name === "priceRange") {
       dispatch(updatePriceRange(updatedValue));
@@ -500,6 +502,10 @@ export default function RangeSlider({ name, value, min, max, step }) {
     }
     if (event.target.name === "priceRangeSP") {
       dispatch(updatePriceRangeProvision(updatedValue));
+      return;
+    }
+    if (event.target.name === "priceRangePP") {
+      dispatch(updatePriceRangeProduct(updatedValue));
       return;
     }
     // Dispatch the updated value with a static lower range

@@ -1,26 +1,7 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/function-component-definition */
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDAvatar from "components/MDAvatar";
 import MDBadge from "components/MDBadge";
-
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import logoSlack from "assets/images/small-logos/logo-slack.svg";
@@ -28,6 +9,25 @@ import React from "react";
 import { usePolServices } from "features/pollination/polservicesThunk";
 import { useDeletePolServices } from "features/pollination/polservicesThunk";
 import { setUpdatePolServ } from "features/pollination/polservicesSlice";
+import PropTypes from "prop-types";
+
+const Author = ({ image, crop_type, pol_service_id }) => (
+  <MDBox display="flex" alignItems="center" lineHeight={1}>
+    <MDAvatar src={image} size="sm" />
+    <MDBox ml={2} lineHeight={1}>
+      <MDTypography display="block" variant="button" fontWeight="medium">
+        {`${pol_service_id} `}
+      </MDTypography>
+      <MDTypography variant="caption">{crop_type}</MDTypography>
+    </MDBox>
+  </MDBox>
+);
+
+Author.propTypes = {
+  image: PropTypes.string.isRequired,
+  crop_type: PropTypes.string.isRequired,
+  pol_service_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
 
 export default function pollinationTableData() {
   const dispatch = useDispatch();
@@ -37,18 +37,22 @@ export default function pollinationTableData() {
     polservices: { polservices = [], totalPolServices, count, numOfPages } = {},
     refetch,
   } = usePolServices();
-  const Author = ({ image, crop_type, pol_service_id }) => (
-    <MDBox display="flex" alignItems="center" lineHeight={1}>
-      <MDAvatar src={image} size="sm" />
-      <MDBox ml={2} lineHeight={1}>
-        <MDTypography display="block" variant="button" fontWeight="medium">
-          {`${pol_service_id} `}
-        </MDTypography>
-        <MDTypography variant="caption">{crop_type}</MDTypography>
-      </MDBox>
-    </MDBox>
-  );
-
+  // const Author = ({ image, crop_type, pol_service_id }) => (
+  //   <MDBox display="flex" alignItems="center" lineHeight={1}>
+  //     <MDAvatar src={image} size="sm" />
+  //     <MDBox ml={2} lineHeight={1}>
+  //       <MDTypography display="block" variant="button" fontWeight="medium">
+  //         {`${pol_service_id} `}
+  //       </MDTypography>
+  //       <MDTypography variant="caption">{crop_type}</MDTypography>
+  //     </MDBox>
+  //   </MDBox>
+  // );
+  // Author.propTypes = {
+  //   image: PropTypes.string.isRequired,
+  //   crop_type: PropTypes.string.isRequired,
+  //   pol_service_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  // };
   const rows = polservices.map((item, i) => {
     const { pol_service_id, service_id, crop_type, service_description, rendered, price } = item;
     const payload = {

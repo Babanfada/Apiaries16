@@ -14,6 +14,7 @@ import SetupReducer from "./features/apiarySetup/setupCompSlice";
 import ConsultationReducer from "./features/consultation/consultationSlice";
 import PolServReducer from "./features/pollination/polservicesSlice";
 import ProvisionReducer from "./features/supplyProvision/supplyProvSlice";
+import ProductReducer from "./features/products/productsSlice";
 const store = configureStore({
   reducer: {
     users: userReducer,
@@ -31,6 +32,7 @@ const store = configureStore({
     consultations: ConsultationReducer,
     polservices: PolServReducer,
     provisions: ProvisionReducer,
+    products: ProductReducer,
   },
 });
 export default store;

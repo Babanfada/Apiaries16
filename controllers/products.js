@@ -22,17 +22,38 @@ const getAllProducts = async (req, res) => {
     product_name: (value) => ({
       [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
     }),
-    product_type: (value) => value,
-    packaging_type: (value) => value,
-    available: (value) => {
-      if (value === "All") {
-        return { [Sequelize.Op.or]: [true, false] }; // This will include all rows regardless of the 'available' status
+    packaging_type: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    // product_type: (value) => value,
+    product_type: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: [
+            "honey",
+            "wax",
+            "propolis",
+            "royal jelly",
+            "venom",
+          ],
+        };
       }
-      if (value !== "All" && value !== undefined) {
-        return value === "true";
+      if (value !== "---" && value !== undefined) {
+        return value;
       }
-      return undefined; // Return undefined to skip adding this filter
+
+      return undefined;
     },
+    // packaging_type: (value) => value,
+    // available: (value) => {
+    //   if (value === "All") {
+    //     return { [Sequelize.Op.or]: [true, false] }; // This will include all rows regardless of the 'available' status
+    //   }
+    //   if (value !== "All" && value !== undefined) {
+    //     return value === "true";
+    //   }
+    //   return undefined; // Return undefined to skip adding this filter
+    // },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -83,7 +104,7 @@ const getAllProducts = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalProducts / limit);
   let sortList;
