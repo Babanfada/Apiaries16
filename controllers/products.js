@@ -240,7 +240,16 @@ const deleteProduct = async (req, res) => {
 
 const uploadProductImages = async (req, res) => {
   const { product_id } = req.params;
-  const productImages = Object.values(req.files);
+  const productImages = Object.values(req.files || {});
+
+  console.log("Total number of uploaded files:", productImages.length);
+  console.log("Files array:", productImages); // Logging the entire array structure
+
+  if (productImages.length === 0) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      error: "No files were uploaded. Please upload at least one image.",
+    });
+  }
 
   try {
     // Fetch existing image record for the product
@@ -251,17 +260,34 @@ const uploadProductImages = async (req, res) => {
       );
     }
 
+    // Adding a log before mapping to ensure the array hasn't been altered
+    console.log("Mapping through product images...");
+
     // Validate and upload images
     const uploadedImages = await Promise.all(
       productImages.map(async (productImage, i) => {
-        // Validate image type and size
-        if (!productImage.mimetype.startsWith("image")) {
-          throw new BAD_REQUEST("Please upload a valid image.");
+        // Logging the current productImage at the beginning of each iteration
+        console.log(`File ${i + 1}/${productImages.length}:`, productImage);
+
+        if (!productImage) {
+          console.warn(`File at index ${i} is undefined or null, skipping...`);
+          return null;
         }
 
+        // Check if mimetype is defined before calling startsWith
+        if (
+          !productImage.mimetype ||
+          !productImage.mimetype.startsWith("image")
+        ) {
+          console.warn(`File ${i + 1} is not a valid image, skipping...`);
+          return null;
+        }
+
+        // Validate file size
         const maxSize = 2000 * 3000; // 6MB
         if (productImage.size > maxSize) {
-          throw new BAD_REQUEST("Uploaded files should not exceed 18MB.");
+          console.warn(`File ${i + 1} exceeds size limit, skipping...`);
+          return null;
         }
 
         // Delete existing image on Cloudinary if it exists
@@ -275,7 +301,7 @@ const uploadProductImages = async (req, res) => {
           productImage.tempFilePath,
           {
             use_filename: true,
-            folder: "Apiaries 16 user's Images",
+            folder: "Apiaries 16 product Images",
           }
         );
 
@@ -292,33 +318,39 @@ const uploadProductImages = async (req, res) => {
       })
     );
 
+    // Filter out any null results (skipped files)
+    const validUploadedImages = uploadedImages.filter(Boolean);
+
     // Send response with uploaded images
     res.status(StatusCodes.OK).json({
-      images: uploadedImages,
+      images: validUploadedImages,
     });
   } catch (error) {
-    // next(error); // Pass the error to the custom error handling middleware
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: error.message,
     });
   } finally {
     // Clean up all temporary files
     productImages.forEach((productImage) => {
-      if (fs.existsSync(productImage.tempFilePath)) {
+      if (
+        productImage &&
+        productImage.tempFilePath &&
+        fs.existsSync(productImage.tempFilePath)
+      ) {
         fs.unlinkSync(productImage.tempFilePath);
       }
     });
   }
 };
+
 const updateProductColor = async (req, res) => {
   const { product_id } = req.params;
   const product_color = await COLORS.findOne({ where: { product_id } });
-  await product_color.update(req.body, {
-    where: { product_id },
+  if (!product_color) throw new BAD_REQUEST("This product does not exist");
+  await product_color.update(req.body);
+  res.status(StatusCodes.OK).json({
+    msg: "color details updated successfully",
   });
-  res
-    .status(StatusCodes.OK)
-    .json({ msg: "Color details updated successfully" });
 };
 module.exports = {
   getAllProducts,

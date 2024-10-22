@@ -22,6 +22,8 @@ import breakpoints from "assets/theme/base/breakpoints";
 // Images
 import burceMars from "assets/images/bruce-mars.jpg";
 import backgroundImage from "assets/images/bg-profile.jpeg";
+import { useUploadProductImages } from "features/products/productthunk";
+import { InputFileUpload } from "components copy";
 
 function Header({ info, children }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
@@ -48,9 +50,26 @@ function Header({ info, children }) {
   }, [tabsOrientation]);
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
-  const { image = "", product_name, price, colorArray, imageArray } = info;
+  const { image = "", product_name, price, colorArray, imageArray, id } = info;
   const [color0, color1, color2] = colorArray;
   const [image0, image1, image2] = imageArray;
+
+  // const { uploadProductImgs, isUploadingProductImages } = useUploadProductImages(id);
+  // const uploadProductImages = (e) => {
+  //   const files = e.target.files;
+  //   const formData = new FormData();
+  //   if (files.length > 0) {
+  //     // Loop through each file and append it to the FormData object
+  //     for (let i = 0; i < files.length; i++) {
+  //       formData.append(`image${i}`, files[i]); // "images" can be any key name you prefer
+  //     }
+  //     // Call the function to upload the images
+  //     uploadProductImgs(formData);
+  //     // console.log(files, formData);
+  //   } else {
+  //     alert("Please select at least one file to upload.");
+  //   }
+  // };
   return (
     <MDBox position="relative" mb={5}>
       <MDBox
@@ -140,6 +159,11 @@ function Header({ info, children }) {
             <div style={{ display: "flex" }}>
               <MDAvatar src={image1} alt="profile-image" size="md" shadow="sm" />
               <MDAvatar src={image2} alt="profile-image" size="md" shadow="sm" />
+              {/* <InputFileUpload
+                name={"product images"}
+                handleChange={uploadProductImages}
+                uploading={isUploadingProductImages}
+              /> */}
             </div>
           </Grid>
         </Grid>
@@ -163,6 +187,7 @@ Header.propTypes = {
     image: PropTypes.string,
     product_name: PropTypes.string,
     price: PropTypes.string,
+    id: PropTypes.string,
     colorArray: PropTypes.arrayOf(PropTypes.string),
     imageArray: PropTypes.arrayOf(PropTypes.string),
   }),

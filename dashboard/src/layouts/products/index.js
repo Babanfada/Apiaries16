@@ -49,6 +49,10 @@ import ProductSearchModal from "components copy/searchModals/ProductSearchModal"
 import { useUpdateProduct } from "features/products/productthunk";
 import { useCreateProduct } from "features/products/productthunk";
 import { useSinglProduct } from "features/products/productthunk";
+import { useUploadProductImages } from "features/products/productthunk";
+import { InputFileUpload } from "components copy";
+import { ColorPicker } from "components copy/TextField";
+import { updateProductColors } from "features/products/productthunk";
 function Products() {
   const dispatch = useDispatch();
   const {
@@ -271,6 +275,8 @@ export const CreateUpdateProduct = () => {
 export function SingleProduct() {
   const { id } = useParams();
   const { isGettingSingleProduct, singleproduct, refetch } = useSinglProduct(id);
+  const { uploadProductImgs, isUploadingProductImages } = useUploadProductImages(id);
+  const { isUpdatingColor } = updateProductColors(id);
   const { product } = singleproduct || {};
   // console.log(product);
   const {
@@ -294,20 +300,50 @@ export function SingleProduct() {
   const { color0, color1, color2 } = product_colors?.[0] || {};
   const colorArray = [color0, color1, color2];
   const imageArray = [image0, image1, image2];
+
+  const uploadProductImages = (e) => {
+    const files = e.target.files;
+    const formData = new FormData();
+    if (files.length > 0) {
+      // Loop through each file and append it to the FormData object
+      for (let i = 0; i < files.length; i++) {
+        formData.append(`image${i}`, files[i]); // "images" can be any key name you prefer
+      }
+      // Call the function to upload the images
+      uploadProductImgs(formData);
+    } else {
+      alert("Please select at least one file to upload.");
+    }
+  };
+
   React.useEffect(() => {
     refetch();
-  }, [id]);
+  }, [id, isUploadingProductImages, isUpdatingColor]);
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mb={2} />
-      <Header info={{ image: image0, product_name, price, colorArray, imageArray }}>
+      <Header info={{ image: image0, product_name, price, colorArray, imageArray, id }}>
         <MDBox mt={5} mb={3}>
-          <Link to="/products">
-            {" "}
-            <ArrowBackIcon />
-          </Link>
+          <div
+            style={{
+              // border: "1px solid red",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Link to="/products">
+              <ArrowBackIcon />
+            </Link>
+            <ColorPicker color_id={id} />
+            <InputFileUpload
+              name={"product images"}
+              handleChange={uploadProductImages}
+              uploading={isUploadingProductImages}
+            />
+          </div>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />

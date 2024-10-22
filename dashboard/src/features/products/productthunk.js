@@ -32,9 +32,7 @@ export const useProducts = () => {
     quantity ? `quantity<=${quantity}` : "",
     total_in_stock ? `total_in_stock<=${total_in_stock}` : "",
   ];
-  const numberFilterString = numberFilterParams
-    .filter(Boolean) 
-    .join(" "); 
+  const numberFilterString = numberFilterParams.filter(Boolean).join(" ");
   const url = `products/?product_name=${product_name}&product_type=${product_type}&packaging_type=${packaging_type}&numberFilter=${numberFilterString}&pages=${pages}&sort=${sort}`;
   console.log(url);
   const {
@@ -156,4 +154,52 @@ export const useDeleteProduct = () => {
     },
   });
   return { deleteProduct, isDeletingProduct };
+};
+
+export const useUploadProductImages = (id) => {
+  // console.log(id);
+  const queryClient = useQueryClient();
+  const { mutate: uploadProductImgs, status: isUploadingProductImages } = useMutation({
+    mutationFn: async (files) => {
+      // console.log(files);
+      const { data } = await customFetch.patch(`products/uploadproductimages/${id}`, files);
+      return data;
+    },
+    onSuccess: (res) => {
+      // console.log(res);
+      queryClient.invalidateQueries({ queryKey: ["singleproduct"] });
+      toast.success("Product images uploaded successfully");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.msg);
+    },
+  });
+  return { uploadProductImgs, isUploadingProductImages };
+};
+export const updateProductColors = (color_id) => {
+  // console.log(color_id);
+  const queryClient = useQueryClient();
+  const { mutate: updateColor, status: isUpdatingColor } = useMutation({
+    mutationFn: async (colors) => {
+      const colorsObject = colors.reduce((acc, color, index) => {
+        acc[`color${index}`] = color;
+        return acc;
+      }, {});
+      // console.log(colorsObject);
+      const { data } = await customFetch.patch(
+        `products/updateproductcolor/${color_id}`,
+        colorsObject
+      );
+      return data;
+    },
+    onSuccess: (res) => {
+      // console.log(res);
+      queryClient.invalidateQueries({ queryKey: ["singleproduct"] });
+      toast.success("Product colors uploaded successfully");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.msg);
+    },
+  });
+  return { updateColor, isUpdatingColor };
 };

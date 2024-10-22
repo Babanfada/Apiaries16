@@ -321,7 +321,7 @@ export function CreateUpdateEmployee() {
               <div>
                 {isEdit ? (
                   <InputFileUpload
-                    name={"image"}
+                    name={"avatar"}
                     handleChange={uploadEmployeeAvatar}
                     uploading={isUploadingEmployeeImages}
                   />

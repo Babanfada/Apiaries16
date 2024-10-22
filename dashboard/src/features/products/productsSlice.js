@@ -11,9 +11,10 @@ const initialState = {
   total_in_stock: 10000,
   harvest_year: "",
   packaging_type: "",
-//   numOfTimesSold: 0,
+  //   numOfTimesSold: 0,
   price: 100 * 100,
   priceRangePP: [1000, 1000000],
+  colors: [],
 };
 const productSlice = createSlice({
   name: "products",
@@ -57,6 +58,20 @@ const productSlice = createSlice({
         priceRangePP: payload,
       };
     },
+    setColorsArray: (state, { payload }) => {
+      return {
+        ...state,
+        colors: [...state.colors, payload],
+      };
+    },
+    removeColor: (state, { payload }) => {
+      const updatedColorArray = [...state.colors];
+      updatedColorArray.splice(payload, 1);
+      return {
+        ...state,
+        colors: updatedColorArray,
+      };
+    },
   },
 });
 
@@ -68,5 +83,7 @@ export const {
   resetValues,
   changePage,
   updatePriceRangeProduct,
+  setColorsArray,
+  removeColor,
 } = productSlice.actions;
 export default productSlice.reducer;

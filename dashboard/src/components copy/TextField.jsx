@@ -418,6 +418,7 @@ import moment from "moment";
 import { CustomButton } from "./Button";
 import { useLocation } from "react-router-dom";
 import { updatePriceRangeProduct } from "features/products/productsSlice";
+import { MdColorLens } from "react-icons/md";
 // import LoadingButton from "@mui/lab/LoadingButton";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -453,9 +454,11 @@ export function InputFileUpload({ name, handleChange, uploading }) {
       role={undefined}
       variant="contained"
       tabIndex={-1}
+      size={"small"}
+      title={`upload ${name}`}
       startIcon={uploading === "pending" ? <Loader1 /> : <CloudUploadIcon />}
     >
-      Upload image
+      {uploading === "pending" ? `uploading ${name}` : `upload ${name}`}
       <VisuallyHiddenInput type="file" onChange={handleChange} multiple />
     </CustomButton>
   );
@@ -468,22 +471,7 @@ export default function RangeSlider({ name, value, min, max, step }) {
   // console.log({ name, value, min, max, step });
   // const [value, setValue] = React.useState([20, 37]);
   const dispatch = useDispatch();
-  // const handleChange = (event, newValue) => {
-  //   if (event.target.name === "salary") {
-  //     // dispatch(updateRatingRange(newValue));
-  //     return;
-  //   }
-  //   if (event.target.name === "reviewRatingRange") {
-  //     // dispatch(updateReviewRatingRange(newValue));
-  //     return;
-  //   }
-  //   if (event.target.name === "rating") {
-  //     dispatch(updateCreateRatingRange(newValue));
-  //     return;
-  //   }
-  //   dispatch(updateSalaryRange(newValue));
-  //   // setValue(newValue);
-  // };
+
   const handleChange = (event, newValue) => {
     // Ensure the lower range (newValue[0]) remains static
     console.log(event.target.name);
@@ -533,17 +521,125 @@ export default function RangeSlider({ name, value, min, max, step }) {
     </Box>
   );
 }
+import AddIcon from "@mui/icons-material/Add";
+import { ChromePicker } from "react-color";
+import { useSelector } from "react-redux";
+import { setColorsArray } from "features/products/productsSlice";
+import { removeColor } from "features/products/productsSlice";
+import { updateProductColors } from "features/products/productthunk";
+export const ColorPicker = ({ color_id }) => {
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [color, setColor] = useState("#FFFFFF");
+  const { colors } = useSelector((store) => store.products);
+  const { updateColor, isUpdatingColor } = updateProductColors(color_id);
+  const handleColorChange = (newColor) => {
+    // setColor(newColor.name);
+    setColor(newColor.hex);
+  };
 
+  const handleButtonClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  // const handleColorPickerChange = (event) => {
+  //   setColor(event.target.value);
+  // };
+
+  const handleAddColor = () => {
+    dispatch(setColorsArray(color));
+  };
+  const handleRemoveColor = (c) => {
+    dispatch(removeColor(c));
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "color-popover" : undefined;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+      <label style={{ fontSize: "small" }} htmlFor="label">
+        Choose Color
+      </label>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+        }}
+        id="label"
+      >
+        <MdColorLens style={{ cursor: "pointer" }} onClick={handleButtonClick} />
+        <AddIcon sx={{ cursor: "pointer" }} onClick={handleAddColor} />
+      </div>
+      <div style={{ display: "flex", width: "100%" }}>
+        {colors.map((c, index) => (
+          <div
+            key={index}
+            title={"Click to remove color"}
+            onClick={() => handleRemoveColor(index)}
+            style={{
+              cursor: "pointer",
+              width: "30px",
+              height: "30px",
+              backgroundColor: c,
+              marginRight: "5px",
+              borderRadius: "50%",
+              border: "1px solid grey",
+            }}
+          ></div>
+        ))}
+      </div>
+      <CustomButton
+        background={"inherit"}
+        backgroundhover={"grey"}
+        height={"4vh"}
+        component="label"
+        role={undefined}
+        variant="contained"
+        tabIndex={-1}
+        size={"small"}
+        title={`upload colors`}
+        startIcon={isUpdatingColor === "pending" ? <Loader1 /> : <CloudUploadIcon />}
+        onClick={() => updateColor(colors)}
+      >
+        {isUpdatingColor === "pending" ? `updating colors` : `update colors`}
+      </CustomButton>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+      >
+        <ChromePicker color={color} onChange={handleColorChange} />
+      </Popover>
+    </div>
+  );
+};
 // User Input Component
 UserInput.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // Accepts string or number
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   type: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   validationError: PropTypes.bool,
   message: PropTypes.string,
 };
-
+// Color picker
+ColorPicker.propTypes = {
+  color_id: PropTypes.string,
+};
 // Phone Input Component
 PhoneInputs.propTypes = {
   type: PropTypes.string,
