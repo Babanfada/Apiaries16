@@ -62,7 +62,7 @@ function Dashboard() {
   // const { isGettingAllReports, catch_reports } = useReports();
   // const { isGettingAllequipments, equipments } = useEquipments();
   // const { isGettingAllSupplies, supplies } = useSupplies();
-  const { isGettingAllOrders, orders } = useOrders();
+  const { isGettingAllOrders, data: orders } = useOrders();
   const { isGettingAllProducts, products } = useProducts();
   // const { isGettingAllReviews, reviews } = useReviews();
   const { isGettingAllServices, services } = useServices();
@@ -97,7 +97,7 @@ function Dashboard() {
     ...item,
     total_revenue: Number(item.total_revenue),
   }));
-  // console.log(typeof totalEmployees, typeof totalUsers);
+  // console.log(orders, "orders here");
   return (
     <DashboardLayout>
       <DashboardNavbar />
