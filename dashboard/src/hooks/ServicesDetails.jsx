@@ -7,6 +7,7 @@ import { handleChangeSetup } from "../features/apiarySetup/setupCompSlice";
 import { handleChangeConsultation } from "../features/consultation/consultationSlice";
 import { handleChangePolServ } from "../features/pollination/polservicesSlice";
 import { handleChangeProvision } from "../features/supplyProvision/supplyProvSlice";
+import { handleChangeOrder } from "features/orders/ordersSlice";
 
 export const useServiceInputs = () => {
   const dispatch = useDispatch();
@@ -383,4 +384,114 @@ export const useProvisionInputs = () => {
     },
   ];
   return { provisionInputs };
+};
+export const useOrderInputs = () => {
+  const dispatch = useDispatch();
+  const {
+    user_id,
+    tax,
+    shippingFee,
+    subTotal,
+    total,
+    paymentStatus,
+    deliveryStatus,
+    tx_ref,
+    transaction_id,
+    sort
+  } = useSelector((store) => store.orders);
+  const getInput = (e) => {
+    const { name, value } = e.target;
+    const numericFields = ["sippingFee", "subTotal", "total", "user_id", "tax"];
+
+    let processedValue = numericFields.includes(name) ? Number(value) : value;
+    if (numericFields.includes(name) && processedValue < 0) {
+      processedValue = 0;
+    }
+    dispatch(handleChangeOrder({ name, value: processedValue }));
+  };
+  const orderInputs = [
+    {
+      name: "user_id",
+      TextField: (
+        <UserInput name={"user_id"} value={user_id} type={"number"} handleChange={getInput} />
+      ),
+    },
+    {
+      name: "tax",
+      TextField: <UserInput name={"tax"} value={tax} type={"number"} handleChange={getInput} />,
+    },
+    {
+      name: "shippingFee",
+      TextField: (
+        <UserInput
+          name={"shippingFee"}
+          value={shippingFee}
+          type={"number"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "subTotal",
+      TextField: (
+        <UserInput name={"subTotal"} value={subTotal} type={"number"} handleChange={getInput} />
+      ),
+    },
+    {
+      name: "total",
+      TextField: <UserInput name={"total"} value={total} type={"number"} handleChange={getInput} />,
+    },
+    {
+      name: "tx_ref",
+      TextField: <UserInput name={"tx_ref"} value={tx_ref} type={"text"} handleChange={getInput} />,
+    },
+    {
+      name: "transaction_id",
+      TextField: (
+        <UserInput
+          name={"transaction_id"}
+          value={transaction_id}
+          type={"text"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "paymentStatus",
+      TextField: (
+        <GenderInput
+          name={"paymentStatus"}
+          value={paymentStatus}
+          type={"text"}
+          gender={["---", "pending", "failed", "successful", "canceled"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "deliveryStatus",
+      TextField: (
+        <GenderInput
+          name={"deliveryStatus"}
+          value={deliveryStatus}
+          type={"text"}
+          gender={["---", "pending", "failed", "delivered", "canceled"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={["---", "high-low", "low-high"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+  ];
+  return { orderInputs };
 };

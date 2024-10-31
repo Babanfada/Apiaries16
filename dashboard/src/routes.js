@@ -157,6 +157,11 @@ const Products = lazy(() =>
     default: module.default,
   }))
 );
+const Orders = lazy(() =>
+  import("./layouts/orders").then((module) => ({
+    default: module.default,
+  }))
+);
 //single pages........................
 const SingleEmployee = lazy(() =>
   import("./layouts/tables").then((module) => ({
@@ -265,6 +270,11 @@ const CreateUpdateProduct = lazy(() =>
     default: module.CreateUpdateProduct,
   }))
 );
+const UpdateOrder = lazy(() =>
+  import("./layouts/orders").then((module) => ({
+    default: module.UpdateOrder,
+  }))
+);
 const routes = [
   {
     type: "collapse",
@@ -297,6 +307,14 @@ const routes = [
     icon: <Icon fontSize="small">business</Icon>, // Business icon for stations
     route: "/stations",
     component: <Stations />,
+  },
+  {
+    type: "collapse",
+    name: "Orders",
+    key: "orders",
+    icon: <Icon fontSize="small">shopping_cart</Icon>, // Shopping cart icon for orders
+    route: "/orders",
+    component: <Orders />,
   },
   {
     type: "collapse",
@@ -541,6 +559,13 @@ export const singleroutes = [
     key: "updatecreateproduct",
     route: "/createupdateproduct/:id",
     component: <CreateUpdateProduct />,
+  },
+  {
+    type: "collapse",
+    name: "updateorder",
+    key: "updateorder",
+    route: "/updateorder/:id",
+    component: <UpdateOrder />,
   },
   {
     type: "collapse",

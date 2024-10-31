@@ -34,7 +34,7 @@ export const useProducts = () => {
   ];
   const numberFilterString = numberFilterParams.filter(Boolean).join(" ");
   const url = `products/?product_name=${product_name}&product_type=${product_type}&packaging_type=${packaging_type}&numberFilter=${numberFilterString}&pages=${pages}&sort=${sort}`;
-  console.log(url);
+  // console.log(url);
   const {
     status: isGettingAllProducts,
     data,

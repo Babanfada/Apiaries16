@@ -45,11 +45,13 @@ module.exports = function (sequelize, DataTypes) {
       },
       tx_ref: {
         type: DataTypes.STRING(100),
-        allowNull: true,
+        allowNull: false,
+        defaultValue: "",
       },
       transaction_id: {
         type: DataTypes.STRING(100),
-        allowNull: true,
+        allowNull: false,
+        defaultValue: "",
       },
     },
     {

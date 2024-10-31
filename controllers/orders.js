@@ -26,11 +26,37 @@ const getAllOrders = async (req, res) => {
   const { numberFilter, fields, sort } = req.query;
 
   const fieldsToCheck = {
-    user_id: (value) => value,
-    transaction_id: (value) => value,
-    tx_ref: (value) => value,
-    paymentStatus: (value) => value,
-    deliveryStatus: (value) => value,
+    // user_id: (value) => value,
+    transaction_id: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    tx_ref: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    paymentStatus: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["pending", "failed", "successful", "canceled"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+
+      return undefined;
+    },
+    deliveryStatus: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["pending", "failed", "delivered", "canceled"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+
+      return undefined;
+    },
   };
 
   Object.keys(req.query).forEach((key) => {
@@ -53,7 +79,7 @@ const getAllOrders = async (req, res) => {
       (match) => `/${operatorMap[match]}/`
     );
     // console.log(filter);
-    const options = ["tax", "shippingFee", "subTotal", "total"];
+    const options = ["tax", "shippingFee", "subTotal", "total", "user_id"];
     filter.split(" ").forEach((item) => {
       const [field, operator, value] = item.split("/");
       if (options.includes(field)) {
@@ -64,7 +90,7 @@ const getAllOrders = async (req, res) => {
     });
   }
   const page = Number(req.query.pages) || 1;
-  const limit = Number(req.query.limit) || 6;
+  const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalOrders / limit);
   let sortList;
@@ -155,31 +181,32 @@ const getSingleOrder = async (req, res) => {
   const user_id = orders.user_id;
 
   // Count orders by payment status for a specific user
-  const paymentStatusCount = await ORDERS.findAll({
-    attributes: [
-      "paymentStatus",
-      [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
-    ],
-    where: {
-      user_id,
-    },
-    group: ["paymentStatus"],
-  });
+  // const paymentStatusCount = await ORDERS.findAll({
+  //   attributes: [
+  //     "paymentStatus",
+  //     [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
+  //   ],
+  //   where: {
+  //     user_id,
+  //   },
+  //   group: ["paymentStatus"],
+  // });
 
   // Count orders by delivery status for a specific user
-  const deliveryStatusCount = await ORDERS.findAll({
-    attributes: [
-      "deliveryStatus",
-      [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
-    ],
-    where: {
-      user_id,
-    },
-    group: ["deliveryStatus"],
+  // const deliveryStatusCount = await ORDERS.findAll({
+  //   attributes: [
+  //     "deliveryStatus",
+  //     [Sequelize.fn("COUNT", Sequelize.col("order_id")), "count"],
+  //   ],
+  //   where: {
+  //     user_id,
+  //   },
+  //   group: ["deliveryStatus"],
+  // });
+  res.status(StatusCodes.OK).json({
+    orders,
+    // deliveryStatusCount, paymentStatusCount
   });
-  res
-    .status(StatusCodes.OK)
-    .json({ orders, deliveryStatusCount, paymentStatusCount });
 };
 
 const getAllOrdersByUser = async (req, res) => {
@@ -414,7 +441,9 @@ const updateOrder = async (req, res) => {
     }
 
     await transaction.commit();
-    res.status(StatusCodes.OK).json({ order });
+    res
+      .status(StatusCodes.OK)
+      .json({ order, msg: "order details updated succesfully" });
   } catch (error) {
     await transaction.rollback();
     res
