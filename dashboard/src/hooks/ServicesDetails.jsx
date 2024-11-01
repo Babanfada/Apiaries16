@@ -8,6 +8,7 @@ import { handleChangeConsultation } from "../features/consultation/consultationS
 import { handleChangePolServ } from "../features/pollination/polservicesSlice";
 import { handleChangeProvision } from "../features/supplyProvision/supplyProvSlice";
 import { handleChangeOrder } from "features/orders/ordersSlice";
+import { handleChangeReviews } from "features/reviews/reviewSlice";
 
 export const useServiceInputs = () => {
   const dispatch = useDispatch();
@@ -397,7 +398,7 @@ export const useOrderInputs = () => {
     deliveryStatus,
     tx_ref,
     transaction_id,
-    sort
+    sort,
   } = useSelector((store) => store.orders);
   const getInput = (e) => {
     const { name, value } = e.target;
@@ -494,4 +495,67 @@ export const useOrderInputs = () => {
     },
   ];
   return { orderInputs };
+};
+export const useReviewInputs = () => {
+  const dispatch = useDispatch();
+  const { product_id, user_id, rating, title, comment, sort } = useSelector(
+    (store) => store.reviews
+  );
+  const getInput = (e) => {
+    const { name, value } = e.target;
+    const numericFields = ["rating", "product_id"];
+    let processedValue = numericFields.includes(name) ? Number(value) : value;
+    if (numericFields.includes(name) && processedValue < 0) {
+      processedValue = 0;
+    }
+    dispatch(handleChangeReviews({ name, value: processedValue }));
+  };
+  const reviewInputs = [
+    {
+      name: "user_id",
+      TextField: (
+        <UserInput name={"user_id"} value={user_id} type={"number"} handleChange={getInput} />
+      ),
+    },
+    {
+      name: "tax",
+      TextField: (
+        <UserInput name={"product_id"} value={product_id} type={"number"} handleChange={getInput} />
+      ),
+    },
+    {
+      name: "rating",
+      TextField: (
+        <UserInput name={"rating"} value={rating} type={"number"} handleChange={getInput} />
+      ),
+    },
+    {
+      name: "title",
+      TextField: <UserInput name={"title"} value={title} type={"text"} handleChange={getInput} />,
+    },
+    {
+      name: "comment",
+      TextField: (
+        <MultiLineInput
+          name={"comment"}
+          value={comment}
+          type={"text"}
+          handleChange={getInput}
+        />
+      ),
+    },
+    {
+      name: "sort",
+      TextField: (
+        <GenderInput
+          name={"sort"}
+          value={sort}
+          type={"text"}
+          gender={["---", "high-low", "low-high"]}
+          handleChange={getInput}
+        />
+      ),
+    },
+  ];
+  return { reviewInputs };
 };

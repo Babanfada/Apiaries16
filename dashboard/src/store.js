@@ -16,6 +16,7 @@ import PolServReducer from "./features/pollination/polservicesSlice";
 import ProvisionReducer from "./features/supplyProvision/supplyProvSlice";
 import ProductReducer from "./features/products/productsSlice";
 import OrderReducer from "./features/orders/ordersSlice";
+import ReviewReducer from "./features/reviews/reviewSlice";
 const store = configureStore({
   reducer: {
     users: userReducer,
@@ -35,6 +36,7 @@ const store = configureStore({
     provisions: ProvisionReducer,
     products: ProductReducer,
     orders: OrderReducer,
+    reviews: ReviewReducer,
   },
 });
 export default store;

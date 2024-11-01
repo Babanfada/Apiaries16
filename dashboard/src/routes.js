@@ -162,6 +162,11 @@ const Orders = lazy(() =>
     default: module.default,
   }))
 );
+const Reviews = lazy(() =>
+  import("./layouts/reviews").then((module) => ({
+    default: module.default,
+  }))
+);
 //single pages........................
 const SingleEmployee = lazy(() =>
   import("./layouts/tables").then((module) => ({
@@ -275,6 +280,11 @@ const UpdateOrder = lazy(() =>
     default: module.UpdateOrder,
   }))
 );
+const UpdateReview = lazy(() =>
+  import("./layouts/reviews").then((module) => ({
+    default: module.UpdateReview,
+  }))
+);
 const routes = [
   {
     type: "collapse",
@@ -315,6 +325,14 @@ const routes = [
     icon: <Icon fontSize="small">shopping_cart</Icon>, // Shopping cart icon for orders
     route: "/orders",
     component: <Orders />,
+  },
+  {
+    type: "collapse",
+    name: "Reviews",
+    key: "reviews",
+    icon: <Icon fontSize="small">rate_review</Icon>,
+    route: "/reviews",
+    component: <Reviews />,
   },
   {
     type: "collapse",
@@ -650,6 +668,13 @@ export const singleroutes = [
     key: "updatecreatesupply",
     route: "/createupdatesupply/:id",
     component: <CreateUpdateSupply />,
+  },
+  {
+    type: "collapse",
+    name: "updatereview",
+    key: "updatereview",
+    route: "/updatereview/:id",
+    component: <UpdateReview />,
   },
 ];
 
