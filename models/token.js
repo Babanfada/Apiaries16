@@ -18,7 +18,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
       },
       userAgent: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(500),
         allowNull: false,
       },
       isValid: {
