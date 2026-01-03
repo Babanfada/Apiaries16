@@ -1,24 +1,50 @@
 const config = {
   development: {
-    username: process.env.DB_USERNAME || "root",
+    username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE || "database_development",
-    host: process.env.DB_HOST || "127.0.0.1",
-    dialect: process.env.DB_DIALECT || "mysql",
+    database: process.env.DB_DATABASE,
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    port: Number(process.env.DB_PORT),
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+
+    logging: false,
   },
-  test: {
-    username: process.env.DB_USERNAME || "root",
-    password: process.env.DB_PASSWORD || null,
-    database: process.env.DB_DATABASE || "database_test",
-    host: process.env.DB_HOST || "127.0.0.1",
-    dialect: process.env.DB_DIALECT || "mysql",
-  },
+
   production: {
-    username: process.env.DB_USERNAME_R || "root",
-    password: process.env.DB_PASSWORD_R || null,
-    database: process.env.DB_DATABASE_R || "database_production",
-    host: process.env.DB_HOST_R || "127.0.0.1",
-    dialect: process.env.DB_DIALECT_R || "mysql",
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    port: Number(process.env.DB_PORT),
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+
+    logging: false,
   },
 };
 
